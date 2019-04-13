@@ -4,7 +4,7 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/KMimura/GameProject/utils"
+	"github.com/KMimura/rpg/utils"
 
 	"github.com/EngoEngine/ecs"
 	"github.com/EngoEngine/engo"
