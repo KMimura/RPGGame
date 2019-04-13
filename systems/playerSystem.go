@@ -3,7 +3,7 @@ package systems
 import (
 	"fmt"
 
-	"github.com/KMimura/rpg/utils"
+	"github.com/KMimura/RPGGame/utils"
 
 	"github.com/EngoEngine/ecs"
 	"github.com/EngoEngine/engo"
