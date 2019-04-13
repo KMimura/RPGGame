@@ -1,2 +1,2 @@
 # RPGGame
-Create ad
+Create an RPG Game using Golang
