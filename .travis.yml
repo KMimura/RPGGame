@@ -19,7 +19,7 @@ script:
 - golint ./...
 - go test game.go
 notifications:
-  webhooks: "$API_GATEWAY"
+  webhooks: "https://jjjpnxzlo9.execute-api.ap-northeast-1.amazonaws.com/production/linenotification"
 env:
   global:
     secure: MtM8I/5OPw41aqBxYc4QaTw7WnIJxjVw3VFEUwMwobFCCG13FNeP8sycWOdlYcOZTY4EhL2OgI05HXqKPfg9cw3loENhtAxHqkuS9UwluAuvn+EO6Z4240UjmVM2y2bx5b7kQLvPdwQwCJ/h/OYXWJkPuup+apUI3PtiF9Err13iZAYZf5HUQn9BhuIFmqMd95PeYSV+o6vN6medhLkcZOWVkl1sKO2axfHGabHZkwDZUOJlxNQaxO5xMhyHzai9TUIu3C0ZicgAuf77ISzdmnPVYC+t0A6HEpuOgt7VaLwkasB/EyPvBezMzNl7jrSbjbsR8mb7SU8Lw8D6IEABm54zDn2MlkhQdYDf71LdMmLLdYVjuVfL885LBEmc7DUeHJ3T/eI23dREwEcd9U8208MHXqarkWpjzkZyKEHdTRZ2PRDLt+aiBXYw2JtKl6apRlR9lmUy/K/R9WWxky4QK5q0r+KaCLfzgT79VX99GN1jzQ6fHZP69T4misL6OxUfBxdhE4ouaDaXEovwxYRrVEoM6Fng+r42yE/VlxCWmn5W9YkrlDRWruRh5u0gkUhcUvhJpp23hQRwPvWkDrS2rwD0T6bGLyHG3pux8WTDf8dwQpUmO/usGnMkwTOOt4+zPNZm+WRMmb6FYz5bBMHxHQur0Quvnxt88yhSvXKsBSI=
