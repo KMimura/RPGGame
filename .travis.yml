@@ -6,6 +6,10 @@ osx_image: xcode10.2
 go:
 - 1.11
 
+env:
+  global:
+    - secure: hcHgPwKmRdrEkouV8qEcVr4K3V5vsKYn7/XmwW/27U7XsIGZVjYs4xZsDsvfnAOVz1wtP5ko3Can4vvxf6JaUE+xIB5YsiILdUowBWySzvsF8Aql5CKhk9zNd2aee2Mh55gQxbxKChGZPc6fBAbfQGrEzN/l+UYT4ZgAYGze1S+GYTVBRYnD9ThOmtxHEMFcV3pOKkvmThf4rn0+CnV8JhonnxqPdLnZ9YPGe5BHGOsekkiYKzOtDZToO5EsClF+RYzwlaBn88CIDUf4yvOMkqw8osjgpnBaOUTVvIs2JpOTsSEozhcdu+7a4Gn2NWuGJ76vM28HcTaHIQZJapJqQZax7Qq6e5y3l4Ht/yD+EngXvyotcoj4My3otqv2N0PGib9XkkOYp4xfihPwWT90Ryza9S0nqiTP2CsIP+Utv5INwf6EduA09J9XA/H8AsKWvJzuY7r4LqMCv5/YOW6pl91CgjeJd6dlDVFi26oNBkH3ybKc2QO4fwr5HvtqbTKp6C3rFLX83iXASLzkrRTj6iy/ABSdPuSh7Bzxi3t0vNedeTM/3FSuAWSxwA+EYGtREMbFlUPJpatJczp0+LlwdwuaSeWw5hmZpkxAlNXfJJE06jt+7hIHjGAgrsHPP2yX2nq3TjSHRH0w4N4tbO6brhYYtyG0lajKMCTnwuQhKvc=
+
 install:
 - export GO111MODULE=off
 - go get -u github.com/golang/lint/golint
