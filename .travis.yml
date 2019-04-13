@@ -1,0 +1,28 @@
+language: go
+
+os: osx
+osx_image: xcode10.2
+
+go:
+- 1.11
+
+install:
+- export GO111MODULE=off
+- go get -u github.com/golang/lint/golint
+- go get -u github.com/EngoEngine/engo
+- go get -u github.com/Noofbiz/tmx
+- go get -u github.com/go-gl/mathgl/mgl32
+- go get -u github.com/golang/freetype
+- go get -u github.com/hajimehoshi/go-mp3
+- go get -u github.com/hajimehoshi/oto
+- go get -u github.com/jfreymuth/oggvorbis
+- go get -u github.com/srwiley/oksvg
+- go get -u github.com/srwiley/rasterx
+
+script:
+- echo $API_GATEWAY
+- golint ./...
+- go test game.go
+
+notifications:
+  webhooks: $API_GATEWAY
