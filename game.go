@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"image/color"
 
-	"github.com/KMimura/rpg/systems"
+	"github.com/KMimura/RPGGame/systems"
 
 	"github.com/EngoEngine/ecs"
 	"github.com/EngoEngine/engo"

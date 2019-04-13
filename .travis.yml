@@ -20,7 +20,6 @@ install:
 - go get -u github.com/srwiley/rasterx
 
 script:
-- echo $API_GATEWAY
 - golint ./...
 - go test game.go
 
