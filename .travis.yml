@@ -19,7 +19,14 @@ script:
 - golint ./...
 - go test game.go
 notifications:
-  webhooks: "$API_GATEWAY"
+  webhooks: 
+    urls:
+      - "$API_GATEWAY"
+    on_success: always
+    on_failure: always
+    on_start: always
+    on_cancel: always
+    on_error: always
 env:
   global:
     secure: sXIPHUd/RKza7oYv60dYFIeje9O2OY6C4x7f4BnrOEqzdH/DtGPA+HlAIiTVkG9KbsFcxmUlmUkDI2wxwPqphyZtQGDEy/g1j/nL43QfMmc13zbxofKCua4tv7JOA8QNR04lhygE+OegzV9/GgZn9eJFZmoz60NKgW6Fkm5onPnhRH2WMf5udU0BmHpnzR3PuJ0l2dRs3y9uted6Y+Y+Erpy+V8wXskJSNC0WaBEXy5ZJ6aaOzLSvxYL0vG9BoWJOsfSLulNgFzz2CaXsoIssryZMk2c075tYy+3GhoqI+QFBCHRjOJmeL+E4W/5y9HRpz/WJ7bMRK4A+nBk7wEPMR7KqBpitttvxzb/o+4MGLPvQDVujjwQl3miAjVR9mW7hwJ1P+Kpd72Xapj4d//dm+Op9YgDfCiZzpzySMrdCvFtWXCmsBloFXezRvC0qwFJZBo+I5wfsiw2+qdMupC3HvKDhxogX70eUUgrgJIJsJv5q3a07p/Str85Fvd8FuJbvw54eXmuW/QdM+Fz28CYFnOjNTzmfXoHxm6o65sHy4KmTBqxqpsr6O6XkVY2EqyEQchUu9XZGRxTZQJN+0Lbpx1Tldrvwm7nhC65yeeuaM6nxS18xp3nEB/uDZaxBhBtA81bLaQhb3DQ8MwPoJgOgQFBZrwGoQW4oc+LE4mm+Q8=
