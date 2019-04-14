@@ -3,8 +3,8 @@ os: osx
 osx_image: xcode10.2
 go:
 - 1.11
-notifications:
-  webhooks: https://jjjpnxzlo9.execute-api.ap-northeast-1.amazonaws.com/production/linenotification
+# notifications:
+#   webhooks: https://jjjpnxzlo9.execute-api.ap-northeast-1.amazonaws.com/production/linenotification
 install:
 - export GO111MODULE=off
 - go get -u github.com/golang/lint/golint
@@ -20,3 +20,7 @@ install:
 script:
 - golint ./...
 - go test game.go
+after_success:
+  - curl -X POST https://jjjpnxzlo9.execute-api.ap-northeast-1.amazonaws.com/production/linenotification
+after_failure:
+  - curl -X POST https://jjjpnxzlo9.execute-api.ap-northeast-1.amazonaws.com/production/linenotification
