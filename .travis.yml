@@ -19,6 +19,6 @@ script:
 - golint ./...
 - go test game.go
 after_success:
-- curl -X POST -d '{"id":$TRAVIS_BUILD_ID,"status":0,"url":$TRAVIS_BUILD_WEB_URL,"commit":$TRAVIS_COMMIT,"message":"$TRAVIS_COMMIT_MESSAGE"}' $API_GATEWAY
+- curl -X POST -d '{"id":$TRAVIS_BUILD_ID,"status":0}' $API_GATEWAY
 after_failure:
-- curl -X POST -d '{"id":$TRAVIS_BUILD_ID,"status":1,"url":$TRAVIS_BUILD_WEB_URL,"commit":$TRAVIS_COMMIT,"message":"$TRAVIS_COMMIT_MESSAGE"}' $API_GATEWAY
+- curl -X POST -d '{"id":$TRAVIS_BUILD_ID,"status":1}' $API_GATEWAY
