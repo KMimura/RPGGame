@@ -3,8 +3,6 @@ os: osx
 osx_image: xcode10.2
 go:
 - 1.11
-# notifications:
-#   webhooks: https://jjjpnxzlo9.execute-api.ap-northeast-1.amazonaws.com/production/linenotification
 install:
 - export GO111MODULE=off
 - go get -u github.com/golang/lint/golint
@@ -21,6 +19,9 @@ script:
 - golint ./...
 - go test game.go
 after_success:
-  - curl -X POST https://jjjpnxzlo9.execute-api.ap-northeast-1.amazonaws.com/production/linenotification
+- curl -X POST $API_GATEWAY
 after_failure:
-  - curl -X POST https://jjjpnxzlo9.execute-api.ap-northeast-1.amazonaws.com/production/linenotification
+- curl -X POST $API_GATEWAY
+env:
+  global:
+    secure: W2sbhhbtmL76cl6mLoT48VYUsY0MUaSSyEg4mQZf6aNRlGBUHJl2Qw0CV7Uis0fJg+ZXvGwBnroRgWR7T9aTJwJmMHi+YBdRyP5768OhNSlXQxZLNpyRbBWcEsvkm7lACh4FesYd5iouzlGDn++9OlgmAqLhVnlwdC1+iy/vMazqHIeo8XpWLh17oI+T2j4fiskpifApdgHm209Ldc3EPhaU70VUjVdaU7/qLCxhyi8R9z5/aFtr4qztsXVTo2qngSrOG0Bx8iZ/4dPnw6Yc3w06CnLCKbeGv0T1VNx66q4E6xsKNQ8+wW5mXSyN8Y6g/ZKN0QKjCpnSVKBhHxFeNimCVzOfBi4vp6ftqRKqLlwtunSco2WIf1IFg9HH0bXZqGrkkjxddq5tcG/b8/iXTPvTLnSy4wTbdfMRzkqOGWK7mNA8JYscZ1b7TCnOZBQLNIAx3333LKlixABwB2hXtR0kfFWVBJBc4SHxDzTPM1mFcPhyrJJC7MnnoyCHHIp/K99D4Z9t4KZaRFBDWo/52vEg0e8fELw/EY1FP8hIHy6/cChfMaLhWq/HTPkuVrADvlog3c/rbzNV8JfjfS3JOf/sgwkp4EtFXmDZvXc54uFZ8NIDu/kjnijj5t80ykL3VqnbTQKUEABCRx5HEP32oBQi9alPND0esTkD9VWqWPc=
