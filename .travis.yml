@@ -20,13 +20,4 @@ script:
 - go test game.go
 notifications:
   webhooks: 
-    urls:
-      - "$API_GATEWAY"
-    on_success: always
-    on_failure: always
-    on_start: always
-    on_cancel: always
-    on_error: always
-env:
-  global:
-    secure: sXIPHUd/RKza7oYv60dYFIeje9O2OY6C4x7f4BnrOEqzdH/DtGPA+HlAIiTVkG9KbsFcxmUlmUkDI2wxwPqphyZtQGDEy/g1j/nL43QfMmc13zbxofKCua4tv7JOA8QNR04lhygE+OegzV9/GgZn9eJFZmoz60NKgW6Fkm5onPnhRH2WMf5udU0BmHpnzR3PuJ0l2dRs3y9uted6Y+Y+Erpy+V8wXskJSNC0WaBEXy5ZJ6aaOzLSvxYL0vG9BoWJOsfSLulNgFzz2CaXsoIssryZMk2c075tYy+3GhoqI+QFBCHRjOJmeL+E4W/5y9HRpz/WJ7bMRK4A+nBk7wEPMR7KqBpitttvxzb/o+4MGLPvQDVujjwQl3miAjVR9mW7hwJ1P+Kpd72Xapj4d//dm+Op9YgDfCiZzpzySMrdCvFtWXCmsBloFXezRvC0qwFJZBo+I5wfsiw2+qdMupC3HvKDhxogX70eUUgrgJIJsJv5q3a07p/Str85Fvd8FuJbvw54eXmuW/QdM+Fz28CYFnOjNTzmfXoHxm6o65sHy4KmTBqxqpsr6O6XkVY2EqyEQchUu9XZGRxTZQJN+0Lbpx1Tldrvwm7nhC65yeeuaM6nxS18xp3nEB/uDZaxBhBtA81bLaQhb3DQ8MwPoJgOgQFBZrwGoQW4oc+LE4mm+Q8=
+    secure: of5SED+n7UHCTqFcOee0Y/JcHSN2dwzjovve4PN7PilSIHzbfBtN2nAdKu55XdEhdWvP9HLKHlHG8jKd4BVWEh2mNah1qDj0MvenePVbTypyD8I844XUlPi//EYMZgRg5/6eGvtANX+rajHjXJvJdz+4tyE/bJGPFHihKESNWNxEAzNheThEIb7WAMju/v8so43/wprRMspQ/uTrJgxITICl9GqAK01GZisVg2YKkekTncSJFW3U8wj19y0UShzRznufvctOVH4Ce54YWdvS3V4wGi6eHwkKTBhJIE8fpSH+hvuZ5UPMv1zNxHrk0msmJuulSjsUotu946lUACAEsBwt+jDab40BS0ItzooonzmaxkIaIYcUorvC40LeU0sIc2AZOFpnArrGJoudl9HJycyRPhQ/uN4DP2zepGPoFd2G4p4R2H3UkjZS630jD8OScLMrSASNFONZ31c9wTpqKaHmcSu+qeIcOKxrhomI91VpynNZUOys5G5H0k/2coqD/u2daNUaSV1gJ9xl1qHnD/KQwDPSGLUmeNA7xCiheQC6ErIcuIbd+96vJXHfK6/vhyHUgQt1Yf7DIXx5+9b7jwLvVDU0LrbYoewXiUYa8l84+IQqxllUYYTDpsX2oSSRdoYfWZV+vflxDP8mSLxuS/7wG3DYTqybf6aI8Zu5BxE=
