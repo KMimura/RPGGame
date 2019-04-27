@@ -3,8 +3,6 @@ package systems
 import (
 	"fmt"
 
-	"github.com/KMimura/RPGGame/utils"
-
 	"github.com/EngoEngine/ecs"
 	"github.com/EngoEngine/engo"
 	"github.com/EngoEngine/engo/common"
@@ -14,14 +12,6 @@ type Player struct {
 	ecs.BasicEntity
 	common.RenderComponent
 	common.SpaceComponent
-	// ジャンプの時間
-	jumpDuration int
-	// カメラの進んだ距離
-	distance int
-	// 落ちているかどうか
-	ifFalling bool
-	// ダメージ
-	damage int
 }
 
 type PlayerSystem struct {
@@ -70,75 +60,4 @@ func (ps *PlayerSystem) New(w *ecs.World) {
 func (*PlayerSystem) Remove(ecs.BasicEntity) {}
 
 func (ps *PlayerSystem) Update(dt float32) {
-	// ダメージが1であればゲームを終了
-	if ps.playerEntity.damage > 0 {
-		whenDied(ps)
-	}
-	// 落とし穴
-	if ps.playerEntity.jumpDuration == 0 && utils.Contains(FallPoint, int(ps.playerEntity.SpaceComponent.Position.X)) {
-		ps.playerEntity.ifFalling = true
-		ps.playerEntity.SpaceComponent.Position.Y += 5
-	}
-	// 穴に落ち切ったらライフを0にする
-	if ps.playerEntity.SpaceComponent.Position.Y > 300 {
-		ps.playerEntity.damage += 1
-	}
-
-	if !ps.playerEntity.ifFalling {
-		// 右移動
-		if engo.Input.Button("MoveRight").Down() {
-			// 画面の真ん中より左に位置していれば、カメラを移動せずプレーヤーを移動する
-			if int(ps.playerEntity.SpaceComponent.Position.X) < ps.playerEntity.distance+int(engo.WindowWidth())/2 {
-				ps.playerEntity.SpaceComponent.Position.X += 5
-			} else {
-				// 画面の右端に達していなければプレーヤーを移動する
-				if int(ps.playerEntity.SpaceComponent.Position.X) < ps.playerEntity.distance+int(engo.WindowWidth())-10 {
-					ps.playerEntity.SpaceComponent.Position.X += 5
-				}
-				// カメラを移動する
-				engo.Mailbox.Dispatch(common.CameraMessage{
-					Axis:        common.XAxis,
-					Value:       5,
-					Incremental: true,
-				})
-				ps.playerEntity.distance += 5
-			}
-		}
-		// プレーヤーを左に移動
-		if engo.Input.Button("MoveLeft").Down() {
-			if int(ps.playerEntity.SpaceComponent.Position.X) > ps.playerEntity.distance+10 {
-				ps.playerEntity.SpaceComponent.Position.X -= 5
-			}
-		}
-		// プレーヤーをジャンプ
-		if engo.Input.Button("Jump").JustPressed() {
-			if ps.playerEntity.jumpDuration == 0 {
-				ps.playerEntity.jumpDuration = 1
-			}
-		}
-		if ps.playerEntity.jumpDuration != 0 {
-			ps.playerEntity.jumpDuration += 1
-			if ps.playerEntity.jumpDuration < 14 {
-				ps.playerEntity.SpaceComponent.Position.Y -= 5
-			} else if ps.playerEntity.jumpDuration < 26 {
-				ps.playerEntity.SpaceComponent.Position.Y += 5
-			} else {
-				ps.playerEntity.jumpDuration = 0
-			}
-		}
-	}
-}
-
-func whenDied(ps *PlayerSystem) {
-	for _, system := range ps.world.Systems() {
-		switch sys := system.(type) {
-		case *EnemySystem:
-			for _, e := range sys.enemyEntity {
-				sys.Remove(e.BasicEntity)
-			}
-		case *common.RenderSystem:
-			sys.Remove(ps.playerEntity.BasicEntity)
-			ps.world.AddSystem(&HUDTextSystem{})
-		}
-	}
 }
