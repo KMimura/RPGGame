@@ -1,11 +1,8 @@
 language: go
-
 os: osx
 osx_image: xcode10.2
-
 go:
 - 1.11
-
 install:
 - export GO111MODULE=off
 - go get -u github.com/golang/lint/golint
@@ -18,10 +15,13 @@ install:
 - go get -u github.com/jfreymuth/oggvorbis
 - go get -u github.com/srwiley/oksvg
 - go get -u github.com/srwiley/rasterx
-
 script:
 - golint ./...
 - go test game.go
-
-notifications:
-  webhooks: $API_GATEWAY
+after_success:
+- ./success.sh
+after_failure:
+- ./failure.sh
+env:
+  global:
+    secure: NexCzvXM0+zYrXfKRzUL6/xpgEfvHS/2bHkMjH0KCAJAxrsMbc9fQfXSWb2f2rT+lwBzEj6JJh7M3rnIwAraRKmvwZRxSOIltiPLAPzpv6MhYbpjbFH/Z9pLtLQhsoHIC1p70oNl/9OBr12iFjPvym97QDkA25FU3PmKIbHP5ahw2CKlqNY30q2pTaHmSWpwryLqbiulrhtCe+eR+AxevW6Vj6URUgaWsWnuZjewDs8R084EPuDXHeUpRtXAP4AqaMxvoJZf4snmQgxurPd/MnwICpslxpe0pQNysYeq7mzQn+SnmvIdMaAFaZN5AGzfTwqEqwiGGhTeEEsKn+hNLU1CRk9sOMwKqduX0l8LGZ7CLPrTrw1O7ETsQIX9Ev7S1nQfXOzL5SUqZnKLCgbDJMi3vBFE5N0zw0EQrIv9cFdB1w+qStMrPU3SOkg+133zGh/9+Kin6Ev3B47oaMf1L8Jq5AoKrWclT8/jPkIVberH8/HqHxQcnoXY0hZWEFt3Z5Lxh4Ug8eNf2jO+EHmQVcQakpZzQituQRkduYH4D+gtqDT+4Q7KsCUUWklDEnS8TCjUoslCPdnI9w8NSwBXTXmaCW1Mp2DLgaH73xWEWTUIlVPi0bWVW6xbfyFz+iuK2oDq/xYzRNkycK8VkM0pQcWZLzrVX71ihp3PwEvjKNM=
