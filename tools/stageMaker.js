@@ -76,6 +76,12 @@ const app = new Vue({
             }
             console.log(this.imgList)
             for (let y = 0; y < this.imgList.length / 15; y++){
+                // 番号を表示
+                numTr = $("<tr></tr>");
+                for (let x = y*15; x < y*15+14; x++){
+                    numTr.append($("<td class='indexTd'>" + x + "</td>"))
+                }
+                $("#sampleArea").append(numTr);                
                 let tr = $("<tr></tr>");
                 for (let x = y*15; x < y*15+14; x++){
                     if (x >= this.imgList.length){
