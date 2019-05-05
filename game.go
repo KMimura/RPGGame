@@ -16,7 +16,7 @@ type myScene struct{}
 func (*myScene) Type() string { return "myGame" }
 
 func (*myScene) Preload() {
-	engo.Files.Load("pics/greenoctocat.png", "pics/overworld_tileset_grass.png")
+	engo.Files.Load("pics/greenoctocat.png", "pics/ghost.png", "pics/overworld_tileset_grass.png")
 	engo.Files.LoadReaderData("go.ttf", bytes.NewReader(gosmallcaps.TTF))
 	common.SetBackground(color.RGBA{255, 250, 220, 0})
 }
@@ -30,7 +30,7 @@ func (*myScene) Setup(u engo.Updater) {
 	world.AddSystem(&common.RenderSystem{})
 	world.AddSystem(&systems.TileSystem{})
 	world.AddSystem(&systems.PlayerSystem{})
-	// world.AddSystem(&systems.EnemySystem{})
+	world.AddSystem(&systems.EnemySystem{})
 }
 
 func (*myScene) Exit() {

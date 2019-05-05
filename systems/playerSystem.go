@@ -20,12 +20,14 @@ type PlayerSystem struct {
 	texture      *common.Texture
 }
 
-var camEntity *common.CameraSystem
+var playerInstance *Player
 
 func (ps *PlayerSystem) New(w *ecs.World) {
 	ps.world = w
 	// プレーヤーの作成
 	player := Player{BasicEntity: ecs.NewBasic()}
+
+	playerInstance = &player
 
 	// 初期の配置
 	positionX := int(engo.WindowWidth() / 2)
@@ -57,13 +59,6 @@ func (ps *PlayerSystem) New(w *ecs.World) {
 		Min: engo.Point{X: 0, Y: 0},
 		Max: engo.Point{X: 1000, Y: 1000},
 	}
-	for _, system := range w.Systems() {
-		switch sys := system.(type) {
-		case *common.CameraSystem:
-			camEntity = sys
-		}
-	}
-
 }
 
 func (*PlayerSystem) Remove(ecs.BasicEntity) {}
