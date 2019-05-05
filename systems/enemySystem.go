@@ -1,10 +1,6 @@
 package systems
 
 import (
-	"fmt"
-	"math/rand"
-	"time"
-
 	"github.com/EngoEngine/ecs"
 	"github.com/EngoEngine/engo/common"
 )
@@ -39,56 +35,59 @@ func (es *EnemySystem) Remove(entity ecs.BasicEntity) {
 }
 
 func (es *EnemySystem) Update(dt float32) {
-	rand.Seed(time.Now().UnixNano())
-	// カメラとプレーヤーの位置を取得
-	camX := camEntity.X()
-	camY := camEntity.Y()
-	playerX := playerInstance.SpaceComponent.Position.X
-	playerY := playerInstance.SpaceComponent.Position.Y
-	for _, o := range es.enemyEntity {
-		// 画面に描画されていないオブジェクトは移動処理をしない
-		if o.SpaceComponent.Position.X > camX+300 && o.SpaceComponent.Position.X < camX-300 && o.SpaceComponent.Position.Y > camY+300 && o.SpaceComponent.Position.Y < camY-300 && !o.ifDissappeared {
-			// プレーヤーとの当たり判定
-			if o.SpaceComponent.Position.X == playerX {
-				fmt.Println("damaged")
-			}
-			o.SpaceComponent.Position.X -= float32(o.velocity + 1)
-			// ジャンプをしていない場合
-			if o.movingState == 0 {
-				o.jumpState = rand.Intn(2) + 1
-				jumpTemp := rand.Intn(3)
-				switch jumpTemp {
-				case 0:
-					o.jumpDuration = 15
-				case 1:
-					o.jumpDuration = 25
-				case 2:
-					o.jumpDuration = 35
-				}
-			}
-			// ジャンプ処理
-			if o.jumpState == 1 {
-				// ジャンプをし終わっていない場合
-				if o.jumpDuration > 0 {
-					o.SpaceComponent.Position.Y -= 3
-					o.jumpDuration -= 1
-				} else {
-					// ジャンプをし終わった場合
-					o.jumpState = 2
-				}
-			} else {
-				// 降下をし終わっていない場合
-				if o.SpaceComponent.Position.Y < 212 {
-					o.SpaceComponent.Position.Y += 3
-				} else {
-					// 降下し終わった場合
-					o.jumpState = 0
-				}
-			}
-		} else if o.ifDissappearing {
-			o.SpaceComponent.Position.Y += 3
-		}
-	}
+	// rand.Seed(time.Now().UnixNano())
+	// // カメラとプレーヤーの位置を取得
+	// camX := camEntity.X()
+	// camY := camEntity.Y()
+	// playerX := playerInstance.SpaceComponent.Position.X
+	// playerY := playerInstance.SpaceComponent.Position.Y
+	// for _, o := range es.enemyEntity {
+	// 	// 画面に描画されていないオブジェクトは移動処理をしない
+	// 	if o.SpaceComponent.Position.X > camX+300 && o.SpaceComponent.Position.X < camX-300 && o.SpaceComponent.Position.Y > camY+300 && o.SpaceComponent.Position.Y < camY-300 && !o.ifDissappeared {
+	// 		// プレーヤーとの当たり判定
+	// 		if o.SpaceComponent.Position.X == playerX {
+	// 			fmt.Println("damaged")
+	// 		}
+	// 		o.SpaceComponent.Position.X -= float32(o.velocity + 1)
+	// 		// ジャンプをしていない場合
+	// 		if o.movingState == 0 {
+	// 			tmpNum := rand.Intn(100) - 95
+	// 			if tmpNum > 0 {
+
+	// 			}
+	// 			jumpTemp := rand.Intn(3)
+	// 			switch jumpTemp {
+	// 			case 0:
+	// 				o.jumpDuration = 15
+	// 			case 1:
+	// 				o.jumpDuration = 25
+	// 			case 2:
+	// 				o.jumpDuration = 35
+	// 			}
+	// 		}
+	// 		// ジャンプ処理
+	// 		if o.jumpState == 1 {
+	// 			// ジャンプをし終わっていない場合
+	// 			if o.jumpDuration > 0 {
+	// 				o.SpaceComponent.Position.Y -= 3
+	// 				o.jumpDuration -= 1
+	// 			} else {
+	// 				// ジャンプをし終わった場合
+	// 				o.jumpState = 2
+	// 			}
+	// 		} else {
+	// 			// 降下をし終わっていない場合
+	// 			if o.SpaceComponent.Position.Y < 212 {
+	// 				o.SpaceComponent.Position.Y += 3
+	// 			} else {
+	// 				// 降下し終わった場合
+	// 				o.jumpState = 0
+	// 			}
+	// 		}
+	// 	} else if o.ifDissappearing {
+	// 		o.SpaceComponent.Position.Y += 3
+	// 	}
+	// }
 }
 
 func (es *EnemySystem) New(w *ecs.World) {
