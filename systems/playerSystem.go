@@ -69,38 +69,46 @@ func (ps *PlayerSystem) Update(dt float32) {
 	if engo.Input.Button("MoveRight").Down() {
 		if camX < 4000 {
 			ps.playerEntity.SpaceComponent.Position.X += 5
-			engo.Mailbox.Dispatch(common.CameraMessage{
-				Axis:        common.XAxis,
-				Value:       5,
-				Incremental: true,
-			})
+			if ps.playerEntity.SpaceComponent.Position.X > 200 {
+				engo.Mailbox.Dispatch(common.CameraMessage{
+					Axis:        common.XAxis,
+					Value:       5,
+					Incremental: true,
+				})
+			}
 		}
 	} else if engo.Input.Button("MoveLeft").Down() {
-		if camX > 20 {
+		if camX > 200 {
 			ps.playerEntity.SpaceComponent.Position.X -= 5
 			engo.Mailbox.Dispatch(common.CameraMessage{
 				Axis:        common.XAxis,
 				Value:       -5,
 				Incremental: true,
 			})
+		} else if ps.playerEntity.SpaceComponent.Position.X > 5 {
+			ps.playerEntity.SpaceComponent.Position.X -= 5
 		}
 	} else if engo.Input.Button("MoveUp").Down() {
-		if camY > 20 {
+		if camY > 200 {
 			ps.playerEntity.SpaceComponent.Position.Y -= 5
 			engo.Mailbox.Dispatch(common.CameraMessage{
 				Axis:        common.YAxis,
 				Value:       -5,
 				Incremental: true,
 			})
+		} else if ps.playerEntity.SpaceComponent.Position.Y > 5 {
+			ps.playerEntity.SpaceComponent.Position.Y -= 5
 		}
 	} else if engo.Input.Button("MoveDown").Down() {
 		if camY < 4000 {
 			ps.playerEntity.SpaceComponent.Position.Y += 5
-			engo.Mailbox.Dispatch(common.CameraMessage{
-				Axis:        common.YAxis,
-				Value:       5,
-				Incremental: true,
-			})
+			if ps.playerEntity.SpaceComponent.Position.Y > 200 {
+				engo.Mailbox.Dispatch(common.CameraMessage{
+					Axis:        common.YAxis,
+					Value:       5,
+					Incremental: true,
+				})
+			}
 		}
 	}
 }
