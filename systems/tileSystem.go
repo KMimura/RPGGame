@@ -1,8 +1,8 @@
 package systems
 
 import (
-	// "math/rand"
-	// "time"
+	"math/rand"
+	"time"
 
 	"github.com/EngoEngine/ecs"
 	"github.com/EngoEngine/engo"
@@ -31,15 +31,28 @@ func (ts *TileSystem) Update(dt float32) {
 }
 
 func (ts *TileSystem) New(w *ecs.World) {
-	// rand.Seed(time.Now().UnixNano())
+	rand.Seed(time.Now().UnixNano())
 
 	ts.world = w
 	// 素材シートの読み込み
 	loadTxt := "pics/overworld_tileset_grass.png"
 	Spritesheet = common.NewSpritesheetWithBorderFromFile(loadTxt, 16, 16, 0, 0)
 	Tiles := make([]*Tile, 0)
-	for i := 0; i < 50; i++ {
-		for j := 0; j < 50; j++ {
+	for i := 0; i < 100; i++ {
+		for j := 0; j < 100; j++ {
+			// ランダムで描画するタイルの種類を変える
+			randNum := rand.Intn(10)
+			var tileNum int
+			switch randNum {
+			case 0:
+				tileNum = 1
+			case 1:
+				tileNum = 14
+			case 2:
+				tileNum = 38
+			default:
+				tileNum = 0
+			}
 			// Tileエンティティの作成
 			tile := &Tile{BasicEntity: ecs.NewBasic()}
 			// 描画位置の指定
@@ -48,7 +61,7 @@ func (ts *TileSystem) New(w *ecs.World) {
 				Y: float32(j * 16),
 			}
 			// 見た目の設定
-			tile.RenderComponent.Drawable = Spritesheet.Cell(0)
+			tile.RenderComponent.Drawable = Spritesheet.Cell(tileNum)
 			tile.RenderComponent.SetZIndex(0)
 			Tiles = append(Tiles, tile)
 		}
