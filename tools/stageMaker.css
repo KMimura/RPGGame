@@ -8,10 +8,11 @@ input {
     width: 36px;
     height:36px;
 }
-/* table {
-    border-collapse: collapse;
-    border-spacing: 0;
-} */
 .display-none{
     display:none;
+}
+.indexTd{
+    padding:0px;
+    margin:0 auto;
+    text-align: center;
 }
