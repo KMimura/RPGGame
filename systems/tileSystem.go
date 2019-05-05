@@ -11,6 +11,8 @@ import (
 
 var Spritesheet *common.Spritesheet
 
+var camEntity *common.CameraSystem
+
 type Tile struct {
 	ecs.BasicEntity
 	common.RenderComponent
@@ -75,4 +77,12 @@ func (ts *TileSystem) New(w *ecs.World) {
 			}
 		}
 	}
+	// カメラエンティティの取得
+	for _, system := range w.Systems() {
+		switch sys := system.(type) {
+		case *common.CameraSystem:
+			camEntity = sys
+		}
+	}
+
 }
