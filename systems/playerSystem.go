@@ -20,6 +20,8 @@ type PlayerSystem struct {
 	texture      *common.Texture
 }
 
+var camEntity *common.CameraSystem
+
 func (ps *PlayerSystem) New(w *ecs.World) {
 	ps.world = w
 	// プレーヤーの作成
@@ -53,11 +55,57 @@ func (ps *PlayerSystem) New(w *ecs.World) {
 	}
 	common.CameraBounds = engo.AABB{
 		Min: engo.Point{X: 0, Y: 0},
-		Max: engo.Point{X: 40000, Y: 300},
+		Max: engo.Point{X: 1000, Y: 1000},
 	}
+	for _, system := range w.Systems() {
+		switch sys := system.(type) {
+		case *common.CameraSystem:
+			camEntity = sys
+		}
+	}
+
 }
 
 func (*PlayerSystem) Remove(ecs.BasicEntity) {}
 
 func (ps *PlayerSystem) Update(dt float32) {
+	camX := camEntity.X()
+	camY := camEntity.Y()
+	if engo.Input.Button("MoveRight").Down() {
+		if camX < 800 {
+			ps.playerEntity.SpaceComponent.Position.X += 5
+			engo.Mailbox.Dispatch(common.CameraMessage{
+				Axis:        common.XAxis,
+				Value:       5,
+				Incremental: true,
+			})
+		}
+	} else if engo.Input.Button("MoveLeft").Down() {
+		if camX > 20 {
+			ps.playerEntity.SpaceComponent.Position.X -= 5
+			engo.Mailbox.Dispatch(common.CameraMessage{
+				Axis:        common.XAxis,
+				Value:       -5,
+				Incremental: true,
+			})
+		}
+	} else if engo.Input.Button("MoveUp").Down() {
+		if camY > 20 {
+			ps.playerEntity.SpaceComponent.Position.Y -= 5
+			engo.Mailbox.Dispatch(common.CameraMessage{
+				Axis:        common.YAxis,
+				Value:       -5,
+				Incremental: true,
+			})
+		}
+	} else if engo.Input.Button("MoveDown").Down() {
+		if camY < 800 {
+			ps.playerEntity.SpaceComponent.Position.Y += 5
+			engo.Mailbox.Dispatch(common.CameraMessage{
+				Axis:        common.YAxis,
+				Value:       5,
+				Incremental: true,
+			})
+		}
+	}
 }

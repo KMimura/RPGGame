@@ -29,7 +29,7 @@ func (*myScene) Setup(u engo.Updater) {
 	world, _ := u.(*ecs.World)
 	world.AddSystem(&common.RenderSystem{})
 	world.AddSystem(&systems.TileSystem{})
-	// world.AddSystem(&systems.PlayerSystem{})
+	world.AddSystem(&systems.PlayerSystem{})
 	// world.AddSystem(&systems.EnemySystem{})
 }
 
