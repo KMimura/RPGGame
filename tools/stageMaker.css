@@ -1,4 +1,14 @@
-li {
-    width: 12px;
-    height:12px;
+td {
+    width: 36px;
+    height:36px;
+    background-size: cover;
 }
+input {
+    font-size: 10px;
+    width: 36px;
+    height:36px;
+}
+/* table {
+    border-collapse: collapse;
+    border-spacing: 0;
+} */

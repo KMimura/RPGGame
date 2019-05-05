@@ -8,11 +8,21 @@
     </head>
     <body>
         <div id="app">
-            <div id="loadPic">
-                <input type="text" v-model="picPath">
-                <button v-on:click="handleClick">決定</button>
-            </div>
-            <div id="inputArea"></div>
+            <h3>プレビュー</h3>
+            <table id="previewArea" cellspacing="0"></table>
+            <button v-on:click="clicked">プレビュー表示</button>
+            <button v-on:click="print">出力</button>
+            <h3>素材</h3>
+            <table id="sampleArea" cellspacing="3">
+            </table>
+            <h3>入力部分</h3>
+            <table id="inputArea" cellspacing="0">
+                <tr v-for="(content, yIndex) in contents">
+                    <td v-for="(c, xIndex) in content">
+                        <input type=number v-model="contents[yIndex][xIndex]">
+                    </td>
+                </tr>
+            </table>
             <ul></ul>     
         </div>
         <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
