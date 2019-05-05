@@ -26,6 +26,30 @@ const app = new Vue({
                 $("#previewArea").append(tr);
             }
         },
+        print : function(){
+            let printStr = "[\n";
+            for (let i = 0; i < this.contents.length; i++){
+                printStr += "{"
+                for (let j = 0; j < this.contents[i].length; j++){
+                    if(this.contents[i][j] == undefined){
+                        printStr += ""
+                    } else {
+                        printStr += this.contents[i][j]
+                    }
+                    if (j < this.contents[i].length - 1){
+                        printStr += ","
+                    }
+                }
+                printStr += "}"
+                if (i < this.contents.length - 1) {
+                    printStr += ",\n"
+                }
+            }
+            printStr += "\n]";
+            $("#resultArea").removeClass("display-none");
+            $("#resultArea").text(printStr);
+            console.log(printStr)
+        },
         divideImage : function(imgSrc) {
             //画像の取得からロード後処理まで
             const img = new Image();
