@@ -57,7 +57,7 @@ func (ps *PlayerSystem) New(w *ecs.World) {
 	}
 	common.CameraBounds = engo.AABB{
 		Min: engo.Point{X: 0, Y: 0},
-		Max: engo.Point{X: 1000, Y: 1000},
+		Max: engo.Point{X: 4000, Y: 4000},
 	}
 }
 
@@ -67,7 +67,7 @@ func (ps *PlayerSystem) Update(dt float32) {
 	camX := camEntity.X()
 	camY := camEntity.Y()
 	if engo.Input.Button("MoveRight").Down() {
-		if camX < 800 {
+		if camX < 4000 {
 			ps.playerEntity.SpaceComponent.Position.X += 5
 			engo.Mailbox.Dispatch(common.CameraMessage{
 				Axis:        common.XAxis,
@@ -94,7 +94,7 @@ func (ps *PlayerSystem) Update(dt float32) {
 			})
 		}
 	} else if engo.Input.Button("MoveDown").Down() {
-		if camY < 800 {
+		if camY < 4000 {
 			ps.playerEntity.SpaceComponent.Position.Y += 5
 			engo.Mailbox.Dispatch(common.CameraMessage{
 				Axis:        common.YAxis,
