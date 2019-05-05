@@ -12,3 +12,6 @@ input {
     border-collapse: collapse;
     border-spacing: 0;
 } */
+.display-none{
+    display:none;
+}
