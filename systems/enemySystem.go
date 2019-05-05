@@ -69,7 +69,7 @@ func (es *EnemySystem) Update(dt float32) {
 				// 上への移動処理
 				if o.movingDuration > 0 {
 					o.SpaceComponent.Position.X -= 3
-					o.movingDuration -= 1
+					o.movingDuration--
 				} else {
 					o.movingState = 0
 				}
@@ -77,7 +77,7 @@ func (es *EnemySystem) Update(dt float32) {
 				//右への移動
 				if o.movingDuration > 0 {
 					o.SpaceComponent.Position.Y += 3
-					o.movingDuration -= 1
+					o.movingDuration--
 				} else {
 					o.movingState = 0
 				}
@@ -85,7 +85,7 @@ func (es *EnemySystem) Update(dt float32) {
 				//下への移動
 				if o.movingDuration > 0 {
 					o.SpaceComponent.Position.X += 3
-					o.movingDuration -= 1
+					o.movingDuration--
 				} else {
 					o.movingState = 0
 				}
@@ -93,7 +93,7 @@ func (es *EnemySystem) Update(dt float32) {
 				//下への移動
 				if o.movingDuration > 0 {
 					o.SpaceComponent.Position.Y -= 3
-					o.movingDuration -= 1
+					o.movingDuration--
 				} else {
 					o.movingState = 0
 				}
