@@ -67,9 +67,12 @@ func (ps *PlayerSystem) Update(dt float32) {
 	camX := camEntity.X()
 	camY := camEntity.Y()
 	if engo.Input.Button("MoveRight").Down() {
+		fmt.Println("----")
+		fmt.Println(camX)
+		fmt.Println(ps.playerEntity.SpaceComponent.Position.X)
 		if camX < 4000 {
 			ps.playerEntity.SpaceComponent.Position.X += 5
-			if ps.playerEntity.SpaceComponent.Position.X > 200 {
+			if ps.playerEntity.SpaceComponent.Position.X-camX > 100 {
 				engo.Mailbox.Dispatch(common.CameraMessage{
 					Axis:        common.XAxis,
 					Value:       5,
@@ -80,29 +83,33 @@ func (ps *PlayerSystem) Update(dt float32) {
 	} else if engo.Input.Button("MoveLeft").Down() {
 		if camX > 200 {
 			ps.playerEntity.SpaceComponent.Position.X -= 5
-			engo.Mailbox.Dispatch(common.CameraMessage{
-				Axis:        common.XAxis,
-				Value:       -5,
-				Incremental: true,
-			})
+			if camX-ps.playerEntity.SpaceComponent.Position.X > 100 {
+				engo.Mailbox.Dispatch(common.CameraMessage{
+					Axis:        common.XAxis,
+					Value:       -5,
+					Incremental: true,
+				})
+			}
 		} else if ps.playerEntity.SpaceComponent.Position.X > 5 {
 			ps.playerEntity.SpaceComponent.Position.X -= 5
 		}
 	} else if engo.Input.Button("MoveUp").Down() {
 		if camY > 200 {
 			ps.playerEntity.SpaceComponent.Position.Y -= 5
-			engo.Mailbox.Dispatch(common.CameraMessage{
-				Axis:        common.YAxis,
-				Value:       -5,
-				Incremental: true,
-			})
+			if camY-ps.playerEntity.SpaceComponent.Position.Y > 100 {
+				engo.Mailbox.Dispatch(common.CameraMessage{
+					Axis:        common.YAxis,
+					Value:       -5,
+					Incremental: true,
+				})
+			}
 		} else if ps.playerEntity.SpaceComponent.Position.Y > 5 {
 			ps.playerEntity.SpaceComponent.Position.Y -= 5
 		}
 	} else if engo.Input.Button("MoveDown").Down() {
 		if camY < 4000 {
 			ps.playerEntity.SpaceComponent.Position.Y += 5
-			if ps.playerEntity.SpaceComponent.Position.Y > 200 {
+			if ps.playerEntity.SpaceComponent.Position.Y-camY > 100 {
 				engo.Mailbox.Dispatch(common.CameraMessage{
 					Axis:        common.YAxis,
 					Value:       5,
