@@ -8,12 +8,14 @@ import (
 	"github.com/EngoEngine/engo/common"
 )
 
+// Player プレーヤーを表す構造体
 type Player struct {
 	ecs.BasicEntity
 	common.RenderComponent
 	common.SpaceComponent
 }
 
+// PlayerSystem プレーヤーシステム
 type PlayerSystem struct {
 	world        *ecs.World
 	playerEntity *Player
@@ -22,6 +24,7 @@ type PlayerSystem struct {
 
 var playerInstance *Player
 
+// New 作成時に呼び出される
 func (ps *PlayerSystem) New(w *ecs.World) {
 	ps.world = w
 	// プレーヤーの作成
@@ -61,8 +64,10 @@ func (ps *PlayerSystem) New(w *ecs.World) {
 	}
 }
 
+// Remove 削除する
 func (*PlayerSystem) Remove(ecs.BasicEntity) {}
 
+// Update アップデートする
 func (ps *PlayerSystem) Update(dt float32) {
 	camX := camEntity.X()
 	camY := camEntity.Y()
