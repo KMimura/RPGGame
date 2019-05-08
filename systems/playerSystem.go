@@ -24,16 +24,12 @@ type PlayerSystem struct {
 
 var playerInstance *Player
 
-<<<<<<< HEAD
 // それぞれの向きのプレーヤーの画像
 var topPic *common.Texture
 var rightPic *common.Texture
 var bottomPic *common.Texture
 var leftPic *common.Texture
 
-=======
-// New 作成時に呼び出される
->>>>>>> f86225dd7348e1fed68b55a66b74f40af5fd44cf
 func (ps *PlayerSystem) New(w *ecs.World) {
 	ps.world = w
 	// プレーヤーの作成
