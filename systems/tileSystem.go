@@ -1,7 +1,11 @@
 package systems
 
 import (
+	"encoding/csv"
+	"fmt"
+	"io"
 	"math/rand"
+	"os"
 	"time"
 
 	"github.com/EngoEngine/ecs"
@@ -9,10 +13,12 @@ import (
 	"github.com/EngoEngine/engo/common"
 )
 
+// Spritesheet タイルの画像
 var Spritesheet *common.Spritesheet
 
 var camEntity *common.CameraSystem
 
+// Tile タイル一つ一つを表す構造体
 type Tile struct {
 	ecs.BasicEntity
 	common.RenderComponent
@@ -21,19 +27,40 @@ type Tile struct {
 	yPoint int
 }
 
+// TileSystem タイルシステム
 type TileSystem struct {
 	world      *ecs.World
 	tileEntity []*Tile
 	texture    *common.Texture
 }
 
+// Remove 削除する
 func (*TileSystem) Remove(ecs.BasicEntity) {}
 
+// Update アップデートする
 func (ts *TileSystem) Update(dt float32) {
 }
 
+// New 作成時に呼び出される
 func (ts *TileSystem) New(w *ecs.World) {
 	rand.Seed(time.Now().UnixNano())
+
+	file, err := os.Open("../assets/stages/test.csv")
+	if err != nil {
+		fmt.Println(err)
+	}
+	reader := csv.NewReader(file)
+	reader.Comma = ','
+	reader.LazyQuotes = true
+	for {
+		record, err := reader.Read()
+		if err == io.EOF {
+			break
+		} else if err != nil {
+			panic(err)
+		}
+		fmt.Println(record)
+	}
 
 	ts.world = w
 	// 素材シートの読み込み
