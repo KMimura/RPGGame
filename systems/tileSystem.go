@@ -1,11 +1,9 @@
 package systems
 
 import (
-	"encoding/csv"
-	"fmt"
-	"io"
+	// "encoding/csv"
+
 	"math/rand"
-	"os"
 	"time"
 
 	"github.com/EngoEngine/ecs"
@@ -45,22 +43,22 @@ func (ts *TileSystem) Update(dt float32) {
 func (ts *TileSystem) New(w *ecs.World) {
 	rand.Seed(time.Now().UnixNano())
 
-	file, err := os.Open("../assets/stages/test.csv")
-	if err != nil {
-		fmt.Println(err)
-	}
-	reader := csv.NewReader(file)
-	reader.Comma = ','
-	reader.LazyQuotes = true
-	for {
-		record, err := reader.Read()
-		if err == io.EOF {
-			break
-		} else if err != nil {
-			panic(err)
-		}
-		fmt.Println(record)
-	}
+	// file, err := os.Open("../assets/stages/test.csv")
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
+	// reader := csv.NewReader(file)
+	// reader.Comma = ','
+	// reader.LazyQuotes = true
+	// for {
+	// 	record, err := reader.Read()
+	// 	if err == io.EOF {
+	// 		break
+	// 	} else if err != nil {
+	// 		panic(err)
+	// 	}
+	// 	fmt.Println(record)
+	// }
 
 	ts.world = w
 	// 素材シートの読み込み
