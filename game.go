@@ -16,7 +16,7 @@ type myScene struct{}
 func (*myScene) Type() string { return "myGame" }
 
 func (*myScene) Preload() {
-	engo.Files.Load("pics/greenoctocat.png", "pics/ghost.png", "pics/overworld_tileset_grass.png")
+	engo.Files.Load("pics/greenoctocat_top.png", "pics/greenoctocat_left.png", "pics/greenoctocat_right.png", "pics/greenoctocat_bottom.png", "pics/ghost.png", "pics/overworld_tileset_grass.png")
 	engo.Files.LoadReaderData("go.ttf", bytes.NewReader(gosmallcaps.TTF))
 	common.SetBackground(color.RGBA{255, 250, 220, 0})
 }
