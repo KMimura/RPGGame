@@ -1,8 +1,6 @@
 package systems
 
 import (
-	"fmt"
-
 	"github.com/EngoEngine/ecs"
 	"github.com/EngoEngine/engo"
 	"github.com/EngoEngine/engo/common"
@@ -12,6 +10,8 @@ type Player struct {
 	ecs.BasicEntity
 	common.RenderComponent
 	common.SpaceComponent
+	// 向き (0 => 上, 1 => 右, 2 => 下, 3 => 左)
+	direction int
 }
 
 type PlayerSystem struct {
@@ -21,6 +21,12 @@ type PlayerSystem struct {
 }
 
 var playerInstance *Player
+
+// それぞれの向きのプレーヤーの画像
+var topPic *common.Texture
+var rightPic *common.Texture
+var bottomPic *common.Texture
+var leftPic *common.Texture
 
 func (ps *PlayerSystem) New(w *ecs.World) {
 	ps.world = w
@@ -38,17 +44,18 @@ func (ps *PlayerSystem) New(w *ecs.World) {
 		Height:   30,
 	}
 	// 画像の読み込み
-	texture, err := common.LoadedSprite("pics/greenoctocat.png")
-	if err != nil {
-		fmt.Println("Unable to load texture: " + err.Error())
-	}
+	topPic, _ = common.LoadedSprite("pics/greenoctocat_top.png")
+	rightPic, _ = common.LoadedSprite("pics/greenoctocat_right.png")
+	bottomPic, _ = common.LoadedSprite("pics/greenoctocat_bottom.png")
+	leftPic, _ = common.LoadedSprite("pics/greenoctocat_left.png")
+
 	player.RenderComponent = common.RenderComponent{
-		Drawable: texture,
+		Drawable: topPic,
 		Scale:    engo.Point{X: 0.1, Y: 0.1},
 	}
 	player.RenderComponent.SetZIndex(1)
 	ps.playerEntity = &player
-	ps.texture = texture
+	ps.texture = topPic
 	for _, system := range ps.world.Systems() {
 		switch sys := system.(type) {
 		case *common.RenderSystem:
@@ -67,55 +74,82 @@ func (ps *PlayerSystem) Update(dt float32) {
 	camX := camEntity.X()
 	camY := camEntity.Y()
 	if engo.Input.Button("MoveRight").Down() {
-		fmt.Println("----")
-		fmt.Println(camX)
-		fmt.Println(ps.playerEntity.SpaceComponent.Position.X)
-		if camX < 4000 {
-			ps.playerEntity.SpaceComponent.Position.X += 5
-			if ps.playerEntity.SpaceComponent.Position.X-camX > 100 {
-				engo.Mailbox.Dispatch(common.CameraMessage{
-					Axis:        common.XAxis,
-					Value:       5,
-					Incremental: true,
-				})
+		if ps.playerEntity.direction != 1 {
+			ps.playerEntity.direction = 1
+		} else {
+			ps.playerEntity.direction = 1
+			if camX < 4000 {
+				ps.playerEntity.SpaceComponent.Position.X += 5
+				if ps.playerEntity.SpaceComponent.Position.X-camX > 100 {
+					engo.Mailbox.Dispatch(common.CameraMessage{
+						Axis:        common.XAxis,
+						Value:       5,
+						Incremental: true,
+					})
+				}
 			}
 		}
 	} else if engo.Input.Button("MoveLeft").Down() {
-		if camX > 200 {
-			ps.playerEntity.SpaceComponent.Position.X -= 5
-			if camX-ps.playerEntity.SpaceComponent.Position.X > 100 {
-				engo.Mailbox.Dispatch(common.CameraMessage{
-					Axis:        common.XAxis,
-					Value:       -5,
-					Incremental: true,
-				})
+		if ps.playerEntity.direction != 3 {
+			ps.playerEntity.direction = 3
+		} else {
+			ps.playerEntity.direction = 3
+			if camX > 200 {
+				ps.playerEntity.SpaceComponent.Position.X -= 5
+				if camX-ps.playerEntity.SpaceComponent.Position.X > 100 {
+					engo.Mailbox.Dispatch(common.CameraMessage{
+						Axis:        common.XAxis,
+						Value:       -5,
+						Incremental: true,
+					})
+				}
+			} else if ps.playerEntity.SpaceComponent.Position.X > 5 {
+				ps.playerEntity.SpaceComponent.Position.X -= 5
 			}
-		} else if ps.playerEntity.SpaceComponent.Position.X > 5 {
-			ps.playerEntity.SpaceComponent.Position.X -= 5
 		}
 	} else if engo.Input.Button("MoveUp").Down() {
-		if camY > 200 {
-			ps.playerEntity.SpaceComponent.Position.Y -= 5
-			if camY-ps.playerEntity.SpaceComponent.Position.Y > 100 {
-				engo.Mailbox.Dispatch(common.CameraMessage{
-					Axis:        common.YAxis,
-					Value:       -5,
-					Incremental: true,
-				})
+		if ps.playerEntity.direction != 0 {
+			ps.playerEntity.direction = 0
+		} else {
+			ps.playerEntity.direction = 0
+			if camY > 200 {
+				ps.playerEntity.SpaceComponent.Position.Y -= 5
+				if camY-ps.playerEntity.SpaceComponent.Position.Y > 100 {
+					engo.Mailbox.Dispatch(common.CameraMessage{
+						Axis:        common.YAxis,
+						Value:       -5,
+						Incremental: true,
+					})
+				}
+			} else if ps.playerEntity.SpaceComponent.Position.Y > 5 {
+				ps.playerEntity.SpaceComponent.Position.Y -= 5
 			}
-		} else if ps.playerEntity.SpaceComponent.Position.Y > 5 {
-			ps.playerEntity.SpaceComponent.Position.Y -= 5
 		}
 	} else if engo.Input.Button("MoveDown").Down() {
-		if camY < 4000 {
-			ps.playerEntity.SpaceComponent.Position.Y += 5
-			if ps.playerEntity.SpaceComponent.Position.Y-camY > 100 {
-				engo.Mailbox.Dispatch(common.CameraMessage{
-					Axis:        common.YAxis,
-					Value:       5,
-					Incremental: true,
-				})
+		if ps.playerEntity.direction != 2 {
+			ps.playerEntity.direction = 2
+		} else {
+			ps.playerEntity.direction = 2
+			if camY < 4000 {
+				ps.playerEntity.SpaceComponent.Position.Y += 5
+				if ps.playerEntity.SpaceComponent.Position.Y-camY > 100 {
+					engo.Mailbox.Dispatch(common.CameraMessage{
+						Axis:        common.YAxis,
+						Value:       5,
+						Incremental: true,
+					})
+				}
 			}
 		}
+	}
+	switch ps.playerEntity.direction {
+	case 0:
+		ps.playerEntity.RenderComponent.Drawable = topPic
+	case 1:
+		ps.playerEntity.RenderComponent.Drawable = rightPic
+	case 2:
+		ps.playerEntity.RenderComponent.Drawable = bottomPic
+	case 3:
+		ps.playerEntity.RenderComponent.Drawable = leftPic
 	}
 }
