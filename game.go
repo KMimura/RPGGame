@@ -1,4 +1,5 @@
 package main
+
 // test
 import (
 	"bytes"
@@ -16,7 +17,7 @@ type myScene struct{}
 func (*myScene) Type() string { return "myGame" }
 
 func (*myScene) Preload() {
-	engo.Files.Load("pics/greenoctocat_top.png", "pics/greenoctocat_left.png", "pics/greenoctocat_right.png", "pics/greenoctocat_bottom.png", "pics/ghost.png", "pics/overworld_tileset_grass.png", "pics/stone_dot.png")
+	engo.Files.Load("pics/greenoctocat_top.png", "pics/greenoctocat_left.png", "pics/greenoctocat_right.png", "pics/greenoctocat_bottom.png", "pics/ghost.png", "pics/overworld_tileset_grass.png", "pics/explosion.png")
 	engo.Files.LoadReaderData("go.ttf", bytes.NewReader(gosmallcaps.TTF))
 	common.SetBackground(color.RGBA{255, 250, 220, 0})
 }
@@ -32,6 +33,7 @@ func (*myScene) Setup(u engo.Updater) {
 	world.AddSystem(&systems.TileSystem{})
 	world.AddSystem(&systems.PlayerSystem{})
 	world.AddSystem(&systems.EnemySystem{})
+	world.AddSystem(&systems.BulletSystem{})
 }
 
 func (*myScene) Exit() {

@@ -2,8 +2,10 @@ package systems
 
 import (
 	// "encoding/csv"
-
+	// "fmt"
+	// "io"
 	"math/rand"
+	// "os"
 	"time"
 
 	"github.com/EngoEngine/ecs"

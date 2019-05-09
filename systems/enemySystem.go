@@ -18,6 +18,8 @@ type Enemy struct {
 	movingState int
 	// 移動の残り時間
 	movingDuration int
+	// 爆発し始めてからの経過時間
+	explosionDuration int
 }
 
 type EnemySystem struct {
@@ -25,6 +27,9 @@ type EnemySystem struct {
 	enemyEntity []*Enemy
 	texture     *common.Texture
 }
+
+// 被弾した時の画像
+var explosion *common.Texture
 
 func (es *EnemySystem) Remove(entity ecs.BasicEntity) {
 	for _, system := range es.world.Systems() {
@@ -122,6 +127,8 @@ func (es *EnemySystem) New(w *ecs.World) {
 			if err != nil {
 				fmt.Println("Unable to load texture: " + err.Error())
 			}
+			// 被弾した時の画像
+			explosion, _ = common.LoadedSprite("pics/greenoctocat_left.png")
 			enemy.RenderComponent = common.RenderComponent{
 				Drawable: texture,
 				Scale:    engo.Point{X: 1.1, Y: 1.1},

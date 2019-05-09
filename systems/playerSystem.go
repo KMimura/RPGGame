@@ -146,7 +146,7 @@ func (ps *PlayerSystem) Update(dt float32) {
 			}
 		}
 	} else if engo.Input.Button("Space").JustPressed() {
-		ps.world.AddSystem(&BulletSystem{})
+		bulletSystemInstance.addBullet(ps.playerEntity.SpaceComponent.Position.X, ps.playerEntity.SpaceComponent.Position.Y, ps.playerEntity.direction)
 	}
 	switch ps.playerEntity.direction {
 	case 0:
