@@ -10,7 +10,7 @@ import (
 	"github.com/KMimura/RPGGame/systems"
 	"golang.org/x/image/font/gofont/gosmallcaps"
 )
-
+//gogo
 type myScene struct{}
 
 func (*myScene) Type() string { return "myGame" }
