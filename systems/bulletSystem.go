@@ -1,8 +1,6 @@
 package systems
 
 import (
-	"fmt"
-
 	"github.com/EngoEngine/ecs"
 	"github.com/EngoEngine/engo"
 	"github.com/EngoEngine/engo/common"
@@ -79,9 +77,12 @@ func (bs *BulletSystem) Update(dt float32) {
 				for _, e := range sys.enemyEntity {
 					if bulletX == int(e.SpaceComponent.Position.X)/50 {
 						if bulletY == int(e.SpaceComponent.Position.Y)/50 {
-							fmt.Println("<<<<<<HIT>>>>>>>")
+							// 爆発中でないかチェック
 							if e.explosionDuration == 0 {
 								e.explosionDuration = 1
+								// 敵に命中した弾はワールドから削除
+								bs.Remove(bullet.BasicEntity)
+								bs.bulletEntities = removeBullet(bs.bulletEntities, bullet)
 							}
 						}
 					}
