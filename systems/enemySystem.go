@@ -128,7 +128,7 @@ func (es *EnemySystem) New(w *ecs.World) {
 	Enemies := make([]*Enemy, 0)
 	// ランダムで配置
 	for i := 0; i < 4000; i++ {
-		randomNum := rand.Intn(300)
+		randomNum := rand.Intn(100)
 		if randomNum == 0 {
 			// 敵の作成
 			enemy := Enemy{BasicEntity: ecs.NewBasic()}

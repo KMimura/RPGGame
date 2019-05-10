@@ -69,7 +69,7 @@ func (ps *PlayerSystem) New(w *ecs.World) {
 	}
 	common.CameraBounds = engo.AABB{
 		Min: engo.Point{X: 0, Y: 0},
-		Max: engo.Point{X: 4000, Y: 4000},
+		Max: engo.Point{X: 1200, Y: 1200},
 	}
 }
 
