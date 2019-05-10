@@ -24,6 +24,9 @@ type PlayerSystem struct {
 
 var playerInstance *Player
 
+// 最大の弾の数
+var maxBulletCount = 3
+
 // それぞれの向きのプレーヤーの画像
 var topPic *common.Texture
 var rightPic *common.Texture
@@ -146,7 +149,9 @@ func (ps *PlayerSystem) Update(dt float32) {
 			}
 		}
 	} else if engo.Input.Button("Space").JustPressed() {
-		bulletSystemInstance.addBullet(ps.playerEntity.SpaceComponent.Position.X, ps.playerEntity.SpaceComponent.Position.Y, ps.playerEntity.direction)
+		if len(bulletSystemInstance.bulletEntities) < maxBulletCount {
+			bulletSystemInstance.addBullet(ps.playerEntity.SpaceComponent.Position.X, ps.playerEntity.SpaceComponent.Position.Y, ps.playerEntity.direction)
+		}
 	}
 	switch ps.playerEntity.direction {
 	case 0:
