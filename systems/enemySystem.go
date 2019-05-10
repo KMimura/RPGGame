@@ -10,6 +10,9 @@ import (
 	"github.com/EngoEngine/engo/common"
 )
 
+// 被弾した際に爆発し続ける時間
+var explosionTime = 30
+
 type Enemy struct {
 	ecs.BasicEntity
 	common.RenderComponent
@@ -41,66 +44,78 @@ func (es *EnemySystem) Remove(entity ecs.BasicEntity) {
 }
 
 func (es *EnemySystem) Update(dt float32) {
-	rand.Seed(time.Now().UnixNano())
 	// カメラとプレーヤーの位置を取得
 	camX := camEntity.X()
 	camY := camEntity.Y()
 	playerX := playerInstance.SpaceComponent.Position.X
 	playerY := playerInstance.SpaceComponent.Position.Y
 	for _, o := range es.enemyEntity {
-		// 画面に描画されていないオブジェクトは移動処理をしない
-		if o.SpaceComponent.Position.X < camX+300 && o.SpaceComponent.Position.X > camX-300 && o.SpaceComponent.Position.Y < camY+300 && o.SpaceComponent.Position.Y > camY-300 {
-			// プレーヤーとの当たり判定
-			if o.SpaceComponent.Position.X == playerX && o.SpaceComponent.Position.Y == playerY {
-				fmt.Println("damaged")
+		if o.explosionDuration != 0 {
+			if o.explosionDuration == 1 {
+				// 爆発し始め
+				o.RenderComponent.Drawable = explosion
 			}
-			// 移動をしていない場合
-			if o.movingState == 0 {
-				tmpNum := rand.Intn(200) - 195
-				if tmpNum > 0 {
-					o.movingState = tmpNum
-					jumpTemp := rand.Intn(3)
-					switch jumpTemp {
-					case 0:
-						o.movingDuration = 10
-					case 1:
-						o.movingDuration = 15
-					case 2:
-						o.movingDuration = 20
+			// 爆発が終わった場合、敵を削除
+			if o.explosionDuration >= explosionTime {
+				es.world.RemoveEntity(o.BasicEntity)
+				es.enemyEntity = removeEnemy(es.enemyEntity, o)
+			}
+			o.explosionDuration++
+		} else {
+			// 画面に描画されていないオブジェクトは移動処理をしない
+			if o.SpaceComponent.Position.X < camX+300 && o.SpaceComponent.Position.X > camX-300 && o.SpaceComponent.Position.Y < camY+300 && o.SpaceComponent.Position.Y > camY-300 {
+				// プレーヤーとの当たり判定
+				if o.SpaceComponent.Position.X == playerX && o.SpaceComponent.Position.Y == playerY {
+					fmt.Println("damaged")
+				}
+				// 移動をしていない場合
+				if o.movingState == 0 {
+					tmpNum := rand.Intn(200) - 195
+					if tmpNum > 0 {
+						o.movingState = tmpNum
+						jumpTemp := rand.Intn(3)
+						switch jumpTemp {
+						case 0:
+							o.movingDuration = 10
+						case 1:
+							o.movingDuration = 15
+						case 2:
+							o.movingDuration = 20
+						}
 					}
 				}
-			}
-			if o.movingState == 1 {
-				// 上への移動処理
-				if o.movingDuration > 0 {
-					o.SpaceComponent.Position.X -= 3
-					o.movingDuration--
-				} else {
-					o.movingState = 0
-				}
-			} else if o.movingState == 2 {
-				//右への移動
-				if o.movingDuration > 0 {
-					o.SpaceComponent.Position.Y += 3
-					o.movingDuration--
-				} else {
-					o.movingState = 0
-				}
-			} else if o.movingState == 3 {
-				//下への移動
-				if o.movingDuration > 0 {
-					o.SpaceComponent.Position.X += 3
-					o.movingDuration--
-				} else {
-					o.movingState = 0
-				}
-			} else if o.movingState == 4 {
-				//下への移動
-				if o.movingDuration > 0 {
-					o.SpaceComponent.Position.Y -= 3
-					o.movingDuration--
-				} else {
-					o.movingState = 0
+				if o.movingState == 1 {
+					// 上への移動処理
+					if o.movingDuration > 0 {
+						o.SpaceComponent.Position.X -= 3
+						o.movingDuration--
+					} else {
+						o.movingState = 0
+					}
+				} else if o.movingState == 2 {
+					//右への移動
+					if o.movingDuration > 0 {
+						o.SpaceComponent.Position.Y += 3
+						o.movingDuration--
+					} else {
+						o.movingState = 0
+					}
+				} else if o.movingState == 3 {
+					//下への移動
+					if o.movingDuration > 0 {
+						o.SpaceComponent.Position.X += 3
+						o.movingDuration--
+					} else {
+						o.movingState = 0
+					}
+				} else if o.movingState == 4 {
+					//下への移動
+					if o.movingDuration > 0 {
+						o.SpaceComponent.Position.Y -= 3
+						o.movingDuration--
+					} else {
+						o.movingState = 0
+					}
 				}
 			}
 		}
@@ -113,7 +128,7 @@ func (es *EnemySystem) New(w *ecs.World) {
 	Enemies := make([]*Enemy, 0)
 	// ランダムで配置
 	for i := 0; i < 4000; i++ {
-		randomNum := rand.Intn(400)
+		randomNum := rand.Intn(300)
 		if randomNum == 0 {
 			// 敵の作成
 			enemy := Enemy{BasicEntity: ecs.NewBasic()}
@@ -128,7 +143,7 @@ func (es *EnemySystem) New(w *ecs.World) {
 				fmt.Println("Unable to load texture: " + err.Error())
 			}
 			// 被弾した時の画像
-			explosion, _ = common.LoadedSprite("pics/greenoctocat_left.png")
+			explosion, _ = common.LoadedSprite("pics/explosion.png")
 			enemy.RenderComponent = common.RenderComponent{
 				Drawable: texture,
 				Scale:    engo.Point{X: 1.1, Y: 1.1},
@@ -151,4 +166,14 @@ func (es *EnemySystem) New(w *ecs.World) {
 			camEntity = sys
 		}
 	}
+}
+
+func removeEnemy(enemies []*Enemy, search *Enemy) []*Enemy {
+	result := []*Enemy{}
+	for _, v := range enemies {
+		if v != search {
+			result = append(result, v)
+		}
+	}
+	return result
 }

@@ -47,41 +47,42 @@ func (bs *BulletSystem) Update(dt float32) {
 		switch bullet.direction {
 		case 0:
 			bullet.SpaceComponent.Position.Y -= 10
-			if bullet.SpaceComponent.Position.Y < camEntity.Y()-150 {
+			if bullet.SpaceComponent.Position.Y < camEntity.Y()-250 {
 				bs.Remove(bullet.BasicEntity)
 				bs.bulletEntities = removeBullet(bs.bulletEntities, bullet)
 			}
 		case 1:
 			bullet.SpaceComponent.Position.X += 10
-			if bullet.SpaceComponent.Position.X > camEntity.X()+150 {
+			if bullet.SpaceComponent.Position.X > camEntity.X()+250 {
 				bs.Remove(bullet.BasicEntity)
 				bs.bulletEntities = removeBullet(bs.bulletEntities, bullet)
 			}
 		case 2:
 			bullet.SpaceComponent.Position.Y += 10
-			if bullet.SpaceComponent.Position.Y > camEntity.Y()+150 {
+			if bullet.SpaceComponent.Position.Y > camEntity.Y()+250 {
 				bs.Remove(bullet.BasicEntity)
 				bs.bulletEntities = removeBullet(bs.bulletEntities, bullet)
 			}
 		case 3:
 			bullet.SpaceComponent.Position.X -= 10
-			if bullet.SpaceComponent.Position.X < camEntity.X()-150 {
+			if bullet.SpaceComponent.Position.X < camEntity.X()-250 {
 				bs.Remove(bullet.BasicEntity)
 				bs.bulletEntities = removeBullet(bs.bulletEntities, bullet)
 			}
 		}
 		// 弾の座標(曖昧化するために10で割る)
-		bulletX := bullet.SpaceComponent.Position.X / 10
-		bulletY := bullet.SpaceComponent.Position.Y / 10
-		fmt.Println(bulletX)
-		fmt.Println(bulletY)
+		bulletX := int(bullet.SpaceComponent.Position.X) / 50
+		bulletY := int(bullet.SpaceComponent.Position.Y) / 50
 		for _, system := range bs.world.Systems() {
 			switch sys := system.(type) {
 			case *EnemySystem:
 				for _, e := range sys.enemyEntity {
-					if bulletX == e.SpaceComponent.Position.X/10 {
-						if bulletY == e.SpaceComponent.Position.Y/10 {
+					if bulletX == int(e.SpaceComponent.Position.X)/50 {
+						if bulletY == int(e.SpaceComponent.Position.Y)/50 {
 							fmt.Println("<<<<<<HIT>>>>>>>")
+							if e.explosionDuration == 0 {
+								e.explosionDuration = 1
+							}
 						}
 					}
 				}
