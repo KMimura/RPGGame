@@ -4,6 +4,7 @@ import (
 	"github.com/EngoEngine/ecs"
 	"github.com/EngoEngine/engo"
 	"github.com/EngoEngine/engo/common"
+	"github.com/KMimura/RPGGame/utils"
 )
 
 // Player プレーヤーを表す構造体
@@ -84,15 +85,17 @@ func (ps *PlayerSystem) Update(dt float32) {
 		if ps.playerEntity.direction != 1 {
 			ps.playerEntity.direction = 1
 		} else {
-			ps.playerEntity.direction = 1
-			if camX < 4000 {
-				ps.playerEntity.SpaceComponent.Position.X += 5
-				if ps.playerEntity.SpaceComponent.Position.X-camX > 100 {
-					engo.Mailbox.Dispatch(common.CameraMessage{
-						Axis:        common.XAxis,
-						Value:       5,
-						Incremental: true,
-					})
+			// 移動先のブロックに障害物がないか確認
+			if utils.CheckIfPassable(int(ps.playerEntity.SpaceComponent.Position.X+5), int(ps.playerEntity.SpaceComponent.Position.Y)) {
+				if camX < 4000 {
+					ps.playerEntity.SpaceComponent.Position.X += 5
+					if ps.playerEntity.SpaceComponent.Position.X-camX > 100 {
+						engo.Mailbox.Dispatch(common.CameraMessage{
+							Axis:        common.XAxis,
+							Value:       5,
+							Incremental: true,
+						})
+					}
 				}
 			}
 		}
@@ -100,51 +103,57 @@ func (ps *PlayerSystem) Update(dt float32) {
 		if ps.playerEntity.direction != 3 {
 			ps.playerEntity.direction = 3
 		} else {
-			ps.playerEntity.direction = 3
-			if camX > 200 {
-				ps.playerEntity.SpaceComponent.Position.X -= 5
-				if camX-ps.playerEntity.SpaceComponent.Position.X > 100 {
-					engo.Mailbox.Dispatch(common.CameraMessage{
-						Axis:        common.XAxis,
-						Value:       -5,
-						Incremental: true,
-					})
+			// 移動先のブロックに障害物がないか確認
+			if utils.CheckIfPassable(int(ps.playerEntity.SpaceComponent.Position.X-5), int(ps.playerEntity.SpaceComponent.Position.Y)) {
+				if camX > 200 {
+					ps.playerEntity.SpaceComponent.Position.X -= 5
+					if camX-ps.playerEntity.SpaceComponent.Position.X > 100 {
+						engo.Mailbox.Dispatch(common.CameraMessage{
+							Axis:        common.XAxis,
+							Value:       -5,
+							Incremental: true,
+						})
+					}
+				} else if ps.playerEntity.SpaceComponent.Position.X > 5 {
+					ps.playerEntity.SpaceComponent.Position.X -= 5
 				}
-			} else if ps.playerEntity.SpaceComponent.Position.X > 5 {
-				ps.playerEntity.SpaceComponent.Position.X -= 5
 			}
 		}
 	} else if engo.Input.Button("MoveUp").Down() {
 		if ps.playerEntity.direction != 0 {
 			ps.playerEntity.direction = 0
 		} else {
-			ps.playerEntity.direction = 0
-			if camY > 200 {
-				ps.playerEntity.SpaceComponent.Position.Y -= 5
-				if camY-ps.playerEntity.SpaceComponent.Position.Y > 100 {
-					engo.Mailbox.Dispatch(common.CameraMessage{
-						Axis:        common.YAxis,
-						Value:       -5,
-						Incremental: true,
-					})
+			// 移動先のブロックに障害物がないか確認
+			if utils.CheckIfPassable(int(ps.playerEntity.SpaceComponent.Position.X), int(ps.playerEntity.SpaceComponent.Position.Y-5)) {
+				if camY > 200 {
+					ps.playerEntity.SpaceComponent.Position.Y -= 5
+					if camY-ps.playerEntity.SpaceComponent.Position.Y > 100 {
+						engo.Mailbox.Dispatch(common.CameraMessage{
+							Axis:        common.YAxis,
+							Value:       -5,
+							Incremental: true,
+						})
+					}
+				} else if ps.playerEntity.SpaceComponent.Position.Y > 5 {
+					ps.playerEntity.SpaceComponent.Position.Y -= 5
 				}
-			} else if ps.playerEntity.SpaceComponent.Position.Y > 5 {
-				ps.playerEntity.SpaceComponent.Position.Y -= 5
 			}
 		}
 	} else if engo.Input.Button("MoveDown").Down() {
 		if ps.playerEntity.direction != 2 {
 			ps.playerEntity.direction = 2
 		} else {
-			ps.playerEntity.direction = 2
-			if camY < 4000 {
-				ps.playerEntity.SpaceComponent.Position.Y += 5
-				if ps.playerEntity.SpaceComponent.Position.Y-camY > 100 {
-					engo.Mailbox.Dispatch(common.CameraMessage{
-						Axis:        common.YAxis,
-						Value:       5,
-						Incremental: true,
-					})
+			// 移動先のブロックに障害物がないか確認
+			if utils.CheckIfPassable(int(ps.playerEntity.SpaceComponent.Position.X), int(ps.playerEntity.SpaceComponent.Position.Y+5)) {
+				if camY < 4000 {
+					ps.playerEntity.SpaceComponent.Position.Y += 5
+					if ps.playerEntity.SpaceComponent.Position.Y-camY > 100 {
+						engo.Mailbox.Dispatch(common.CameraMessage{
+							Axis:        common.YAxis,
+							Value:       5,
+							Incremental: true,
+						})
+					}
 				}
 			}
 		}

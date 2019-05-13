@@ -4,6 +4,7 @@ import (
 	// "encoding/csv"
 	// "fmt"
 	// "io"
+
 	"math/rand"
 	// "os"
 	"time"
@@ -11,12 +12,16 @@ import (
 	"github.com/EngoEngine/ecs"
 	"github.com/EngoEngine/engo"
 	"github.com/EngoEngine/engo/common"
+	"github.com/KMimura/RPGGame/utils"
 )
 
 // Spritesheet タイルの画像
 var Spritesheet *common.Spritesheet
 
 var camEntity *common.CameraSystem
+
+// ObstaclePoints 障害物のある座標
+var ObstaclePoints map[int][]int
 
 // Tile タイル一つ一つを表す構造体
 type Tile struct {
@@ -67,18 +72,23 @@ func (ts *TileSystem) New(w *ecs.World) {
 	loadTxt := "pics/overworld_tileset_grass.png"
 	Spritesheet = common.NewSpritesheetWithBorderFromFile(loadTxt, 16, 16, 0, 0)
 	Tiles := make([]*Tile, 0)
+	ObstaclePoints = map[int][]int{}
 	for i := 0; i < 100; i++ {
 		for j := 0; j < 100; j++ {
 			// ランダムで描画するタイルの種類を変える
-			randNum := rand.Intn(10)
+			randNum := rand.Intn(50)
 			var tileNum int
 			switch randNum {
 			case 0:
 				tileNum = 1
 			case 1:
-				tileNum = 14
-			case 2:
-				tileNum = 38
+				tileNum = 95
+				// 障害物として座標を記録（曖昧化のために、前後の複数点を記録）
+				for x := utils.SimpleAbstractionValue * -1; x < utils.SimpleAbstractionValue; x++ {
+					for y := utils.SimpleAbstractionValue * -1; y < utils.SimpleAbstractionValue; y++ {
+						ObstaclePoints[i*16+x] = append(ObstaclePoints[i*16+x], j*16+y)
+					}
+				}
 			default:
 				tileNum = 0
 			}
@@ -95,6 +105,9 @@ func (ts *TileSystem) New(w *ecs.World) {
 			Tiles = append(Tiles, tile)
 		}
 	}
+
+	// 障害物座標をutilsにセット（循環参照ができないため）
+	utils.SetObstaclePoints(ObstaclePoints)
 	for _, system := range ts.world.Systems() {
 		switch sys := system.(type) {
 		case *common.RenderSystem:
