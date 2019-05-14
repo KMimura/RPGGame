@@ -8,6 +8,7 @@ import (
 	"github.com/EngoEngine/ecs"
 	"github.com/EngoEngine/engo"
 	"github.com/EngoEngine/engo/common"
+	"github.com/KMimura/RPGGame/utils"
 )
 
 // 被弾した際に爆発し続ける時間
@@ -47,8 +48,8 @@ func (es *EnemySystem) Update(dt float32) {
 	// カメラとプレーヤーの位置を取得
 	camX := camEntity.X()
 	camY := camEntity.Y()
-	playerX := playerInstance.SpaceComponent.Position.X
-	playerY := playerInstance.SpaceComponent.Position.Y
+	playerX := int(playerInstance.SpaceComponent.Position.X) / utils.AbstractionValue
+	playerY := int(playerInstance.SpaceComponent.Position.Y) / utils.AbstractionValue
 	for _, o := range es.enemyEntity {
 		if o.explosionDuration != 0 {
 			if o.explosionDuration == 1 {
@@ -65,8 +66,8 @@ func (es *EnemySystem) Update(dt float32) {
 			// 画面に描画されていないオブジェクトは移動処理をしない
 			if o.SpaceComponent.Position.X < camX+300 && o.SpaceComponent.Position.X > camX-300 && o.SpaceComponent.Position.Y < camY+300 && o.SpaceComponent.Position.Y > camY-300 {
 				// プレーヤーとの当たり判定
-				if o.SpaceComponent.Position.X == playerX && o.SpaceComponent.Position.Y == playerY {
-					fmt.Println("damaged")
+				if int(o.SpaceComponent.Position.X)/utils.AbstractionValue == playerX && int(o.SpaceComponent.Position.Y)/utils.AbstractionValue == playerY {
+					playerSystemInstance.Damage()
 				}
 				// 移動をしていない場合
 				if o.movingState == 0 {

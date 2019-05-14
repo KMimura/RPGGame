@@ -1,6 +1,8 @@
 package systems
 
 import (
+	"fmt"
+
 	"github.com/EngoEngine/ecs"
 	"github.com/EngoEngine/engo"
 	"github.com/EngoEngine/engo/common"
@@ -14,6 +16,10 @@ type Player struct {
 	common.SpaceComponent
 	// 向き (0 => 上, 1 => 右, 2 => 下, 3 => 左)
 	direction int
+	// ライフ
+	remainingHearts int
+	// ダメージを受けない状態の残り時間
+	immunityTime int
 }
 
 // PlayerSystem プレーヤーシステム
@@ -24,6 +30,7 @@ type PlayerSystem struct {
 }
 
 var playerInstance *Player
+var playerSystemInstance *PlayerSystem
 
 // 最大の弾の数
 var maxBulletCount = 3
@@ -35,9 +42,13 @@ var bottomPic *common.Texture
 var leftPic *common.Texture
 
 func (ps *PlayerSystem) New(w *ecs.World) {
+	playerSystemInstance = ps
 	ps.world = w
 	// プレーヤーの作成
 	player := Player{BasicEntity: ecs.NewBasic()}
+
+	// ライフを与える
+	player.remainingHearts = 5
 
 	playerInstance = &player
 
@@ -81,6 +92,10 @@ func (*PlayerSystem) Remove(ecs.BasicEntity) {}
 func (ps *PlayerSystem) Update(dt float32) {
 	camX := camEntity.X()
 	camY := camEntity.Y()
+	// ダメージを受けてすぐであったら、新たにダメージは受けないようにする
+	if ps.playerEntity.immunityTime > 0 {
+		ps.playerEntity.immunityTime--
+	}
 	if engo.Input.Button("MoveRight").Down() {
 		if ps.playerEntity.direction != 1 {
 			ps.playerEntity.direction = 1
@@ -172,4 +187,19 @@ func (ps *PlayerSystem) Update(dt float32) {
 	case 3:
 		ps.playerEntity.RenderComponent.Drawable = leftPic
 	}
+}
+
+// Damage ライフを減らす
+func (ps *PlayerSystem) Damage() {
+	if ps.playerEntity.immunityTime != 0 {
+		return
+	}
+	ps.playerEntity.remainingHearts--
+	if ps.playerEntity.remainingHearts < 0 {
+		fmt.Println("DEAD AS FUCK")
+	} else {
+		RemoveHeart(ps.world)
+		ps.playerEntity.immunityTime = 100
+	}
+
 }

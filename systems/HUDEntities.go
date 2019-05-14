@@ -40,3 +40,26 @@ func AddHeart(w *ecs.World) {
 	}
 	HeartEntities = append(HeartEntities, hud)
 }
+
+// RemoveHeart ライフの表示を減らす
+func RemoveHeart(w *ecs.World) {
+	// すでに作成済みのハートの数
+	existingHearts := len(HeartEntities)
+	if existingHearts < 0 {
+		return
+	}
+	heartToRemove := HeartEntities[existingHearts-1]
+	for _, system := range w.Systems() {
+		switch sys := system.(type) {
+		case *common.RenderSystem:
+			sys.Remove(heartToRemove.BasicEntity)
+		}
+	}
+	result := []Heart{}
+	if existingHearts > 1 {
+		for i := 0; i < existingHearts-1; i++ {
+			result = append(result, HeartEntities[i])
+		}
+	}
+	HeartEntities = result
+}
