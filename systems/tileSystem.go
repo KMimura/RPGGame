@@ -76,8 +76,8 @@ func (ts *TileSystem) New(w *ecs.World) {
 	Spritesheet = common.NewSpritesheetWithBorderFromFile(loadTxt, 16, 16, 0, 0)
 	Tiles := make([]*Tile, 0)
 	ObstaclePoints = map[int][]int{}
-	for i := 0; i < 100; i++ {
-		for j := 0; j < 100; j++ {
+	for i := 0; i < 30; i++ {
+		for j := 0; j < 50; j++ {
 			// ランダムで描画するタイルの種類を変える
 			randNum := rand.Intn(50)
 			var tileNum int
@@ -99,8 +99,8 @@ func (ts *TileSystem) New(w *ecs.World) {
 			tile := &Tile{BasicEntity: ecs.NewBasic()}
 			// 描画位置の指定
 			tile.SpaceComponent.Position = engo.Point{
-				X: float32(i * 16*tileMultiply),
-				Y: float32(j * 16*tileMultiply),
+				X: float32(i * 16 * tileMultiply),
+				Y: float32(j * 16 * tileMultiply),
 			}
 			// 見た目の設定
 			tile.RenderComponent = common.RenderComponent{
