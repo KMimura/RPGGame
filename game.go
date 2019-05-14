@@ -43,8 +43,8 @@ func (*myScene) Exit() {
 func main() {
 	opts := engo.RunOptions{
 		Title:          "myGame",
-		Width:          400,
-		Height:         300,
+		Width:          600,
+		Height:         400,
 		StandardInputs: true,
 		NotResizable:   true,
 	}

@@ -39,6 +39,9 @@ type TileSystem struct {
 	texture    *common.Texture
 }
 
+// tileMultiply タイルを何倍にして表示するか
+var tileMultiply = 4
+
 // Remove 削除する
 func (*TileSystem) Remove(ecs.BasicEntity) {}
 
@@ -84,9 +87,9 @@ func (ts *TileSystem) New(w *ecs.World) {
 			case 1:
 				tileNum = 95
 				// 障害物として座標を記録（曖昧化のために、前後の複数点を記録）
-				for x := utils.SimpleAbstractionValue * -1; x < utils.SimpleAbstractionValue; x++ {
-					for y := utils.SimpleAbstractionValue * -1; y < utils.SimpleAbstractionValue; y++ {
-						ObstaclePoints[i*16+x] = append(ObstaclePoints[i*16+x], j*16+y)
+				for x := 0; x < utils.SimpleAbstractionValue; x++ {
+					for y := 0; y < utils.SimpleAbstractionValue; y++ {
+						ObstaclePoints[i*16*tileMultiply+x] = append(ObstaclePoints[i*16*tileMultiply+x], j*16*tileMultiply+y)
 					}
 				}
 			default:
@@ -96,11 +99,15 @@ func (ts *TileSystem) New(w *ecs.World) {
 			tile := &Tile{BasicEntity: ecs.NewBasic()}
 			// 描画位置の指定
 			tile.SpaceComponent.Position = engo.Point{
-				X: float32(i * 16),
-				Y: float32(j * 16),
+				X: float32(i * 16*tileMultiply),
+				Y: float32(j * 16*tileMultiply),
 			}
 			// 見た目の設定
-			tile.RenderComponent.Drawable = Spritesheet.Cell(tileNum)
+			tile.RenderComponent = common.RenderComponent{
+				Drawable: Spritesheet.Cell(tileNum),
+				Scale:    engo.Point{X: float32(tileMultiply), Y: float32(tileMultiply)},
+			}
+
 			tile.RenderComponent.SetZIndex(0)
 			Tiles = append(Tiles, tile)
 		}

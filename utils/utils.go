@@ -4,7 +4,7 @@ package utils
 var AbstractionValue = 50
 
 // SimpleAbstractionValue 単純に足し/引きで抽象化するときに用いる値
-var SimpleAbstractionValue = 10
+var SimpleAbstractionValue = 50
 
 var obstaclePoints map[int][]int
 
