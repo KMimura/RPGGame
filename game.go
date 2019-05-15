@@ -1,6 +1,7 @@
 package main
 
 // test
+//test2
 import (
 	"bytes"
 	"image/color"
