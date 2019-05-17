@@ -1,12 +1,13 @@
 package systems
 
 import (
-	// "encoding/csv"
-	// "fmt"
-	// "io"
+	"encoding/csv"
+	"fmt"
+	"io"
+	"strconv"
 
 	"math/rand"
-	// "os"
+	"os"
 	"time"
 
 	"github.com/EngoEngine/ecs"
@@ -53,49 +54,42 @@ func (ts *TileSystem) Update(dt float32) {
 func (ts *TileSystem) New(w *ecs.World) {
 	rand.Seed(time.Now().UnixNano())
 
-	// file, err := os.Open("../assets/stages/test.csv")
-	// if err != nil {
-	// 	fmt.Println(err)
-	// }
-	// reader := csv.NewReader(file)
-	// reader.Comma = ','
-	// reader.LazyQuotes = true
-	// for {
-	// 	record, err := reader.Read()
-	// 	if err == io.EOF {
-	// 		break
-	// 	} else if err != nil {
-	// 		panic(err)
-	// 	}
-	// 	fmt.Println(record)
-	// }
-
 	ts.world = w
 	// 素材シートの読み込み
 	loadTxt := "pics/overworld_tileset_grass.png"
 	Spritesheet = common.NewSpritesheetWithBorderFromFile(loadTxt, 16, 16, 0, 0)
 	Tiles := make([]*Tile, 0)
 	ObstaclePoints = map[int][]int{}
-	for i := 0; i < 30; i++ {
-		for j := 0; j < 50; j++ {
-			// ランダムで描画するタイルの種類を変える
-			randNum := rand.Intn(50)
-			var tileNum int
-			switch randNum {
-			case 0:
-				tileNum = 1
-			case 1:
-				tileNum = 95
+	file, err := os.Open("./stages/main.csv")
+	if err != nil {
+		fmt.Println(err)
+	}
+	reader := csv.NewReader(file)
+	reader.Comma = ','
+	reader.LazyQuotes = true
+	i := 0
+	for {
+		record, err := reader.Read()
+		if err == io.EOF {
+			break
+		} else if err != nil {
+			panic(err)
+		}
+		j := 0
+		for _, r := range record {
+			fmt.Println(r)
+			tileNum, err := strconv.Atoi(r)
+			if err != nil {
+				fmt.Println("CSVファイルがおかしい")
+			}
+			if tileNum == 95 {
 				// 障害物として座標を記録（曖昧化のために、前後の複数点を記録）
 				for x := 0; x < utils.SimpleAbstractionValue; x++ {
 					for y := 0; y < utils.SimpleAbstractionValue; y++ {
 						ObstaclePoints[i*16*tileMultiply+x] = append(ObstaclePoints[i*16*tileMultiply+x], j*16*tileMultiply+y)
 					}
 				}
-			default:
-				tileNum = 0
-			}
-			// Tileエンティティの作成
+			} // Tileエンティティの作成
 			tile := &Tile{BasicEntity: ecs.NewBasic()}
 			// 描画位置の指定
 			tile.SpaceComponent.Position = engo.Point{
@@ -110,7 +104,11 @@ func (ts *TileSystem) New(w *ecs.World) {
 
 			tile.RenderComponent.SetZIndex(0)
 			Tiles = append(Tiles, tile)
+
+			j += 1
+
 		}
+		i += 1
 	}
 
 	// 障害物座標をutilsにセット（循環参照ができないため）

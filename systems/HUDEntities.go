@@ -27,7 +27,7 @@ func AddHeart(w *ecs.World) {
 	texture, _ := common.LoadedSprite("pics/heart.png")
 	hud.RenderComponent = common.RenderComponent{
 		Drawable: texture,
-		Scale:    engo.Point{X: 2, Y: 2},
+		Scale:    engo.Point{X: 1.6, Y: 1.6},
 	}
 	hud.RenderComponent.SetShader(common.HUDShader)
 	hud.RenderComponent.SetZIndex(1)
