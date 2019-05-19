@@ -21,7 +21,7 @@ var Spritesheet *common.Spritesheet
 
 var camEntity *common.CameraSystem
 
-// ObstaclePoints 障害物のある座標
+// ObstaclePoints 障害物のある座標(タイルベース)
 var ObstaclePoints map[int][]int
 
 // Tile タイル一つ一つを表す構造体
@@ -77,18 +77,13 @@ func (ts *TileSystem) New(w *ecs.World) {
 		}
 		j := 0
 		for _, r := range record {
-			fmt.Println(r)
 			tileNum, err := strconv.Atoi(r)
 			if err != nil {
 				fmt.Println("CSVファイルがおかしい")
 			}
 			if tileNum == 95 {
-				// 障害物として座標を記録（曖昧化のために、前後の複数点を記録）
-				for x := 0; x < utils.SimpleAbstractionValue; x++ {
-					for y := 0; y < utils.SimpleAbstractionValue; y++ {
-						ObstaclePoints[i*16*tileMultiply+x] = append(ObstaclePoints[i*16*tileMultiply+x], j*16*tileMultiply+y)
-					}
-				}
+				// 障害物として、タイルベースで座標を記録（曖昧化のために、前後の複数点を記録）
+				ObstaclePoints[i] = append(ObstaclePoints[i], j)
 			} // Tileエンティティの作成
 			tile := &Tile{BasicEntity: ecs.NewBasic()}
 			// 描画位置の指定

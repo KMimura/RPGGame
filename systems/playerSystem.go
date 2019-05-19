@@ -1,8 +1,6 @@
 package systems
 
 import (
-	"fmt"
-
 	"github.com/EngoEngine/ecs"
 	"github.com/EngoEngine/engo"
 	"github.com/EngoEngine/engo/common"
@@ -100,8 +98,8 @@ func (ps *PlayerSystem) Update(dt float32) {
 		if ps.playerEntity.direction != 1 {
 			ps.playerEntity.direction = 1
 		} else {
-			// 移動先のブロックに障害物がないか確認
-			if utils.CheckIfPassable(int(ps.playerEntity.SpaceComponent.Position.X+5), int(ps.playerEntity.SpaceComponent.Position.Y)) {
+			// 移動先のブロックに障害物がないか確認(プレーヤーのいるタイルの判別は、画像の中心部)
+			if utils.CheckIfPassable(int(ps.playerEntity.SpaceComponent.Position.X+12+5)/(16*tileMultiply), int(ps.playerEntity.SpaceComponent.Position.Y+12)/(16*tileMultiply)) {
 				if camX < 4000 {
 					ps.playerEntity.SpaceComponent.Position.X += 5
 					if ps.playerEntity.SpaceComponent.Position.X-camX > 100 {
@@ -119,7 +117,7 @@ func (ps *PlayerSystem) Update(dt float32) {
 			ps.playerEntity.direction = 3
 		} else {
 			// 移動先のブロックに障害物がないか確認
-			if utils.CheckIfPassable(int(ps.playerEntity.SpaceComponent.Position.X-5), int(ps.playerEntity.SpaceComponent.Position.Y)) {
+			if utils.CheckIfPassable(int(ps.playerEntity.SpaceComponent.Position.X+12-5)/(16*tileMultiply), int(ps.playerEntity.SpaceComponent.Position.Y+12)/(16*tileMultiply)) {
 				if camX > 200 {
 					ps.playerEntity.SpaceComponent.Position.X -= 5
 					if camX-ps.playerEntity.SpaceComponent.Position.X > 100 {
@@ -139,7 +137,7 @@ func (ps *PlayerSystem) Update(dt float32) {
 			ps.playerEntity.direction = 0
 		} else {
 			// 移動先のブロックに障害物がないか確認
-			if utils.CheckIfPassable(int(ps.playerEntity.SpaceComponent.Position.X), int(ps.playerEntity.SpaceComponent.Position.Y-5)) {
+			if utils.CheckIfPassable(int(ps.playerEntity.SpaceComponent.Position.X+12)/(16*tileMultiply), int(ps.playerEntity.SpaceComponent.Position.Y+12-5)/(16*tileMultiply)) {
 				if camY > 200 {
 					ps.playerEntity.SpaceComponent.Position.Y -= 5
 					if camY-ps.playerEntity.SpaceComponent.Position.Y > 100 {
@@ -159,7 +157,7 @@ func (ps *PlayerSystem) Update(dt float32) {
 			ps.playerEntity.direction = 2
 		} else {
 			// 移動先のブロックに障害物がないか確認
-			if utils.CheckIfPassable(int(ps.playerEntity.SpaceComponent.Position.X), int(ps.playerEntity.SpaceComponent.Position.Y+5)) {
+			if utils.CheckIfPassable(int(ps.playerEntity.SpaceComponent.Position.X+12)/(16*tileMultiply), int(ps.playerEntity.SpaceComponent.Position.Y+12+5)/(16*tileMultiply)) {
 				if camY < 4000 {
 					ps.playerEntity.SpaceComponent.Position.Y += 5
 					if ps.playerEntity.SpaceComponent.Position.Y-camY > 100 {
@@ -196,7 +194,6 @@ func (ps *PlayerSystem) Damage() {
 	}
 	ps.playerEntity.remainingHearts--
 	if ps.playerEntity.remainingHearts < 0 {
-		fmt.Println("DEAD AS FUCK")
 	} else {
 		RemoveHeart(ps.world)
 		ps.playerEntity.immunityTime = 100
