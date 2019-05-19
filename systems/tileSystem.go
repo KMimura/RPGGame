@@ -35,10 +35,11 @@ type Tile struct {
 
 // TileSystem タイルシステム
 type TileSystem struct {
-	world      *ecs.World
-	tileEntity []*Tile
-	texture    *common.Texture
+	world   *ecs.World
+	texture *common.Texture
 }
+
+var tileEntities []*Tile
 
 // tileMultiply タイルを何倍にして表示するか
 var tileMultiply = 4
@@ -112,7 +113,7 @@ func (ts *TileSystem) New(w *ecs.World) {
 		switch sys := system.(type) {
 		case *common.RenderSystem:
 			for _, v := range Tiles {
-				ts.tileEntity = append(ts.tileEntity, v)
+				tileEntities = append(tileEntities, v)
 				sys.Add(&v.BasicEntity, &v.RenderComponent, &v.SpaceComponent)
 			}
 		}

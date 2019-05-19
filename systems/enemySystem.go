@@ -30,10 +30,11 @@ type Enemy struct {
 }
 
 type EnemySystem struct {
-	world       *ecs.World
-	enemyEntity []*Enemy
-	texture     *common.Texture
+	world   *ecs.World
+	texture *common.Texture
 }
+
+var enemyEntities []*Enemy
 
 // 被弾した時の画像
 var explosion *common.Texture
@@ -54,7 +55,7 @@ func (es *EnemySystem) Update(dt float32) {
 	// プレーヤーの座標（画像の大きさを加味）
 	playerX := int(playerInstance.SpaceComponent.Position.X+playerRadius) / utils.AbstractionValue
 	playerY := int(playerInstance.SpaceComponent.Position.Y+playerRadius) / utils.AbstractionValue
-	for _, o := range es.enemyEntity {
+	for _, o := range enemyEntities {
 		if o.explosionDuration != 0 {
 			if o.explosionDuration == 1 {
 				// 爆発し始め
@@ -63,7 +64,7 @@ func (es *EnemySystem) Update(dt float32) {
 			// 爆発が終わった場合、敵を削除
 			if o.explosionDuration >= explosionTime {
 				es.world.RemoveEntity(o.BasicEntity)
-				es.enemyEntity = removeEnemy(es.enemyEntity, o)
+				enemyEntities = removeEnemy(enemyEntities, o)
 			}
 			o.explosionDuration++
 		} else {
@@ -163,7 +164,7 @@ func (es *EnemySystem) New(w *ecs.World) {
 			}
 			Enemies = append(Enemies, &enemy)
 		}
-		es.enemyEntity = Enemies
+		enemyEntities = Enemies
 	}
 	for _, system := range w.Systems() {
 		switch sys := system.(type) {

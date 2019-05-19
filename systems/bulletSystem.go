@@ -17,11 +17,12 @@ type Bullet struct {
 
 // BulletSystem 弾システム
 type BulletSystem struct {
-	world          *ecs.World
-	playerEntity   *Player
-	texture        *common.Texture
-	bulletEntities []*Bullet
+	world        *ecs.World
+	playerEntity *Player
+	texture      *common.Texture
 }
+
+var bulletEntities []*Bullet
 
 var bulletSystemInstance *BulletSystem
 
@@ -45,55 +46,50 @@ func (bs *BulletSystem) Remove(entity ecs.BasicEntity) {
 
 // Update アップデートする
 func (bs *BulletSystem) Update(dt float32) {
-	for _, bullet := range bs.bulletEntities {
+	for _, bullet := range bulletEntities {
 		switch bullet.direction {
 		case 0:
 			if utils.CheckIfPassable(int(bullet.SpaceComponent.Position.X), int(bullet.SpaceComponent.Position.Y)-10) && bullet.SpaceComponent.Position.Y >= camEntity.Y()-250 {
 				bullet.SpaceComponent.Position.Y -= 10
 			} else {
 				bs.Remove(bullet.BasicEntity)
-				bs.bulletEntities = removeBullet(bs.bulletEntities, bullet)
+				bulletEntities = removeBullet(bulletEntities, bullet)
 			}
 		case 1:
 			if utils.CheckIfPassable(int(bullet.SpaceComponent.Position.X)+10, int(bullet.SpaceComponent.Position.Y)) && bullet.SpaceComponent.Position.X <= camEntity.X()+250 {
 				bullet.SpaceComponent.Position.X += 10
 			} else {
 				bs.Remove(bullet.BasicEntity)
-				bs.bulletEntities = removeBullet(bs.bulletEntities, bullet)
+				bulletEntities = removeBullet(bulletEntities, bullet)
 			}
 		case 2:
 			if utils.CheckIfPassable(int(bullet.SpaceComponent.Position.X), int(bullet.SpaceComponent.Position.Y)+10) && bullet.SpaceComponent.Position.Y <= camEntity.Y()+250 {
 				bullet.SpaceComponent.Position.Y += 10
 			} else {
 				bs.Remove(bullet.BasicEntity)
-				bs.bulletEntities = removeBullet(bs.bulletEntities, bullet)
+				bulletEntities = removeBullet(bulletEntities, bullet)
 			}
 		case 3:
 			if utils.CheckIfPassable(int(bullet.SpaceComponent.Position.X)-10, int(bullet.SpaceComponent.Position.Y)) && bullet.SpaceComponent.Position.X >= camEntity.X()-250 {
 				bullet.SpaceComponent.Position.X -= 10
 			} else {
 				bs.Remove(bullet.BasicEntity)
-				bs.bulletEntities = removeBullet(bs.bulletEntities, bullet)
+				bulletEntities = removeBullet(bulletEntities, bullet)
 			}
 		}
 		// 弾の座標(自身の画像の大きさを加味 + 曖昧化するために割る)
 		bulletX := int(bullet.SpaceComponent.Position.X+bulletRadius) / utils.AbstractionValue
 		bulletY := int(bullet.SpaceComponent.Position.Y+bulletRadius) / utils.AbstractionValue
-		for _, system := range bs.world.Systems() {
-			switch sys := system.(type) {
-			case *EnemySystem:
-				// 当たり判定は、敵の画像の大きさを加味して行う
-				for _, e := range sys.enemyEntity {
-					if bulletX == int(e.SpaceComponent.Position.X+enemyRadius)/50 {
-						if bulletY == int(e.SpaceComponent.Position.Y+enemyRadius)/50 {
-							// 爆発中でないかチェック
-							if e.explosionDuration == 0 {
-								e.explosionDuration = 1
-								// 敵に命中した弾はワールドから削除
-								bs.Remove(bullet.BasicEntity)
-								bs.bulletEntities = removeBullet(bs.bulletEntities, bullet)
-							}
-						}
+		// 当たり判定は、敵の画像の大きさを加味して行う
+		for _, e := range enemyEntities {
+			if bulletX == int(e.SpaceComponent.Position.X+enemyRadius)/50 {
+				if bulletY == int(e.SpaceComponent.Position.Y+enemyRadius)/50 {
+					// 爆発中でないかチェック
+					if e.explosionDuration == 0 {
+						e.explosionDuration = 1
+						// 敵に命中した弾はワールドから削除
+						bs.Remove(bullet.BasicEntity)
+						bulletEntities = removeBullet(bulletEntities, bullet)
 					}
 				}
 			}
@@ -119,7 +115,7 @@ func (bs *BulletSystem) addBullet(x, y float32, dir int) {
 	}
 	bullet.RenderComponent.SetZIndex(1)
 	bullet.direction = dir
-	bs.bulletEntities = append(bs.bulletEntities, &bullet)
+	bulletEntities = append(bulletEntities, &bullet)
 	bs.texture = texture
 	for _, system := range bs.world.Systems() {
 		switch sys := system.(type) {

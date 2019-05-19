@@ -14,7 +14,7 @@ type Heart struct {
 }
 
 // HeartEntities ハートのエンティティ
-var HeartEntities []Heart
+var HeartEntities []*Heart
 
 // AddHeart ライフを表すハートの画像を表示
 func AddHeart(w *ecs.World) {
@@ -38,7 +38,7 @@ func AddHeart(w *ecs.World) {
 			sys.Add(&hud.BasicEntity, &hud.RenderComponent, &hud.SpaceComponent)
 		}
 	}
-	HeartEntities = append(HeartEntities, hud)
+	HeartEntities = append(HeartEntities, &hud)
 }
 
 // RemoveHeart ライフの表示を減らす
@@ -55,7 +55,7 @@ func RemoveHeart(w *ecs.World) {
 			sys.Remove(heartToRemove.BasicEntity)
 		}
 	}
-	result := []Heart{}
+	result := []*Heart{}
 	if existingHearts > 1 {
 		for i := 0; i < existingHearts-1; i++ {
 			result = append(result, HeartEntities[i])

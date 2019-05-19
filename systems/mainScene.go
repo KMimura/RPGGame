@@ -1,4 +1,4 @@
-package scenes
+package systems
 
 // test
 import (
@@ -8,15 +8,14 @@ import (
 	"github.com/EngoEngine/ecs"
 	"github.com/EngoEngine/engo"
 	"github.com/EngoEngine/engo/common"
-	"github.com/KMimura/RPGGame/systems"
 	"golang.org/x/image/font/gofont/gosmallcaps"
 )
 
-type myScene struct{}
+type MainScene struct{}
 
-func (*myScene) Type() string { return "myGame" }
+func (*MainScene) Type() string { return "mainScene" }
 
-func (*myScene) Preload() {
+func (*MainScene) Preload() {
 	engo.Files.Load("pics/greenoctocat_top.png",
 		"pics/greenoctocat_left.png",
 		"pics/greenoctocat_right.png",
@@ -29,7 +28,7 @@ func (*myScene) Preload() {
 	common.SetBackground(color.RGBA{255, 250, 220, 0})
 }
 
-func (*myScene) Setup(u engo.Updater) {
+func (*MainScene) Setup(u engo.Updater) {
 	engo.Input.RegisterButton("MoveRight", engo.KeyD, engo.KeyArrowRight)
 	engo.Input.RegisterButton("MoveLeft", engo.KeyA, engo.KeyArrowLeft)
 	engo.Input.RegisterButton("MoveUp", engo.KeyW, engo.KeyArrowUp)
@@ -37,27 +36,15 @@ func (*myScene) Setup(u engo.Updater) {
 	engo.Input.RegisterButton("Space", engo.KeySpace)
 	world, _ := u.(*ecs.World)
 	world.AddSystem(&common.RenderSystem{})
+	world.AddSystem(&TileSystem{})
+	world.AddSystem(&PlayerSystem{})
+	world.AddSystem(&EnemySystem{})
+	world.AddSystem(&BulletSystem{})
 	for i := 0; i < 5; i++ {
-		systems.AddHeart(world)
+		AddHeart(world)
 	}
-	world.AddSystem(&systems.TileSystem{})
-	world.AddSystem(&systems.PlayerSystem{})
-	world.AddSystem(&systems.EnemySystem{})
-	world.AddSystem(&systems.BulletSystem{})
 }
 
-func (*myScene) Exit() {
+func (*MainScene) Exit() {
 	engo.Exit()
-}
-
-// Run シーンを起動する
-func Run() {
-	opts := engo.RunOptions{
-		Title:          "myGame",
-		Width:          600,
-		Height:         400,
-		StandardInputs: true,
-		NotResizable:   true,
-	}
-	engo.Run(opts, &myScene{})
 }
