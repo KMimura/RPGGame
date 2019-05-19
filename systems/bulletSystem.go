@@ -25,6 +25,9 @@ type BulletSystem struct {
 
 var bulletSystemInstance *BulletSystem
 
+// 弾の画像の半径
+var bulletRadius float32 = 12.5
+
 func (bs *BulletSystem) New(w *ecs.World) {
 	bs.world = w
 	bulletSystemInstance = bs
@@ -73,15 +76,16 @@ func (bs *BulletSystem) Update(dt float32) {
 				bs.bulletEntities = removeBullet(bs.bulletEntities, bullet)
 			}
 		}
-		// 弾の座標(曖昧化するために割る)
-		bulletX := int(bullet.SpaceComponent.Position.X) / utils.AbstractionValue
-		bulletY := int(bullet.SpaceComponent.Position.Y) / utils.AbstractionValue
+		// 弾の座標(自身の画像の大きさを加味 + 曖昧化するために割る)
+		bulletX := int(bullet.SpaceComponent.Position.X+bulletRadius) / utils.AbstractionValue
+		bulletY := int(bullet.SpaceComponent.Position.Y+bulletRadius) / utils.AbstractionValue
 		for _, system := range bs.world.Systems() {
 			switch sys := system.(type) {
 			case *EnemySystem:
+				// 当たり判定は、敵の画像の大きさを加味して行う
 				for _, e := range sys.enemyEntity {
-					if bulletX == int(e.SpaceComponent.Position.X)/50 {
-						if bulletY == int(e.SpaceComponent.Position.Y)/50 {
+					if bulletX == int(e.SpaceComponent.Position.X+enemyRadius)/50 {
+						if bulletY == int(e.SpaceComponent.Position.Y+enemyRadius)/50 {
 							// 爆発中でないかチェック
 							if e.explosionDuration == 0 {
 								e.explosionDuration = 1

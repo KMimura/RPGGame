@@ -14,6 +14,9 @@ import (
 // 被弾した際に爆発し続ける時間
 var explosionTime = 30
 
+// 敵の画像の大きさ
+var enemyRadius float32 = 15
+
 type Enemy struct {
 	ecs.BasicEntity
 	common.RenderComponent
@@ -48,8 +51,9 @@ func (es *EnemySystem) Update(dt float32) {
 	// カメラとプレーヤーの位置を取得
 	camX := camEntity.X()
 	camY := camEntity.Y()
-	playerX := int(playerInstance.SpaceComponent.Position.X) / utils.AbstractionValue
-	playerY := int(playerInstance.SpaceComponent.Position.Y) / utils.AbstractionValue
+	// プレーヤーの座標（画像の大きさを加味）
+	playerX := int(playerInstance.SpaceComponent.Position.X+playerRadius) / utils.AbstractionValue
+	playerY := int(playerInstance.SpaceComponent.Position.Y+playerRadius) / utils.AbstractionValue
 	for _, o := range es.enemyEntity {
 		if o.explosionDuration != 0 {
 			if o.explosionDuration == 1 {
@@ -65,8 +69,8 @@ func (es *EnemySystem) Update(dt float32) {
 		} else {
 			// 画面に描画されていないオブジェクトは移動処理をしない
 			if o.SpaceComponent.Position.X < camX+300 && o.SpaceComponent.Position.X > camX-300 && o.SpaceComponent.Position.Y < camY+300 && o.SpaceComponent.Position.Y > camY-300 {
-				// プレーヤーとの当たり判定
-				if int(o.SpaceComponent.Position.X)/utils.AbstractionValue == playerX && int(o.SpaceComponent.Position.Y)/utils.AbstractionValue == playerY {
+				// プレーヤーとの当たり判定(画像の大きさを加味)
+				if int(o.SpaceComponent.Position.X+enemyRadius)/utils.AbstractionValue == playerX && int(o.SpaceComponent.Position.Y+enemyRadius)/utils.AbstractionValue == playerY {
 					playerSystemInstance.Damage()
 				}
 				// 移動をしていない場合
@@ -147,7 +151,7 @@ func (es *EnemySystem) New(w *ecs.World) {
 			explosion, _ = common.LoadedSprite("pics/explosion.png")
 			enemy.RenderComponent = common.RenderComponent{
 				Drawable: texture,
-				Scale:    engo.Point{X: 1.1, Y: 1.1},
+				Scale:    engo.Point{X: 1, Y: 1},
 			}
 			enemy.RenderComponent.SetZIndex(1)
 			es.texture = texture
