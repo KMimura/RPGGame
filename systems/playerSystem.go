@@ -18,6 +18,8 @@ type Player struct {
 	remainingHearts int
 	// ダメージを受けない状態の残り時間
 	immunityTime int
+	// 移動の速度
+	velocity float32
 }
 
 // PlayerSystem プレーヤーシステム
@@ -32,6 +34,9 @@ var playerSystemInstance *PlayerSystem
 
 // 最大の弾の数
 var maxBulletCount = 3
+
+// 画像の半径
+var playerRadius float32 = 12.5
 
 // それぞれの向きのプレーヤーの画像
 var topPic *common.Texture
@@ -58,6 +63,8 @@ func (ps *PlayerSystem) New(w *ecs.World) {
 		Width:    30,
 		Height:   30,
 	}
+	// 速度
+	player.velocity = 5
 	// 画像の読み込み
 	topPic, _ = common.LoadedSprite("pics/greenoctocat_top.png")
 	rightPic, _ = common.LoadedSprite("pics/greenoctocat_right.png")
@@ -99,7 +106,7 @@ func (ps *PlayerSystem) Update(dt float32) {
 			ps.playerEntity.direction = 1
 		} else {
 			// 移動先のブロックに障害物がないか確認(プレーヤーのいるタイルの判別は、画像の中心部)
-			if utils.CheckIfPassable(int(ps.playerEntity.SpaceComponent.Position.X+12+5)/(16*tileMultiply), int(ps.playerEntity.SpaceComponent.Position.Y+12)/(16*tileMultiply)) {
+			if utils.CheckIfPassable(int(ps.playerEntity.SpaceComponent.Position.X+playerRadius+ps.playerEntity.velocity)/(16*tileMultiply), int(ps.playerEntity.SpaceComponent.Position.Y+playerRadius)/(16*tileMultiply)) {
 				if camX < 4000 {
 					ps.playerEntity.SpaceComponent.Position.X += 5
 					if ps.playerEntity.SpaceComponent.Position.X-camX > 100 {
@@ -117,7 +124,7 @@ func (ps *PlayerSystem) Update(dt float32) {
 			ps.playerEntity.direction = 3
 		} else {
 			// 移動先のブロックに障害物がないか確認
-			if utils.CheckIfPassable(int(ps.playerEntity.SpaceComponent.Position.X+12-5)/(16*tileMultiply), int(ps.playerEntity.SpaceComponent.Position.Y+12)/(16*tileMultiply)) {
+			if utils.CheckIfPassable(int(ps.playerEntity.SpaceComponent.Position.X+playerRadius-ps.playerEntity.velocity)/(16*tileMultiply), int(ps.playerEntity.SpaceComponent.Position.Y+playerRadius)/(16*tileMultiply)) {
 				if camX > 200 {
 					ps.playerEntity.SpaceComponent.Position.X -= 5
 					if camX-ps.playerEntity.SpaceComponent.Position.X > 100 {
@@ -137,7 +144,7 @@ func (ps *PlayerSystem) Update(dt float32) {
 			ps.playerEntity.direction = 0
 		} else {
 			// 移動先のブロックに障害物がないか確認
-			if utils.CheckIfPassable(int(ps.playerEntity.SpaceComponent.Position.X+12)/(16*tileMultiply), int(ps.playerEntity.SpaceComponent.Position.Y+12-5)/(16*tileMultiply)) {
+			if utils.CheckIfPassable(int(ps.playerEntity.SpaceComponent.Position.X+playerRadius)/(16*tileMultiply), int(ps.playerEntity.SpaceComponent.Position.Y+playerRadius-ps.playerEntity.velocity)/(16*tileMultiply)) {
 				if camY > 200 {
 					ps.playerEntity.SpaceComponent.Position.Y -= 5
 					if camY-ps.playerEntity.SpaceComponent.Position.Y > 100 {
@@ -157,7 +164,7 @@ func (ps *PlayerSystem) Update(dt float32) {
 			ps.playerEntity.direction = 2
 		} else {
 			// 移動先のブロックに障害物がないか確認
-			if utils.CheckIfPassable(int(ps.playerEntity.SpaceComponent.Position.X+12)/(16*tileMultiply), int(ps.playerEntity.SpaceComponent.Position.Y+12+5)/(16*tileMultiply)) {
+			if utils.CheckIfPassable(int(ps.playerEntity.SpaceComponent.Position.X+playerRadius)/(16*tileMultiply), int(ps.playerEntity.SpaceComponent.Position.Y+playerRadius+ps.playerEntity.velocity)/(16*tileMultiply)) {
 				if camY < 4000 {
 					ps.playerEntity.SpaceComponent.Position.Y += 5
 					if ps.playerEntity.SpaceComponent.Position.Y-camY > 100 {
