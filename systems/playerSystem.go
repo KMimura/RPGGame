@@ -181,25 +181,7 @@ func (ps *PlayerSystem) Update(dt float32) {
 			// 実験的に、下に行きすぎたらシーンの切り替えを行う
 			if ps.playerEntity.SpaceComponent.Position.Y > 1000 {
 				fmt.Println("NEW SCENE")
-				for _, system := range ps.world.Systems() {
-					switch sys := system.(type) {
-					case *common.RenderSystem:
-						sys.Remove(playerInstance.BasicEntity)
-						for _, b := range bulletEntities {
-							sys.Remove(b.BasicEntity)
-						}
-						for _, e := range enemyEntities {
-							sys.Remove(e.BasicEntity)
-						}
-						for _, t := range tileEntities {
-							sys.Remove(t.BasicEntity)
-						}
-						for _, h := range HeartEntities {
-							sys.Remove(h.BasicEntity)
-						}
-					}
-				}
-				engo.SetScene(&intermissonScene{}, true)
+				// TODO
 			}
 		}
 	} else if engo.Input.Button("Space").JustPressed() {
