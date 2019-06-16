@@ -1,8 +1,6 @@
 package systems
 
 import (
-	"fmt"
-
 	"github.com/EngoEngine/ecs"
 	"github.com/EngoEngine/engo"
 	"github.com/EngoEngine/engo/common"
@@ -89,6 +87,10 @@ func (ps *PlayerSystem) New(w *ecs.World) {
 	common.CameraBounds = engo.AABB{
 		Min: engo.Point{X: 0, Y: 0},
 		Max: engo.Point{X: 1200, Y: 1200},
+	}
+
+	for i := 0; i < 5; i++ {
+		AddHeart(w)
 	}
 }
 
@@ -180,8 +182,7 @@ func (ps *PlayerSystem) Update(dt float32) {
 			}
 			// 実験的に、下に行きすぎたらシーンの切り替えを行う
 			if ps.playerEntity.SpaceComponent.Position.Y > 1000 {
-				fmt.Println("NEW SCENE")
-				// TODO
+				ps.world.AddSystem(&IntermissonSystem{})
 			}
 		}
 	} else if engo.Input.Button("Space").JustPressed() {

@@ -13,6 +13,15 @@ import (
 
 type MainScene struct{}
 
+// 読み込むcsvファイル
+const (
+	MAIN      = "./stages/main.csv"
+	SECONDARY = "./stages/secondary.csv"
+)
+
+// 現在のステージ
+var currentStage string
+
 func (*MainScene) Type() string { return "mainScene" }
 
 func (*MainScene) Preload() {
@@ -29,6 +38,8 @@ func (*MainScene) Preload() {
 }
 
 func (*MainScene) Setup(u engo.Updater) {
+	// とりあえずメインのステージを読み込む
+	currentStage = MAIN
 	engo.Input.RegisterButton("MoveRight", engo.KeyD, engo.KeyArrowRight)
 	engo.Input.RegisterButton("MoveLeft", engo.KeyA, engo.KeyArrowLeft)
 	engo.Input.RegisterButton("MoveUp", engo.KeyW, engo.KeyArrowUp)
@@ -40,9 +51,6 @@ func (*MainScene) Setup(u engo.Updater) {
 	world.AddSystem(&PlayerSystem{})
 	world.AddSystem(&EnemySystem{})
 	world.AddSystem(&BulletSystem{})
-	for i := 0; i < 5; i++ {
-		AddHeart(world)
-	}
 }
 
 func (*MainScene) Exit() {
