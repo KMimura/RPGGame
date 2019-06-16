@@ -25,10 +25,10 @@ func SetObstaclePoints(val map[int][]int) {
 
 // CheckIfPassable 障害物があるかどうかを判断
 func CheckIfPassable(x, y int) bool {
-	if obstaclePoints[x] != nil {
-		if Contains(obstaclePoints[x], y) {
+ if obstaclePoints[y/(16*4)] != nil {
+ 	if Contains(obstaclePoints[y/16*4], x/16*4) {  //とりあえず今はtileMultipyNumはなしで直接4倍指定
 			return false
-		}
+		 }
 	}
 	return true
 }
