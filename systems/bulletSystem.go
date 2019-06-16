@@ -5,6 +5,7 @@ import (
 	"github.com/EngoEngine/engo"
 	"github.com/EngoEngine/engo/common"
 	"github.com/KMimura/RPGGame/utils"
+
 )
 
 // Bullet 弾を表す構造体
@@ -78,12 +79,11 @@ func (bs *BulletSystem) Update(dt float32) {
 			}
 		}
 		// 弾の座標(自身の画像の大きさを加味 + 曖昧化するために割る)
-		bulletX := int(bullet.SpaceComponent.Position.X+bulletRadius) / utils.AbstractionValue
-		bulletY := int(bullet.SpaceComponent.Position.Y+bulletRadius) / utils.AbstractionValue
+		bulletX := int(bullet.SpaceComponent.Position.X+bulletRadius)
+		bulletY := int(bullet.SpaceComponent.Position.Y+bulletRadius)
 		// 当たり判定は、敵の画像の大きさを加味して行う
 		for _, e := range enemyEntities {
-			if bulletX == int(e.SpaceComponent.Position.X+enemyRadius)/50 {
-				if bulletY == int(e.SpaceComponent.Position.Y+enemyRadius)/50 {
+			if (bulletX-int(e.SpaceComponent.Position.X+enemyRadius))*(bulletX-int(e.SpaceComponent.Position.X+enemyRadius))+(bulletY-int(e.SpaceComponent.Position.Y+enemyRadius))*(bulletY-int(e.SpaceComponent.Position.Y+enemyRadius)) <= 256  {
 					// 爆発中でないかチェック
 					if e.explosionDuration == 0 {
 						e.explosionDuration = 1
@@ -91,7 +91,6 @@ func (bs *BulletSystem) Update(dt float32) {
 						bs.Remove(bullet.BasicEntity)
 						bulletEntities = removeBullet(bulletEntities, bullet)
 					}
-				}
 			}
 		}
 	}
