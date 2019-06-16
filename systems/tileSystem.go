@@ -21,6 +21,9 @@ var Spritesheet *common.Spritesheet
 
 var camEntity *common.CameraSystem
 
+// 敵の画像の大きさ
+var tileRadius float32 = 7
+
 // ObstaclePoints 障害物のある座標(タイルベース)
 var ObstaclePoints map[int][]int
 

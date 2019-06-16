@@ -15,7 +15,7 @@ import (
 var explosionTime = 30
 
 // 敵の画像の大きさ
-var enemyRadius float32 = 15
+var enemyRadius float32 = 7
 
 type Enemy struct {
 	ecs.BasicEntity

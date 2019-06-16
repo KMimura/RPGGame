@@ -32,7 +32,9 @@ func (*MainScene) Preload() {
 		"pics/ghost.png",
 		"pics/overworld_tileset_grass.png",
 		"pics/explosion.png",
-		"pics/heart.png")
+		"pics/heart.png",
+		"pics/black_bk.png",
+	)
 	engo.Files.LoadReaderData("go.ttf", bytes.NewReader(gosmallcaps.TTF))
 	common.SetBackground(color.RGBA{255, 250, 220, 0})
 }
