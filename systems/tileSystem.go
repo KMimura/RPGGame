@@ -128,5 +128,4 @@ func (ts *TileSystem) New(w *ecs.World) {
 			camEntity = sys
 		}
 	}
-
 }

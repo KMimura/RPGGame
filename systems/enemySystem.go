@@ -72,7 +72,7 @@ func (es *EnemySystem) Update(dt float32) {
 			if o.SpaceComponent.Position.X < camX+300 && o.SpaceComponent.Position.X > camX-300 && o.SpaceComponent.Position.Y < camY+300 && o.SpaceComponent.Position.Y > camY-300 {
 				// プレーヤーとの当たり判定(画像の大きさを加味)
 				if int(o.SpaceComponent.Position.X+enemyRadius)/utils.AbstractionValue == playerX && int(o.SpaceComponent.Position.Y+enemyRadius)/utils.AbstractionValue == playerY {
-					playerSystemInstance.Damage()
+					AfflictDamage(es.world)
 				}
 				// 移動をしていない場合
 				if o.movingState == 0 {
