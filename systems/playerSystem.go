@@ -26,6 +26,8 @@ type Player struct {
 	cellY int
 	// 移動の目標地点の座標
 	destinationPoint float32
+	// どの方向を向いているか (1 => 上, 2 => 右, 3 => 下 4 => 左)
+	facingDirection int
 }
 
 // PlayerSystem プレーヤーシステム
@@ -58,6 +60,7 @@ func (ps *PlayerSystem) New(w *ecs.World) {
 	player.remainingHearts = 5
 	// 移動はしていない
 	player.direction = 0
+	player.facingDirection = 1
 
 	playerInstance = &player
 
@@ -115,30 +118,34 @@ func (ps *PlayerSystem) Update(dt float32) {
 		if engo.Input.Button("MoveUp").Down() {
 			if utils.CheckIfPassable(playerInstance.cellX, playerInstance.cellY-1) {
 				playerInstance.direction = 1
+				playerInstance.facingDirection = 1
 				playerInstance.destinationPoint = playerInstance.SpaceComponent.Position.Y - float32(16*tileMultiply)
-				playerInstance.cellY -= 1
+				playerInstance.cellY--
 			}
 		} else if engo.Input.Button("MoveRight").Down() {
 			if utils.CheckIfPassable(playerInstance.cellX+1, playerInstance.cellY) {
 				playerInstance.direction = 2
+				playerInstance.facingDirection = 2
 				playerInstance.destinationPoint = playerInstance.SpaceComponent.Position.X + float32(16*tileMultiply)
-				playerInstance.cellX += 1
+				playerInstance.cellX++
 			}
 		} else if engo.Input.Button("MoveDown").Down() {
 			if utils.CheckIfPassable(playerInstance.cellX, playerInstance.cellY+1) {
 				playerInstance.direction = 3
+				playerInstance.facingDirection = 3
 				playerInstance.destinationPoint = playerInstance.SpaceComponent.Position.Y + float32(16*tileMultiply)
-				playerInstance.cellY += 1
+				playerInstance.cellY++
 			}
 		} else if engo.Input.Button("MoveLeft").Down() {
 			if utils.CheckIfPassable(playerInstance.cellX-1, playerInstance.cellY) {
 				playerInstance.direction = 4
+				playerInstance.facingDirection = 4
 				playerInstance.destinationPoint = playerInstance.SpaceComponent.Position.X - float32(16*tileMultiply)
-				playerInstance.cellX -= 1
+				playerInstance.cellX--
 			}
 		} else if engo.Input.Button("Space").JustPressed() {
 			if len(bulletEntities) < maxBulletCount {
-				bulletSystemInstance.addBullet(ps.playerEntity.SpaceComponent.Position.X, ps.playerEntity.SpaceComponent.Position.Y, ps.playerEntity.direction)
+				bulletSystemInstance.addBullet(ps.playerEntity.SpaceComponent.Position.X, ps.playerEntity.SpaceComponent.Position.Y, ps.playerEntity.facingDirection)
 			}
 		}
 	case 1:
@@ -170,7 +177,7 @@ func (ps *PlayerSystem) Update(dt float32) {
 		// 右への移動処理
 		// カメラを動かす距離
 		camMoveLen := playerInstance.velocity
-		if playerInstance.SpaceComponent.Position.X+playerInstance.velocity > playerInstance.destinationPoint {
+		if playerInstance.SpaceComponent.Position.X+playerInstance.velocity < playerInstance.destinationPoint {
 			// まるまるワンフレーム動き続けることができる場合
 			playerInstance.SpaceComponent.Position.X += playerInstance.velocity
 		} else if playerInstance.SpaceComponent.Position.X+playerInstance.velocity == playerInstance.destinationPoint {
@@ -195,7 +202,7 @@ func (ps *PlayerSystem) Update(dt float32) {
 		// 下への移動処理
 		// カメラを動かす距離
 		camMoveLen := playerInstance.velocity
-		if playerInstance.SpaceComponent.Position.Y+playerInstance.velocity > playerInstance.destinationPoint {
+		if playerInstance.SpaceComponent.Position.Y+playerInstance.velocity < playerInstance.destinationPoint {
 			// まるまるワンフレーム動き続けることができる場合
 			playerInstance.SpaceComponent.Position.Y += playerInstance.velocity
 		} else if playerInstance.SpaceComponent.Position.Y+playerInstance.velocity == playerInstance.destinationPoint {
@@ -209,7 +216,7 @@ func (ps *PlayerSystem) Update(dt float32) {
 			playerInstance.direction = 0
 		}
 		// カメラの移動
-		if camX-ps.playerEntity.SpaceComponent.Position.X > 100 {
+		if camY-ps.playerEntity.SpaceComponent.Position.Y > 100 {
 			engo.Mailbox.Dispatch(common.CameraMessage{
 				Axis:        common.YAxis,
 				Value:       camMoveLen,
@@ -234,7 +241,7 @@ func (ps *PlayerSystem) Update(dt float32) {
 			playerInstance.direction = 0
 		}
 		// カメラの移動
-		if ps.playerEntity.SpaceComponent.Position.Y-camY > 100 {
+		if ps.playerEntity.SpaceComponent.Position.X-camX > 100 {
 			engo.Mailbox.Dispatch(common.CameraMessage{
 				Axis:        common.XAxis,
 				Value:       camMoveLen,
@@ -247,13 +254,13 @@ func (ps *PlayerSystem) Update(dt float32) {
 		ps.playerEntity.immunityTime--
 	}
 	switch ps.playerEntity.direction {
-	case 0:
-		ps.playerEntity.RenderComponent.Drawable = topPic
 	case 1:
-		ps.playerEntity.RenderComponent.Drawable = rightPic
+		ps.playerEntity.RenderComponent.Drawable = topPic
 	case 2:
-		ps.playerEntity.RenderComponent.Drawable = bottomPic
+		ps.playerEntity.RenderComponent.Drawable = rightPic
 	case 3:
+		ps.playerEntity.RenderComponent.Drawable = bottomPic
+	case 4:
 		ps.playerEntity.RenderComponent.Drawable = leftPic
 	}
 }
