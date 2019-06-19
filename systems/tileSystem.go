@@ -13,7 +13,6 @@ import (
 	"github.com/EngoEngine/ecs"
 	"github.com/EngoEngine/engo"
 	"github.com/EngoEngine/engo/common"
-	"github.com/KMimura/RPGGame/utils"
 )
 
 // Spritesheet タイルの画像
@@ -110,8 +109,6 @@ func (ts *TileSystem) New(w *ecs.World) {
 		i++
 	}
 
-	// 障害物座標をutilsにセット（循環参照ができないため）
-	utils.SetObstaclePoints(ObstaclePoints)
 	for _, system := range ts.world.Systems() {
 		switch sys := system.(type) {
 		case *common.RenderSystem:

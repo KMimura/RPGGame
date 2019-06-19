@@ -4,7 +4,6 @@ import (
 	"github.com/EngoEngine/ecs"
 	"github.com/EngoEngine/engo"
 	"github.com/EngoEngine/engo/common"
-	"github.com/KMimura/RPGGame/utils"
 )
 
 // Bullet 弾を表す構造体
@@ -49,28 +48,28 @@ func (bs *BulletSystem) Update(dt float32) {
 	for _, bullet := range bulletEntities {
 		switch bullet.direction {
 		case 1:
-			if utils.CheckIfPassable(int(bullet.SpaceComponent.Position.X), int(bullet.SpaceComponent.Position.Y)-10) && bullet.SpaceComponent.Position.Y >= camEntity.Y()-250 {
+			if CheckIfPassable(int(bullet.SpaceComponent.Position.X), int(bullet.SpaceComponent.Position.Y)-10) && bullet.SpaceComponent.Position.Y >= camEntity.Y()-250 {
 				bullet.SpaceComponent.Position.Y -= 10
 			} else {
 				bs.Remove(bullet.BasicEntity)
 				bulletEntities = removeBullet(bulletEntities, bullet)
 			}
 		case 2:
-			if utils.CheckIfPassable(int(bullet.SpaceComponent.Position.X)+10, int(bullet.SpaceComponent.Position.Y)) && bullet.SpaceComponent.Position.X <= camEntity.X()+250 {
+			if CheckIfPassable(int(bullet.SpaceComponent.Position.X)+10, int(bullet.SpaceComponent.Position.Y)) && bullet.SpaceComponent.Position.X <= camEntity.X()+250 {
 				bullet.SpaceComponent.Position.X += 10
 			} else {
 				bs.Remove(bullet.BasicEntity)
 				bulletEntities = removeBullet(bulletEntities, bullet)
 			}
 		case 3:
-			if utils.CheckIfPassable(int(bullet.SpaceComponent.Position.X), int(bullet.SpaceComponent.Position.Y)+10) && bullet.SpaceComponent.Position.Y <= camEntity.Y()+250 {
+			if CheckIfPassable(int(bullet.SpaceComponent.Position.X), int(bullet.SpaceComponent.Position.Y)+10) && bullet.SpaceComponent.Position.Y <= camEntity.Y()+250 {
 				bullet.SpaceComponent.Position.Y += 10
 			} else {
 				bs.Remove(bullet.BasicEntity)
 				bulletEntities = removeBullet(bulletEntities, bullet)
 			}
 		case 4:
-			if utils.CheckIfPassable(int(bullet.SpaceComponent.Position.X)-10, int(bullet.SpaceComponent.Position.Y)) && bullet.SpaceComponent.Position.X >= camEntity.X()-250 {
+			if CheckIfPassable(int(bullet.SpaceComponent.Position.X)-10, int(bullet.SpaceComponent.Position.Y)) && bullet.SpaceComponent.Position.X >= camEntity.X()-250 {
 				bullet.SpaceComponent.Position.X -= 10
 			} else {
 				bs.Remove(bullet.BasicEntity)

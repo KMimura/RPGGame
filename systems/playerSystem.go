@@ -4,7 +4,6 @@ import (
 	"github.com/EngoEngine/ecs"
 	"github.com/EngoEngine/engo"
 	"github.com/EngoEngine/engo/common"
-	"github.com/KMimura/RPGGame/utils"
 )
 
 // Player プレーヤーを表す構造体
@@ -116,25 +115,25 @@ func (ps *PlayerSystem) Update(dt float32) {
 	case 0:
 		// 移動の処理
 		if engo.Input.Button("MoveUp").Down() {
-			if utils.CheckIfPassable(playerInstance.cellX, playerInstance.cellY-1) {
+			if CheckIfPassable(playerInstance.cellX, playerInstance.cellY-1) {
 				playerInstance.direction = 1
 				playerInstance.facingDirection = 1
 				playerInstance.destinationPoint = playerInstance.SpaceComponent.Position.Y - float32(cellLength)
 			}
 		} else if engo.Input.Button("MoveRight").Down() {
-			if utils.CheckIfPassable(playerInstance.cellX+1, playerInstance.cellY) {
+			if CheckIfPassable(playerInstance.cellX+1, playerInstance.cellY) {
 				playerInstance.direction = 2
 				playerInstance.facingDirection = 2
 				playerInstance.destinationPoint = playerInstance.SpaceComponent.Position.X + float32(cellLength)
 			}
 		} else if engo.Input.Button("MoveDown").Down() {
-			if utils.CheckIfPassable(playerInstance.cellX, playerInstance.cellY+1) {
+			if CheckIfPassable(playerInstance.cellX, playerInstance.cellY+1) {
 				playerInstance.direction = 3
 				playerInstance.facingDirection = 3
 				playerInstance.destinationPoint = playerInstance.SpaceComponent.Position.Y + float32(cellLength)
 			}
 		} else if engo.Input.Button("MoveLeft").Down() {
-			if utils.CheckIfPassable(playerInstance.cellX-1, playerInstance.cellY) {
+			if CheckIfPassable(playerInstance.cellX-1, playerInstance.cellY) {
 				playerInstance.direction = 4
 				playerInstance.facingDirection = 4
 				playerInstance.destinationPoint = playerInstance.SpaceComponent.Position.X - float32(cellLength)
