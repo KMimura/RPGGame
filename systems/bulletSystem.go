@@ -11,7 +11,7 @@ type Bullet struct {
 	ecs.BasicEntity
 	common.RenderComponent
 	common.SpaceComponent
-	direction int
+	direction int // 移動の方向
 }
 
 // BulletSystem 弾システム
@@ -21,13 +21,16 @@ type BulletSystem struct {
 	texture      *common.Texture
 }
 
+// 弾のエンティティの配列
 var bulletEntities []*Bullet
 
+// 弾のシステムのインスタンス
 var bulletSystemInstance *BulletSystem
 
 // 弾の画像の半径
 var bulletRadius float32 = 12.5
 
+// New 新しく作成する
 func (bs *BulletSystem) New(w *ecs.World) {
 	bs.world = w
 	bulletSystemInstance = bs
@@ -94,6 +97,7 @@ func (bs *BulletSystem) Update(dt float32) {
 	}
 }
 
+// addBullet 弾を作成する
 func (bs *BulletSystem) addBullet(x, y float32, dir int) {
 	// プレーヤーの作成
 	bullet := Bullet{BasicEntity: ecs.NewBasic()}
@@ -122,6 +126,7 @@ func (bs *BulletSystem) addBullet(x, y float32, dir int) {
 	}
 }
 
+// removeBullet 弾を削除する
 func removeBullet(bullets []*Bullet, search *Bullet) []*Bullet {
 	result := []*Bullet{}
 	for _, v := range bullets {
