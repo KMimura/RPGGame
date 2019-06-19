@@ -89,13 +89,13 @@ func (es *EnemySystem) Update(dt float32) {
 						o.movingState = tmpNum
 						switch tmpNum {
 						case 1:
-							o.destinationPoint = o.SpaceComponent.Position.Y - float32(16*tileMultiply)
+							o.destinationPoint = o.SpaceComponent.Position.Y - float32(cellLength)
 						case 2:
-							o.destinationPoint = o.SpaceComponent.Position.X + float32(16*tileMultiply)
+							o.destinationPoint = o.SpaceComponent.Position.X + float32(cellLength)
 						case 3:
-							o.destinationPoint = o.SpaceComponent.Position.Y + float32(16*tileMultiply)
+							o.destinationPoint = o.SpaceComponent.Position.Y + float32(cellLength)
 						case 4:
-							o.destinationPoint = o.SpaceComponent.Position.X - float32(16*tileMultiply)
+							o.destinationPoint = o.SpaceComponent.Position.X - float32(cellLength)
 						}
 					}
 				}
@@ -160,9 +160,9 @@ func (es *EnemySystem) New(w *ecs.World) {
 		if randomNum == 0 {
 			// 敵の作成
 			enemy := Enemy{BasicEntity: ecs.NewBasic()}
-			enemy.cellX = i * 16 * tileMultiply
-			enemy.cellY = rand.Intn(30) * 16 * tileMultiply
-			enemy.velocity = 5
+			enemy.cellX = i * cellLength
+			enemy.cellY = rand.Intn(30) * cellLength
+			enemy.velocity = 3
 			enemy.SpaceComponent = common.SpaceComponent{
 				Position: engo.Point{X: float32(enemy.cellX), Y: float32(enemy.cellY)},
 				Width:    30,

@@ -67,8 +67,8 @@ func (ps *PlayerSystem) New(w *ecs.World) {
 	// 初期の配置
 	player.cellX = 2
 	player.cellY = 3
-	positionX := 16 * tileMultiply * player.cellX
-	positionY := 16 * tileMultiply * player.cellY
+	positionX := cellLength * player.cellX
+	positionY := cellLength * player.cellY
 	player.SpaceComponent = common.SpaceComponent{
 		Position: engo.Point{X: float32(positionX), Y: float32(positionY)},
 		Width:    30,
@@ -119,25 +119,25 @@ func (ps *PlayerSystem) Update(dt float32) {
 			if utils.CheckIfPassable(playerInstance.cellX, playerInstance.cellY-1) {
 				playerInstance.direction = 1
 				playerInstance.facingDirection = 1
-				playerInstance.destinationPoint = playerInstance.SpaceComponent.Position.Y - float32(16*tileMultiply)
+				playerInstance.destinationPoint = playerInstance.SpaceComponent.Position.Y - float32(cellLength)
 			}
 		} else if engo.Input.Button("MoveRight").Down() {
 			if utils.CheckIfPassable(playerInstance.cellX+1, playerInstance.cellY) {
 				playerInstance.direction = 2
 				playerInstance.facingDirection = 2
-				playerInstance.destinationPoint = playerInstance.SpaceComponent.Position.X + float32(16*tileMultiply)
+				playerInstance.destinationPoint = playerInstance.SpaceComponent.Position.X + float32(cellLength)
 			}
 		} else if engo.Input.Button("MoveDown").Down() {
 			if utils.CheckIfPassable(playerInstance.cellX, playerInstance.cellY+1) {
 				playerInstance.direction = 3
 				playerInstance.facingDirection = 3
-				playerInstance.destinationPoint = playerInstance.SpaceComponent.Position.Y + float32(16*tileMultiply)
+				playerInstance.destinationPoint = playerInstance.SpaceComponent.Position.Y + float32(cellLength)
 			}
 		} else if engo.Input.Button("MoveLeft").Down() {
 			if utils.CheckIfPassable(playerInstance.cellX-1, playerInstance.cellY) {
 				playerInstance.direction = 4
 				playerInstance.facingDirection = 4
-				playerInstance.destinationPoint = playerInstance.SpaceComponent.Position.X - float32(16*tileMultiply)
+				playerInstance.destinationPoint = playerInstance.SpaceComponent.Position.X - float32(cellLength)
 			}
 		} else if engo.Input.Button("Space").JustPressed() {
 			if len(bulletEntities) < maxBulletCount {

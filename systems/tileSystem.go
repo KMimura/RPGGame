@@ -27,6 +27,9 @@ var tileRadius float32 = 7
 // ObstaclePoints 障害物のある座標(タイルベース)
 var ObstaclePoints map[int][]int
 
+// cellLength セル一辺のピクセル数（必ず16の倍数にすること）
+var cellLength = 48
+
 // Tile タイル一つ一つを表す構造体
 type Tile struct {
 	ecs.BasicEntity
@@ -43,9 +46,6 @@ type TileSystem struct {
 }
 
 var tileEntities []*Tile
-
-// tileMultiply タイルを何倍にして表示するか
-var tileMultiply = 3
 
 // Remove 削除する
 func (*TileSystem) Remove(ecs.BasicEntity) {}
@@ -92,22 +92,22 @@ func (ts *TileSystem) New(w *ecs.World) {
 			tile := &Tile{BasicEntity: ecs.NewBasic()}
 			// 描画位置の指定
 			tile.SpaceComponent.Position = engo.Point{
-				X: float32(i * 16 * tileMultiply),
-				Y: float32(j * 16 * tileMultiply),
+				X: float32(i * cellLength),
+				Y: float32(j * cellLength),
 			}
 			// 見た目の設定
 			tile.RenderComponent = common.RenderComponent{
 				Drawable: Spritesheet.Cell(tileNum),
-				Scale:    engo.Point{X: float32(tileMultiply), Y: float32(tileMultiply)},
+				Scale:    engo.Point{X: float32(cellLength / 16), Y: float32(cellLength / 16)},
 			}
 
 			tile.RenderComponent.SetZIndex(0)
 			Tiles = append(Tiles, tile)
 
-			j += 1
+			j++
 
 		}
-		i += 1
+		i++
 	}
 
 	// 障害物座標をutilsにセット（循環参照ができないため）
