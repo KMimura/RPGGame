@@ -63,7 +63,7 @@ func (ts *TileSystem) New(w *ecs.World) {
 	Spritesheet = common.NewSpritesheetWithBorderFromFile(loadTxt, 16, 16, 0, 0)
 	Tiles := make([]*Tile, 0)
 	ObstaclePoints = map[int][]int{}
-	file, err := os.Open(currentStage)
+	file, err := os.Open("./stages/main.csv")
 	if err != nil {
 		fmt.Println(err)
 	}
