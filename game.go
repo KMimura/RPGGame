@@ -52,7 +52,7 @@ func (*MainScene) Setup(u engo.Updater) {
 	engo.Input.RegisterButton("Space", engo.KeySpace)
 	world, _ := u.(*ecs.World)
 	world.AddSystem(&common.RenderSystem{})
-	world.AddSystem(&systems.TileSystem{})
+	world.AddSystem(&systems.SceneSystem{})
 	world.AddSystem(&systems.PlayerSystem{})
 	world.AddSystem(&systems.EnemySystem{})
 	world.AddSystem(&systems.BulletSystem{})

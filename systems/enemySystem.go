@@ -21,18 +21,12 @@ type Enemy struct {
 	ecs.BasicEntity
 	common.RenderComponent
 	common.SpaceComponent
-	// 移動の状態(0 => 着地中, 1 => 上に移動中, 2 => 右に移動中, 3 => 下に移動中, 4 => 左に移動中)
-	movingState int
-	// 爆発し始めてからの経過時間
-	explosionDuration int
-	// セルのX座標
-	cellX int
-	// セルのY座標
-	cellY int
-	// 移動の目標地点の座標
-	destinationPoint float32
-	// 移動の速度
-	velocity float32
+	movingState       int     // 移動の状態(0 => 着地中, 1 => 上に移動中, 2 => 右に移動中, 3 => 下に移動中, 4 => 左に移動中)
+	explosionDuration int     // 爆発し始めてからの経過時間
+	cellX             int     // セルのX座標
+	cellY             int     // セルのY座標
+	destinationPoint  float32 // 移動の目標地点の座標
+	velocity          float32 // 移動の速度
 }
 
 // EnemySystem 敵のシステム
@@ -41,11 +35,13 @@ type EnemySystem struct {
 	texture *common.Texture
 }
 
+// 敵のエンティティの配列
 var enemyEntities []*Enemy
 
 // 被弾した時の画像
 var explosion *common.Texture
 
+// Remove 削除する
 func (es *EnemySystem) Remove(entity ecs.BasicEntity) {
 	for _, system := range es.world.Systems() {
 		switch sys := system.(type) {
@@ -55,6 +51,7 @@ func (es *EnemySystem) Remove(entity ecs.BasicEntity) {
 	}
 }
 
+// Update 毎フレームごとに呼び出される
 func (es *EnemySystem) Update(dt float32) {
 	// カメラとプレーヤーの位置を取得
 	camX := camEntity.X()
@@ -76,7 +73,7 @@ func (es *EnemySystem) Update(dt float32) {
 			if o.SpaceComponent.Position.X < camX+300 && o.SpaceComponent.Position.X > camX-300 && o.SpaceComponent.Position.Y < camY+300 && o.SpaceComponent.Position.Y > camY-300 {
 				// プレーヤーとの当たり判定(画像の大きさを加味)
 				if o.cellX == playerInstance.cellX && o.cellY == playerInstance.cellY {
-					AfflictDamage(es.world)
+					afflictDamage(es.world)
 				}
 				// 移動をしていない場合
 				if o.movingState == 0 {
@@ -85,13 +82,21 @@ func (es *EnemySystem) Update(dt float32) {
 						o.movingState = tmpNum
 						switch tmpNum {
 						case 1:
-							o.destinationPoint = o.SpaceComponent.Position.Y - float32(cellLength)
+							if CheckIfPassable(o.cellX, o.cellY-1) {
+								o.destinationPoint = o.SpaceComponent.Position.Y - float32(cellLength)
+							}
 						case 2:
-							o.destinationPoint = o.SpaceComponent.Position.X + float32(cellLength)
+							if CheckIfPassable(o.cellX+1, o.cellY) {
+								o.destinationPoint = o.SpaceComponent.Position.X + float32(cellLength)
+							}
 						case 3:
-							o.destinationPoint = o.SpaceComponent.Position.Y + float32(cellLength)
+							if CheckIfPassable(o.cellX, o.cellY+1) {
+								o.destinationPoint = o.SpaceComponent.Position.Y + float32(cellLength)
+							}
 						case 4:
-							o.destinationPoint = o.SpaceComponent.Position.X - float32(cellLength)
+							if CheckIfPassable(o.cellX-1, o.cellY) {
+								o.destinationPoint = o.SpaceComponent.Position.X - float32(cellLength)
+							}
 						}
 					}
 				}
@@ -123,7 +128,7 @@ func (es *EnemySystem) Update(dt float32) {
 						o.cellY++
 					}
 				} else if o.movingState == 4 {
-					//下への移動
+					//左への移動
 					if o.SpaceComponent.Position.X-o.velocity > o.destinationPoint {
 						o.SpaceComponent.Position.X -= o.velocity
 					} else {
@@ -137,6 +142,7 @@ func (es *EnemySystem) Update(dt float32) {
 	}
 }
 
+// New 新規作成時に呼び出される
 func (es *EnemySystem) New(w *ecs.World) {
 	rand.Seed(time.Now().UnixNano())
 	es.world = w
@@ -188,6 +194,7 @@ func (es *EnemySystem) New(w *ecs.World) {
 	}
 }
 
+// removeEnemy 敵のエンティティを削除する
 func removeEnemy(enemies []*Enemy, search *Enemy) []*Enemy {
 	result := []*Enemy{}
 	for _, v := range enemies {

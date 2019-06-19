@@ -11,22 +11,14 @@ type Player struct {
 	ecs.BasicEntity
 	common.RenderComponent
 	common.SpaceComponent
-	// 向き (0 => 移動中でない, 1 => 上, 2 => 右, 3 => 下 4 => 左)
-	direction int
-	// ライフ
-	remainingHearts int
-	// ダメージを受けない状態の残り時間
-	immunityTime int
-	// 移動の速度
-	velocity float32
-	// セルのX座標
-	cellX int
-	// セルのY座標
-	cellY int
-	// 移動の目標地点の座標
-	destinationPoint float32
-	// どの方向を向いているか (1 => 上, 2 => 右, 3 => 下 4 => 左)
-	facingDirection int
+	direction        int     // 向き (0 => 移動中でない, 1 => 上, 2 => 右, 3 => 下 4 => 左)
+	remainingHearts  int     // ライフ
+	immunityTime     int     // ダメージを受けない状態の残り時間
+	velocity         float32 // 移動の速度
+	cellX            int     // セルのX座標
+	cellY            int     // セルのY座標
+	destinationPoint float32 // 移動の目標地点の座標
+	facingDirection  int     // どの方向を向いているか (1 => 上, 2 => 右, 3 => 下 4 => 左)
 }
 
 // PlayerSystem プレーヤーシステム
@@ -36,6 +28,7 @@ type PlayerSystem struct {
 	texture      *common.Texture
 }
 
+// playerInstance プレーヤーのエンティティのインスタンス
 var playerInstance *Player
 
 // 最大の弾の数
@@ -50,6 +43,7 @@ var rightPic *common.Texture
 var bottomPic *common.Texture
 var leftPic *common.Texture
 
+// New 新規作成時に呼び出される
 func (ps *PlayerSystem) New(w *ecs.World) {
 	ps.world = w
 	// プレーヤーの作成
@@ -74,7 +68,7 @@ func (ps *PlayerSystem) New(w *ecs.World) {
 		Height:   30,
 	}
 	// 速度
-	player.velocity = 5
+	player.velocity = 4
 	// 画像の読み込み
 	topPic, _ = common.LoadedSprite("pics/greenoctocat_top.png")
 	rightPic, _ = common.LoadedSprite("pics/greenoctocat_right.png")
@@ -115,24 +109,28 @@ func (ps *PlayerSystem) Update(dt float32) {
 	case 0:
 		// 移動の処理
 		if engo.Input.Button("MoveUp").Down() {
+			playerInstance.facingDirection = 1
 			if CheckIfPassable(playerInstance.cellX, playerInstance.cellY-1) {
 				playerInstance.direction = 1
 				playerInstance.facingDirection = 1
 				playerInstance.destinationPoint = playerInstance.SpaceComponent.Position.Y - float32(cellLength)
 			}
 		} else if engo.Input.Button("MoveRight").Down() {
+			playerInstance.facingDirection = 2
 			if CheckIfPassable(playerInstance.cellX+1, playerInstance.cellY) {
 				playerInstance.direction = 2
 				playerInstance.facingDirection = 2
 				playerInstance.destinationPoint = playerInstance.SpaceComponent.Position.X + float32(cellLength)
 			}
 		} else if engo.Input.Button("MoveDown").Down() {
+			playerInstance.facingDirection = 3
 			if CheckIfPassable(playerInstance.cellX, playerInstance.cellY+1) {
 				playerInstance.direction = 3
 				playerInstance.facingDirection = 3
 				playerInstance.destinationPoint = playerInstance.SpaceComponent.Position.Y + float32(cellLength)
 			}
 		} else if engo.Input.Button("MoveLeft").Down() {
+			playerInstance.facingDirection = 4
 			if CheckIfPassable(playerInstance.cellX-1, playerInstance.cellY) {
 				playerInstance.direction = 4
 				playerInstance.facingDirection = 4
@@ -256,7 +254,7 @@ func (ps *PlayerSystem) Update(dt float32) {
 	if ps.playerEntity.immunityTime > 0 {
 		ps.playerEntity.immunityTime--
 	}
-	switch ps.playerEntity.direction {
+	switch ps.playerEntity.facingDirection {
 	case 1:
 		ps.playerEntity.RenderComponent.Drawable = topPic
 	case 2:
@@ -268,8 +266,8 @@ func (ps *PlayerSystem) Update(dt float32) {
 	}
 }
 
-// Damage ライフを減らす
-func AfflictDamage(w *ecs.World) {
+// afflictDamage ライフを減らす
+func afflictDamage(w *ecs.World) {
 	if playerInstance.immunityTime != 0 {
 		return
 	}
