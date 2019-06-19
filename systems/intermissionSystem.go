@@ -19,14 +19,14 @@ var shadingProgress int
 var shadePic *common.Texture
 
 // IntermissionSystem intermisson
-type IntermissonSystem struct {
+type IntermissionSystem struct {
 	world        *ecs.World
 	playerEntity *Player
 	texture      *common.Texture
 }
 
 // New 新規作成
-func (is *IntermissonSystem) New(w *ecs.World) {
+func (is *IntermissionSystem) New(w *ecs.World) {
 	// is.world = w
 	// camX := camEntity.X()
 	// camY := camEntity.Y()
@@ -35,10 +35,10 @@ func (is *IntermissonSystem) New(w *ecs.World) {
 }
 
 // Remove 削除する
-func (is *IntermissonSystem) Remove(entity ecs.BasicEntity) {}
+func (is *IntermissionSystem) Remove(entity ecs.BasicEntity) {}
 
 // Update アップデートする
-func (is *IntermissonSystem) Update(dt float32) {
+func (is *IntermissionSystem) Update(dt float32) {
 	// Shades := make([]*Shade, 0)
 	// for j := 0; j < 15; j++ {
 	// 	shade := &Shade{BasicEntity: ecs.NewBasic()}
