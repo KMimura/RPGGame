@@ -12,69 +12,90 @@
             {
                 "cell":0,
                 "portal":false,
-                "obstacle":false
+                "obstacle":false,
+                "enemy":false
             },{
                 "cell":0,
                 "portal":false,
-                "obstacle":false
+                "obstacle":false,
+                "enemy":false
             },{
                 "cell":95,
                 "portal":false,
-                "obstacle":true
+                "obstacle":true,
+                "enemy":false
             },{
                 "cell":0,
                 "portal":false,
-                "obstacle":false
+                "obstacle":false,
+                "enemy":true,
+                "enemy-data":{
+                    "id":0
+                }
             }
         ],[
             {
                 "cell":0,
                 "portal":false,
-                "obstacle":false
+                "obstacle":false,
+                "enemy":false
             },{
                 "cell":0,
                 "portal":false,
-                "obstacle":false
+                "obstacle":false,
+                "enemy":false
             },{
                 "cell":95,
                 "portal":false,
-                "obstacle":true
+                "obstacle":true,
+                "enemy":false
             },{
                 "cell":0,
                 "portal":false,
-                "obstacle":false
+                "obstacle":false,
+                "enemy":false
             }
         ],[
             {
                 "cell":0,
                 "portal":false,
-                "obstacle":false
+                "obstacle":false,
+                "enemy":false
             },{
                 "cell":0,
                 "portal":false,
-                "obstacle":false
+                "obstacle":false,
+                "enemy":true,
+                "enemy-data":{
+                    "id":0
+                }
             },{
                 "cell":95,
                 "portal":false,
-                "obstacle":true
+                "obstacle":true,
+                "enemy":false
             },{
                 "cell":0,
                 "portal":false,
-                "obstacle":false
+                "obstacle":false,
+                "enemy":false
             }
         ],[
             {
                 "cell":0,
                 "portal":false,
-                "obstacle":false
+                "obstacle":false,
+                "enemy":false
             },{
                 "cell":0,
                 "portal":false,
-                "obstacle":false
+                "obstacle":false,
+                "enemy":false
             },{
                 "cell":95,
                 "portal":false,
-                "obstacle":true
+                "obstacle":true,
+                "enemy":false
             },{
                 "cell":0,
                 "portal":true,
@@ -82,7 +103,8 @@
                 "portal-data":{
                     "stage-id":1,
                     "initial-position":"A"
-                }
+                },
+                "enemy":false
             }
         ]
     ]
