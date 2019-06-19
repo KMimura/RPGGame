@@ -17,18 +17,26 @@ var explosionTime = 30
 // 敵の画像の大きさ
 var enemyRadius float32 = 7
 
+// Enemy 敵
 type Enemy struct {
 	ecs.BasicEntity
 	common.RenderComponent
 	common.SpaceComponent
 	// 移動の状態(0 => 着地中, 1 => 上に移動中, 2 => 右に移動中, 3 => 下に移動中, 4 => 左に移動中)
 	movingState int
-	// 移動の残り時間
-	movingDuration int
 	// 爆発し始めてからの経過時間
 	explosionDuration int
+	// セルのX座標
+	cellX int
+	// セルのY座標
+	cellY int
+	// 移動の目標地点の座標
+	destinationPoint float32
+	// 移動の速度
+	velocity float32
 }
 
+// EnemySystem 敵のシステム
 type EnemySystem struct {
 	world   *ecs.World
 	texture *common.Texture
@@ -79,47 +87,64 @@ func (es *EnemySystem) Update(dt float32) {
 					tmpNum := rand.Intn(200) - 195
 					if tmpNum > 0 {
 						o.movingState = tmpNum
-						jumpTemp := rand.Intn(3)
-						switch jumpTemp {
-						case 0:
-							o.movingDuration = 10
+						switch tmpNum {
 						case 1:
-							o.movingDuration = 15
+							o.destinationPoint = o.SpaceComponent.Position.Y - float32(16*tileMultiply)
+							o.cellY--
 						case 2:
-							o.movingDuration = 20
+							o.destinationPoint = o.SpaceComponent.Position.X + float32(16*tileMultiply)
+							o.cellX++
+						case 3:
+							o.destinationPoint = o.SpaceComponent.Position.Y + float32(16*tileMultiply)
+							o.cellY++
+						case 4:
+							o.destinationPoint = o.SpaceComponent.Position.X - float32(16*tileMultiply)
+							o.cellX--
 						}
 					}
 				}
 				if o.movingState == 1 {
 					// 上への移動処理
-					if o.movingDuration > 0 {
-						o.SpaceComponent.Position.X -= 3
-						o.movingDuration--
+					if o.SpaceComponent.Position.Y-o.velocity > o.destinationPoint {
+						o.SpaceComponent.Position.Y -= o.velocity
+					} else if o.SpaceComponent.Position.Y-o.velocity == o.destinationPoint {
+						o.SpaceComponent.Position.Y = o.destinationPoint
+						o.movingState = 0
 					} else {
+						o.SpaceComponent.Position.Y = o.destinationPoint
 						o.movingState = 0
 					}
 				} else if o.movingState == 2 {
 					//右への移動
-					if o.movingDuration > 0 {
-						o.SpaceComponent.Position.Y += 3
-						o.movingDuration--
+					if o.SpaceComponent.Position.X+o.velocity < o.destinationPoint {
+						o.SpaceComponent.Position.X += o.velocity
+					} else if o.SpaceComponent.Position.X+o.velocity == o.destinationPoint {
+						o.SpaceComponent.Position.X = o.destinationPoint
+						o.movingState = 0
 					} else {
+						o.SpaceComponent.Position.X = o.destinationPoint
 						o.movingState = 0
 					}
 				} else if o.movingState == 3 {
 					//下への移動
-					if o.movingDuration > 0 {
-						o.SpaceComponent.Position.X += 3
-						o.movingDuration--
+					if o.SpaceComponent.Position.Y+o.velocity < o.destinationPoint {
+						o.SpaceComponent.Position.Y += o.velocity
+					} else if o.SpaceComponent.Position.Y+o.velocity == o.destinationPoint {
+						o.SpaceComponent.Position.Y = o.destinationPoint
+						o.movingState = 0
 					} else {
+						o.SpaceComponent.Position.Y = o.destinationPoint
 						o.movingState = 0
 					}
 				} else if o.movingState == 4 {
 					//下への移動
-					if o.movingDuration > 0 {
-						o.SpaceComponent.Position.Y -= 3
-						o.movingDuration--
+					if o.SpaceComponent.Position.X-o.velocity > o.destinationPoint {
+						o.SpaceComponent.Position.X -= o.velocity
+					} else if o.SpaceComponent.Position.X-o.velocity == o.destinationPoint {
+						o.SpaceComponent.Position.X = o.destinationPoint
+						o.movingState = 0
 					} else {
+						o.SpaceComponent.Position.X = o.destinationPoint
 						o.movingState = 0
 					}
 				}
@@ -132,24 +157,29 @@ func (es *EnemySystem) New(w *ecs.World) {
 	rand.Seed(time.Now().UnixNano())
 	es.world = w
 	Enemies := make([]*Enemy, 0)
+
+	// 画像の読み込み
+	texture, err := common.LoadedSprite("pics/ghost.png")
+	if err != nil {
+		fmt.Println("Unable to load texture: " + err.Error())
+	}
+	// 被弾した時の画像
+	explosion, _ = common.LoadedSprite("pics/explosion.png")
+
 	// ランダムで配置
-	for i := 0; i < 4000; i++ {
-		randomNum := rand.Intn(100)
+	for i := 0; i < 40; i++ {
+		randomNum := rand.Intn(1)
 		if randomNum == 0 {
 			// 敵の作成
 			enemy := Enemy{BasicEntity: ecs.NewBasic()}
+			enemy.cellX = i * 16 * tileMultiply
+			enemy.cellY = rand.Intn(30) * 16 * tileMultiply
+			enemy.velocity = 5
 			enemy.SpaceComponent = common.SpaceComponent{
-				Position: engo.Point{X: float32(i), Y: float32(rand.Intn(300))},
+				Position: engo.Point{X: float32(enemy.cellX), Y: float32(enemy.cellY)},
 				Width:    30,
 				Height:   30,
 			}
-			// 画像の読み込み
-			texture, err := common.LoadedSprite("pics/ghost.png")
-			if err != nil {
-				fmt.Println("Unable to load texture: " + err.Error())
-			}
-			// 被弾した時の画像
-			explosion, _ = common.LoadedSprite("pics/explosion.png")
 			enemy.RenderComponent = common.RenderComponent{
 				Drawable: texture,
 				Scale:    engo.Point{X: 1, Y: 1},
