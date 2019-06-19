@@ -28,7 +28,7 @@ var tileRadius float32 = 7
 var ObstaclePoints map[int][]int
 
 // cellLength セル一辺のピクセル数（必ず16の倍数にすること）
-var cellLength = 48
+var cellLength = 32
 
 // Tile タイル一つ一つを表す構造体
 type Tile struct {
