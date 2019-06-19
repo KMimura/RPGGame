@@ -191,7 +191,7 @@ func (ps *PlayerSystem) Update(dt float32) {
 			playerInstance.direction = 0
 		}
 		// カメラの移動
-		if camX-ps.playerEntity.SpaceComponent.Position.X > 100 {
+		if camX-ps.playerEntity.SpaceComponent.Position.X < 100 {
 			engo.Mailbox.Dispatch(common.CameraMessage{
 				Axis:        common.XAxis,
 				Value:       camMoveLen,
@@ -216,7 +216,7 @@ func (ps *PlayerSystem) Update(dt float32) {
 			playerInstance.direction = 0
 		}
 		// カメラの移動
-		if camY-ps.playerEntity.SpaceComponent.Position.Y > 100 {
+		if camY-ps.playerEntity.SpaceComponent.Position.Y < 100 {
 			engo.Mailbox.Dispatch(common.CameraMessage{
 				Axis:        common.YAxis,
 				Value:       camMoveLen,
@@ -241,7 +241,7 @@ func (ps *PlayerSystem) Update(dt float32) {
 			playerInstance.direction = 0
 		}
 		// カメラの移動
-		if ps.playerEntity.SpaceComponent.Position.X-camX > 100 {
+		if ps.playerEntity.SpaceComponent.Position.X-camX < 100 {
 			engo.Mailbox.Dispatch(common.CameraMessage{
 				Axis:        common.XAxis,
 				Value:       camMoveLen,
