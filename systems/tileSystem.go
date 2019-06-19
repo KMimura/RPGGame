@@ -45,7 +45,7 @@ type TileSystem struct {
 var tileEntities []*Tile
 
 // tileMultiply タイルを何倍にして表示するか
-var tileMultiply = 4
+var tileMultiply = 3
 
 // Remove 削除する
 func (*TileSystem) Remove(ecs.BasicEntity) {}

@@ -90,16 +90,12 @@ func (es *EnemySystem) Update(dt float32) {
 						switch tmpNum {
 						case 1:
 							o.destinationPoint = o.SpaceComponent.Position.Y - float32(16*tileMultiply)
-							o.cellY--
 						case 2:
 							o.destinationPoint = o.SpaceComponent.Position.X + float32(16*tileMultiply)
-							o.cellX++
 						case 3:
 							o.destinationPoint = o.SpaceComponent.Position.Y + float32(16*tileMultiply)
-							o.cellY++
 						case 4:
 							o.destinationPoint = o.SpaceComponent.Position.X - float32(16*tileMultiply)
-							o.cellX--
 						}
 					}
 				}
@@ -107,45 +103,37 @@ func (es *EnemySystem) Update(dt float32) {
 					// 上への移動処理
 					if o.SpaceComponent.Position.Y-o.velocity > o.destinationPoint {
 						o.SpaceComponent.Position.Y -= o.velocity
-					} else if o.SpaceComponent.Position.Y-o.velocity == o.destinationPoint {
-						o.SpaceComponent.Position.Y = o.destinationPoint
-						o.movingState = 0
 					} else {
 						o.SpaceComponent.Position.Y = o.destinationPoint
 						o.movingState = 0
+						o.cellY--
 					}
 				} else if o.movingState == 2 {
 					//右への移動
 					if o.SpaceComponent.Position.X+o.velocity < o.destinationPoint {
 						o.SpaceComponent.Position.X += o.velocity
-					} else if o.SpaceComponent.Position.X+o.velocity == o.destinationPoint {
-						o.SpaceComponent.Position.X = o.destinationPoint
-						o.movingState = 0
 					} else {
 						o.SpaceComponent.Position.X = o.destinationPoint
 						o.movingState = 0
+						o.cellX++
 					}
 				} else if o.movingState == 3 {
 					//下への移動
 					if o.SpaceComponent.Position.Y+o.velocity < o.destinationPoint {
 						o.SpaceComponent.Position.Y += o.velocity
-					} else if o.SpaceComponent.Position.Y+o.velocity == o.destinationPoint {
-						o.SpaceComponent.Position.Y = o.destinationPoint
-						o.movingState = 0
 					} else {
 						o.SpaceComponent.Position.Y = o.destinationPoint
 						o.movingState = 0
+						o.cellY++
 					}
 				} else if o.movingState == 4 {
 					//下への移動
 					if o.SpaceComponent.Position.X-o.velocity > o.destinationPoint {
 						o.SpaceComponent.Position.X -= o.velocity
-					} else if o.SpaceComponent.Position.X-o.velocity == o.destinationPoint {
-						o.SpaceComponent.Position.X = o.destinationPoint
-						o.movingState = 0
 					} else {
 						o.SpaceComponent.Position.X = o.destinationPoint
 						o.movingState = 0
+						o.cellX--
 					}
 				}
 			}

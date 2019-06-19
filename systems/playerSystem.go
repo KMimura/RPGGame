@@ -120,28 +120,24 @@ func (ps *PlayerSystem) Update(dt float32) {
 				playerInstance.direction = 1
 				playerInstance.facingDirection = 1
 				playerInstance.destinationPoint = playerInstance.SpaceComponent.Position.Y - float32(16*tileMultiply)
-				playerInstance.cellY--
 			}
 		} else if engo.Input.Button("MoveRight").Down() {
 			if utils.CheckIfPassable(playerInstance.cellX+1, playerInstance.cellY) {
 				playerInstance.direction = 2
 				playerInstance.facingDirection = 2
 				playerInstance.destinationPoint = playerInstance.SpaceComponent.Position.X + float32(16*tileMultiply)
-				playerInstance.cellX++
 			}
 		} else if engo.Input.Button("MoveDown").Down() {
 			if utils.CheckIfPassable(playerInstance.cellX, playerInstance.cellY+1) {
 				playerInstance.direction = 3
 				playerInstance.facingDirection = 3
 				playerInstance.destinationPoint = playerInstance.SpaceComponent.Position.Y + float32(16*tileMultiply)
-				playerInstance.cellY++
 			}
 		} else if engo.Input.Button("MoveLeft").Down() {
 			if utils.CheckIfPassable(playerInstance.cellX-1, playerInstance.cellY) {
 				playerInstance.direction = 4
 				playerInstance.facingDirection = 4
 				playerInstance.destinationPoint = playerInstance.SpaceComponent.Position.X - float32(16*tileMultiply)
-				playerInstance.cellX--
 			}
 		} else if engo.Input.Button("Space").JustPressed() {
 			if len(bulletEntities) < maxBulletCount {
@@ -159,11 +155,13 @@ func (ps *PlayerSystem) Update(dt float32) {
 			// まるまる移動して移動が終わるとき
 			playerInstance.SpaceComponent.Position.Y -= playerInstance.velocity
 			playerInstance.direction = 0
+			playerInstance.cellY--
 		} else {
 			// ワンフレームまるまるは動けない場合
 			camMoveLen = playerInstance.destinationPoint - playerInstance.SpaceComponent.Position.Y
 			playerInstance.SpaceComponent.Position.Y = playerInstance.destinationPoint
 			playerInstance.direction = 0
+			playerInstance.cellY--
 		}
 		// カメラの移動
 		if camY-ps.playerEntity.SpaceComponent.Position.Y > 100 {
@@ -184,11 +182,13 @@ func (ps *PlayerSystem) Update(dt float32) {
 			// まるまる移動して移動が終わるとき
 			playerInstance.SpaceComponent.Position.X += playerInstance.velocity
 			playerInstance.direction = 0
+			playerInstance.cellX++
 		} else {
 			// ワンフレームまるまるは動けない場合
 			camMoveLen = playerInstance.destinationPoint - playerInstance.SpaceComponent.Position.X
 			playerInstance.SpaceComponent.Position.X = playerInstance.destinationPoint
 			playerInstance.direction = 0
+			playerInstance.cellX++
 		}
 		// カメラの移動
 		if camX-ps.playerEntity.SpaceComponent.Position.X < 100 {
@@ -209,11 +209,13 @@ func (ps *PlayerSystem) Update(dt float32) {
 			// まるまる移動して移動が終わるとき
 			playerInstance.SpaceComponent.Position.Y += playerInstance.velocity
 			playerInstance.direction = 0
+			playerInstance.cellY++
 		} else {
 			// ワンフレームまるまるは動けない場合
 			camMoveLen = playerInstance.destinationPoint - playerInstance.SpaceComponent.Position.Y
 			playerInstance.SpaceComponent.Position.Y = playerInstance.destinationPoint
 			playerInstance.direction = 0
+			playerInstance.cellY++
 		}
 		// カメラの移動
 		if camY-ps.playerEntity.SpaceComponent.Position.Y < 100 {
@@ -234,11 +236,13 @@ func (ps *PlayerSystem) Update(dt float32) {
 			// まるまる移動して移動が終わるとき
 			playerInstance.SpaceComponent.Position.X -= playerInstance.velocity
 			playerInstance.direction = 0
+			playerInstance.cellX--
 		} else {
 			// ワンフレームまるまるは動けない場合
 			camMoveLen = playerInstance.destinationPoint - playerInstance.SpaceComponent.Position.X
 			playerInstance.SpaceComponent.Position.X = playerInstance.destinationPoint
 			playerInstance.direction = 0
+			playerInstance.cellX--
 		}
 		// カメラの移動
 		if ps.playerEntity.SpaceComponent.Position.X-camX < 100 {
