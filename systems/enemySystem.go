@@ -59,9 +59,6 @@ func (es *EnemySystem) Update(dt float32) {
 	// カメラとプレーヤーの位置を取得
 	camX := camEntity.X()
 	camY := camEntity.Y()
-	// プレーヤーの座標（画像の大きさを加味）
-	playerX := playerInstance.cellX
-	playerY := playerInstance.cellY
 	for _, o := range enemyEntities {
 		if o.explosionDuration != 0 {
 			if o.explosionDuration == 1 {
@@ -78,7 +75,7 @@ func (es *EnemySystem) Update(dt float32) {
 			// 画面に描画されていないオブジェクトは移動処理をしない
 			if o.SpaceComponent.Position.X < camX+300 && o.SpaceComponent.Position.X > camX-300 && o.SpaceComponent.Position.Y < camY+300 && o.SpaceComponent.Position.Y > camY-300 {
 				// プレーヤーとの当たり判定(画像の大きさを加味)
-				if o.cellX == playerX && o.cellY == playerY {
+				if o.cellX == playerInstance.cellX && o.cellY == playerInstance.cellY {
 					AfflictDamage(es.world)
 				}
 				// 移動をしていない場合
@@ -159,11 +156,11 @@ func (es *EnemySystem) New(w *ecs.World) {
 		if randomNum == 0 {
 			// 敵の作成
 			enemy := Enemy{BasicEntity: ecs.NewBasic()}
-			enemy.cellX = i * cellLength
-			enemy.cellY = rand.Intn(30) * cellLength
+			enemy.cellX = i
+			enemy.cellY = rand.Intn(30)
 			enemy.velocity = 3
 			enemy.SpaceComponent = common.SpaceComponent{
-				Position: engo.Point{X: float32(enemy.cellX), Y: float32(enemy.cellY)},
+				Position: engo.Point{X: float32(enemy.cellX * cellLength), Y: float32(enemy.cellY * cellLength)},
 				Width:    30,
 				Height:   30,
 			}
