@@ -110,28 +110,28 @@ func (ps *PlayerSystem) Update(dt float32) {
 		// 移動の処理
 		if engo.Input.Button("MoveUp").Down() {
 			playerInstance.facingDirection = 1
-			if CheckIfPassable(playerInstance.cellX, playerInstance.cellY-1) {
+			if checkIfPassable(playerInstance.cellX, playerInstance.cellY-1) {
 				playerInstance.direction = 1
 				playerInstance.facingDirection = 1
 				playerInstance.destinationPoint = playerInstance.SpaceComponent.Position.Y - float32(cellLength)
 			}
 		} else if engo.Input.Button("MoveRight").Down() {
 			playerInstance.facingDirection = 2
-			if CheckIfPassable(playerInstance.cellX+1, playerInstance.cellY) {
+			if checkIfPassable(playerInstance.cellX+1, playerInstance.cellY) {
 				playerInstance.direction = 2
 				playerInstance.facingDirection = 2
 				playerInstance.destinationPoint = playerInstance.SpaceComponent.Position.X + float32(cellLength)
 			}
 		} else if engo.Input.Button("MoveDown").Down() {
 			playerInstance.facingDirection = 3
-			if CheckIfPassable(playerInstance.cellX, playerInstance.cellY+1) {
+			if checkIfPassable(playerInstance.cellX, playerInstance.cellY+1) {
 				playerInstance.direction = 3
 				playerInstance.facingDirection = 3
 				playerInstance.destinationPoint = playerInstance.SpaceComponent.Position.Y + float32(cellLength)
 			}
 		} else if engo.Input.Button("MoveLeft").Down() {
 			playerInstance.facingDirection = 4
-			if CheckIfPassable(playerInstance.cellX-1, playerInstance.cellY) {
+			if checkIfPassable(playerInstance.cellX-1, playerInstance.cellY) {
 				playerInstance.direction = 4
 				playerInstance.facingDirection = 4
 				playerInstance.destinationPoint = playerInstance.SpaceComponent.Position.X - float32(cellLength)

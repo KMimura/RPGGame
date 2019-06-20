@@ -82,19 +82,19 @@ func (es *EnemySystem) Update(dt float32) {
 						o.movingState = tmpNum
 						switch tmpNum {
 						case 1:
-							if CheckIfPassable(o.cellX, o.cellY-1) {
+							if checkIfPassable(o.cellX, o.cellY-1) {
 								o.destinationPoint = o.SpaceComponent.Position.Y - float32(cellLength)
 							}
 						case 2:
-							if CheckIfPassable(o.cellX+1, o.cellY) {
+							if checkIfPassable(o.cellX+1, o.cellY) {
 								o.destinationPoint = o.SpaceComponent.Position.X + float32(cellLength)
 							}
 						case 3:
-							if CheckIfPassable(o.cellX, o.cellY+1) {
+							if checkIfPassable(o.cellX, o.cellY+1) {
 								o.destinationPoint = o.SpaceComponent.Position.Y + float32(cellLength)
 							}
 						case 4:
-							if CheckIfPassable(o.cellX-1, o.cellY) {
+							if checkIfPassable(o.cellX-1, o.cellY) {
 								o.destinationPoint = o.SpaceComponent.Position.X - float32(cellLength)
 							}
 						}

@@ -51,28 +51,28 @@ func (bs *BulletSystem) Update(dt float32) {
 	for _, bullet := range bulletEntities {
 		switch bullet.direction {
 		case 1:
-			if CheckIfPassable(int(bullet.SpaceComponent.Position.X)/cellLength, (int(bullet.SpaceComponent.Position.Y)-10)/cellLength) && bullet.SpaceComponent.Position.Y >= camEntity.Y()-250 {
+			if checkIfPassable(int(bullet.SpaceComponent.Position.X)/cellLength, (int(bullet.SpaceComponent.Position.Y)-10)/cellLength) && bullet.SpaceComponent.Position.Y >= camEntity.Y()-250 {
 				bullet.SpaceComponent.Position.Y -= 10
 			} else {
 				bs.Remove(bullet.BasicEntity)
 				bulletEntities = removeBullet(bulletEntities, bullet)
 			}
 		case 2:
-			if CheckIfPassable((int(bullet.SpaceComponent.Position.X)+10)/cellLength, int(bullet.SpaceComponent.Position.Y)/cellLength) && bullet.SpaceComponent.Position.X <= camEntity.X()+250 {
+			if checkIfPassable((int(bullet.SpaceComponent.Position.X)+10)/cellLength, int(bullet.SpaceComponent.Position.Y)/cellLength) && bullet.SpaceComponent.Position.X <= camEntity.X()+250 {
 				bullet.SpaceComponent.Position.X += 10
 			} else {
 				bs.Remove(bullet.BasicEntity)
 				bulletEntities = removeBullet(bulletEntities, bullet)
 			}
 		case 3:
-			if CheckIfPassable(int(bullet.SpaceComponent.Position.X)/cellLength, (int(bullet.SpaceComponent.Position.Y)+10)/cellLength) && bullet.SpaceComponent.Position.Y <= camEntity.Y()+250 {
+			if checkIfPassable(int(bullet.SpaceComponent.Position.X)/cellLength, (int(bullet.SpaceComponent.Position.Y)+10)/cellLength) && bullet.SpaceComponent.Position.Y <= camEntity.Y()+250 {
 				bullet.SpaceComponent.Position.Y += 10
 			} else {
 				bs.Remove(bullet.BasicEntity)
 				bulletEntities = removeBullet(bulletEntities, bullet)
 			}
 		case 4:
-			if CheckIfPassable((int(bullet.SpaceComponent.Position.X)-10)/cellLength, int(bullet.SpaceComponent.Position.Y)/cellLength) && bullet.SpaceComponent.Position.X >= camEntity.X()-250 {
+			if checkIfPassable((int(bullet.SpaceComponent.Position.X)-10)/cellLength, int(bullet.SpaceComponent.Position.Y)/cellLength) && bullet.SpaceComponent.Position.X >= camEntity.X()-250 {
 				bullet.SpaceComponent.Position.X -= 10
 			} else {
 				bs.Remove(bullet.BasicEntity)

@@ -1,7 +1,7 @@
 package systems
 
 // Contains 配列に値が含まれているかどうかを判断
-func Contains(s []int, e int) bool {
+func contains(s []int, e int) bool {
 	for _, v := range s {
 		if e == v {
 			return true
@@ -11,9 +11,9 @@ func Contains(s []int, e int) bool {
 }
 
 // CheckIfPassable 障害物があるかどうかを判断
-func CheckIfPassable(x, y int) bool {
+func checkIfPassable(x, y int) bool {
 	if ObstaclePoints[x] != nil {
-		if Contains(ObstaclePoints[x], y) {
+		if contains(ObstaclePoints[x], y) {
 			return false
 		}
 	}

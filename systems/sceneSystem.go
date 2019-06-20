@@ -97,7 +97,7 @@ func (ss *SceneSystem) New(w *ecs.World) {
 			// 見た目の設定
 			tile.RenderComponent = common.RenderComponent{
 				Drawable: Spritesheet.Cell(tileNum),
-				Scale:    engo.Point{X: float32(cellLength / 16), Y: float32(cellLength / 16)},
+				Scale:    engo.Point{X: float32(cellLength / 16), Y: float32(cellLength / 16)}, // cellLengthが画像の元の大きさ（16ピクセル）の何倍であるかを算出し、設定
 			}
 
 			tile.RenderComponent.SetZIndex(0)
