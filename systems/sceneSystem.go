@@ -75,7 +75,7 @@ func (ss *SceneSystem) New(w *ecs.World) {
 	for _, r := range sceneJSON["cell-data"].([]interface{}) {
 		j := 0
 		for _, c := range r.([]interface{}) {
-			tileNum := c.(map[string]int)["cell"]
+			tileNum := c.(map[string]interface{})["cell"].(float64)
 			if tileNum == 95 {
 				// 障害物として、タイルベースで座標を記録（曖昧化のために、前後の複数点を記録）
 				ObstaclePoints[i] = append(ObstaclePoints[i], j)
@@ -88,7 +88,7 @@ func (ss *SceneSystem) New(w *ecs.World) {
 			}
 			// 見た目の設定
 			tile.RenderComponent = common.RenderComponent{
-				Drawable: Spritesheet.Cell(tileNum),
+				Drawable: Spritesheet.Cell(int(tileNum)),
 				Scale:    engo.Point{X: float32(cellLength / 16), Y: float32(cellLength / 16)}, // cellLengthが画像の元の大きさ（16ピクセル）の何倍であるかを算出し、設定
 			}
 			tile.RenderComponent.SetZIndex(0)
