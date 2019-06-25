@@ -157,33 +157,29 @@ func (es *EnemySystem) New(w *ecs.World) {
 	explosion, _ = common.LoadedSprite("pics/explosion.png")
 
 	// ランダムで配置
-	for i := 0; i < 40; i++ {
-		randomNum := rand.Intn(1)
-		if randomNum == 0 {
-			// 敵の作成
-			enemy := Enemy{BasicEntity: ecs.NewBasic()}
-			enemy.cellX = i
-			enemy.cellY = rand.Intn(30)
-			enemy.velocity = 3
-			enemy.SpaceComponent = common.SpaceComponent{
-				Position: engo.Point{X: float32(enemy.cellX * cellLength), Y: float32(enemy.cellY * cellLength)},
-				Width:    30,
-				Height:   30,
-			}
-			enemy.RenderComponent = common.RenderComponent{
-				Drawable: texture,
-				Scale:    engo.Point{X: 1, Y: 1},
-			}
-			enemy.RenderComponent.SetZIndex(1)
-			es.texture = texture
-			for _, system := range es.world.Systems() {
-				switch sys := system.(type) {
-				case *common.RenderSystem:
-					sys.Add(&enemy.BasicEntity, &enemy.RenderComponent, &enemy.SpaceComponent)
-				}
-			}
-			Enemies = append(Enemies, &enemy)
+	for _, ep := range EnemyPoints {
+		// 敵の作成
+		enemy := Enemy{BasicEntity: ecs.NewBasic(), cellX: ep.X, cellY: ep.Y}
+		enemy.velocity = 3
+		enemy.SpaceComponent = common.SpaceComponent{
+			Position: engo.Point{X: float32(ep.X * cellLength), Y: float32(ep.Y * cellLength)},
+			Width:    30,
+			Height:   30,
 		}
+		enemy.RenderComponent = common.RenderComponent{
+			Drawable: texture,
+			Scale:    engo.Point{X: 1, Y: 1},
+		}
+		enemy.RenderComponent.SetZIndex(1)
+		es.texture = texture
+		for _, system := range es.world.Systems() {
+			switch sys := system.(type) {
+			case *common.RenderSystem:
+				sys.Add(&enemy.BasicEntity, &enemy.RenderComponent, &enemy.SpaceComponent)
+			}
+		}
+		Enemies = append(Enemies, &enemy)
+
 		enemyEntities = Enemies
 	}
 	for _, system := range w.Systems() {

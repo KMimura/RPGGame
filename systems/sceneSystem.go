@@ -23,8 +23,11 @@ var camEntity *common.CameraSystem
 // 敵の画像の大きさ
 var tileRadius float32 = 7
 
-// ObstaclePoints 障害物のある座標(タイルベース)
+// ObstaclePoints 障害物のある座標
 var ObstaclePoints map[int][]int
+
+// EnemyPoints 敵を出現させる座標に関する情報
+var EnemyPoints []EnemyStruct
 
 // cellLength セル一辺のピクセル数（必ず16の倍数にすること）
 var cellLength = 32
@@ -40,6 +43,13 @@ type Tile struct {
 type SceneSystem struct {
 	world   *ecs.World
 	texture *common.Texture
+}
+
+// EnemyStruct 敵の座標情報を持つ構造体
+type EnemyStruct struct {
+	X  int // X座標
+	Y  int // Y座標
+	id int // 敵のid
 }
 
 // タイルシステムのエンティティのインスタンス
@@ -93,6 +103,11 @@ func (ss *SceneSystem) New(w *ecs.World) {
 			}
 			tile.RenderComponent.SetZIndex(0)
 			Tiles = append(Tiles, tile)
+			// 敵を出現させるべきか判定
+			if c.(map[string]interface{})["enemy"].(bool) == true {
+				enemyStruct := EnemyStruct{X: i, Y: j, id: int(c.(map[string]interface{})["enemy-data"].(map[string]interface{})["id"].(float64))}
+				EnemyPoints = append(EnemyPoints, enemyStruct)
+			}
 			j++
 		}
 		i++
