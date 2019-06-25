@@ -1,5 +1,5 @@
 {
-    "meta-deta":{
+    "meta-data":{
         "id":0,
         "player-initial-positions":{
             "A":{"X":3,"Y":2},
@@ -7,7 +7,7 @@
         },
         "spritesheet":"pics/overworld_tileset_grass.png"
     },
-    "cell-deta":[
+    "cell-data":[
         [
             {
                 "cell":0,

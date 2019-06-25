@@ -1,10 +1,9 @@
 package systems
 
 import (
-	"encoding/csv"
+	"encoding/json"
 	"fmt"
-	"io"
-	"strconv"
+	"io/ioutil"
 
 	"math/rand"
 	"os"
@@ -63,27 +62,20 @@ func (ss *SceneSystem) New(w *ecs.World) {
 	Spritesheet = common.NewSpritesheetWithBorderFromFile(loadTxt, 16, 16, 0, 0)
 	Tiles := make([]*Tile, 0)
 	ObstaclePoints = map[int][]int{}
-	file, err := os.Open("./stages/main.csv")
+	file, err := os.Open("./stages/main.json")
 	if err != nil {
 		fmt.Println(err)
 	}
-	reader := csv.NewReader(file)
-	reader.Comma = ','
-	reader.LazyQuotes = true
+
+	defer file.Close()
+	byteValue, _ := ioutil.ReadAll(file)
+	var sceneJSON map[string]interface{}
+	json.Unmarshal([]byte(byteValue), &sceneJSON)
 	i := 0
-	for {
-		record, err := reader.Read()
-		if err == io.EOF {
-			break
-		} else if err != nil {
-			panic(err)
-		}
+	for _, r := range sceneJSON["cell-data"].([]interface{}) {
 		j := 0
-		for _, r := range record {
-			tileNum, err := strconv.Atoi(r)
-			if err != nil {
-				fmt.Println("CSVファイルがおかしい")
-			}
+		for _, c := range r.([]interface{}) {
+			tileNum := c.(map[string]int)["cell"]
 			if tileNum == 95 {
 				// 障害物として、タイルベースで座標を記録（曖昧化のために、前後の複数点を記録）
 				ObstaclePoints[i] = append(ObstaclePoints[i], j)
@@ -99,12 +91,9 @@ func (ss *SceneSystem) New(w *ecs.World) {
 				Drawable: Spritesheet.Cell(tileNum),
 				Scale:    engo.Point{X: float32(cellLength / 16), Y: float32(cellLength / 16)}, // cellLengthが画像の元の大きさ（16ピクセル）の何倍であるかを算出し、設定
 			}
-
 			tile.RenderComponent.SetZIndex(0)
 			Tiles = append(Tiles, tile)
-
 			j++
-
 		}
 		i++
 	}
