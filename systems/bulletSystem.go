@@ -79,12 +79,12 @@ func (bs *BulletSystem) Update(dt float32) {
 				bulletEntities = removeBullet(bulletEntities, bullet)
 			}
 		}
-		// 弾の座標(自身の画像の大きさを加味 + 曖昧化するために割る)
-		bulletX := int(bullet.SpaceComponent.Position.X + bulletRadius)
-		bulletY := int(bullet.SpaceComponent.Position.Y + bulletRadius)
+		// 弾のセル座標(自身の画像の大きさを加味)
+		bulletX := int(bullet.SpaceComponent.Position.X) / cellLength
+		bulletY := int(bullet.SpaceComponent.Position.Y) / cellLength
 		// 当たり判定は、敵の画像の大きさを加味して行う
 		for _, e := range enemyEntities {
-			if (bulletX-int(e.SpaceComponent.Position.X+enemyRadius))*(bulletX-int(e.SpaceComponent.Position.X+enemyRadius))+(bulletY-int(e.SpaceComponent.Position.Y+enemyRadius))*(bulletY-int(e.SpaceComponent.Position.Y+enemyRadius)) <= 256 {
+			if e.cellX == bulletX && e.cellY == bulletY {
 				// 爆発中でないかチェック
 				if e.explosionDuration == 0 {
 					e.explosionDuration = 1
