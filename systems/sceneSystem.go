@@ -86,7 +86,7 @@ func (ss *SceneSystem) New(w *ecs.World) {
 		j := 0
 		for _, c := range r.([]interface{}) {
 			tileNum := c.(map[string]interface{})["cell"].(float64)
-			if tileNum == 95 {
+			if c.(map[string]interface{})["obstacle"].(bool) == true {
 				// 障害物として、タイルベースで座標を記録（曖昧化のために、前後の複数点を記録）
 				ObstaclePoints[i] = append(ObstaclePoints[i], j)
 			} // Tileエンティティの作成
