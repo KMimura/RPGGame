@@ -88,13 +88,13 @@ func (ss *SceneSystem) New(w *ecs.World) {
 			tileNum := c.(map[string]interface{})["cell"].(float64)
 			if c.(map[string]interface{})["obstacle"].(bool) == true {
 				// 障害物として、タイルベースで座標を記録（曖昧化のために、前後の複数点を記録）
-				ObstaclePoints[i] = append(ObstaclePoints[i], j)
+				ObstaclePoints[j] = append(ObstaclePoints[j], i)
 			} // Tileエンティティの作成
 			tile := &Tile{BasicEntity: ecs.NewBasic()}
 			// 描画位置の指定
 			tile.SpaceComponent.Position = engo.Point{
-				X: float32(i * cellLength),
-				Y: float32(j * cellLength),
+				X: float32(j * cellLength),
+				Y: float32(i * cellLength),
 			}
 			// 見た目の設定
 			tile.RenderComponent = common.RenderComponent{
@@ -105,7 +105,7 @@ func (ss *SceneSystem) New(w *ecs.World) {
 			Tiles = append(Tiles, tile)
 			// 敵を出現させるべきか判定
 			if c.(map[string]interface{})["enemy"].(bool) == true {
-				enemyStruct := EnemyStruct{X: i, Y: j, id: int(c.(map[string]interface{})["enemy-data"].(map[string]interface{})["id"].(float64))}
+				enemyStruct := EnemyStruct{X: j, Y: i, id: int(c.(map[string]interface{})["enemy-data"].(map[string]interface{})["id"].(float64))}
 				EnemyPoints = append(EnemyPoints, enemyStruct)
 			}
 			j++
