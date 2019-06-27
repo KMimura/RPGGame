@@ -27,7 +27,7 @@ var tileRadius float32 = 7
 var ObstaclePoints map[int][]int
 
 // EnemyPoints 敵を出現させる座標に関する情報
-var EnemyPoints []EnemyStruct
+var EnemyPoints []*EnemyStruct
 
 // cellLength セル一辺のピクセル数（必ず16の倍数にすること）
 var cellLength = 32
@@ -106,7 +106,7 @@ func (ss *SceneSystem) New(w *ecs.World) {
 			// 敵を出現させるべきか判定
 			if c.(map[string]interface{})["enemy"].(bool) == true {
 				enemyStruct := EnemyStruct{X: j, Y: i, id: int(c.(map[string]interface{})["enemy-data"].(map[string]interface{})["id"].(float64))}
-				EnemyPoints = append(EnemyPoints, enemyStruct)
+				EnemyPoints = append(EnemyPoints, &enemyStruct)
 			}
 			j++
 		}
