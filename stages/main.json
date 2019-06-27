@@ -10,137 +10,246 @@
     "cell-data":[
         [
             {
-                "cell":0,
+                "cell":95,
                 "portal":false,
-                "obstacle":false,
-                "enemy":false
-            },{
-                "cell":0,
-                "portal":false,
-                "obstacle":false,
-                "enemy":false
-            },{
-                "cell":0,
-                "portal":false,
-                "obstacle":false,
-                "enemy":false
-            },{
-                "cell":0,
-                "portal":false,
-                "obstacle":false,
-                "enemy":false
-            },{
-                "cell":0,
-                "portal":false,
-                "obstacle":false,
-                "enemy":false
-            },{
-                "cell":0,
-                "portal":false,
-                "obstacle":false,
-                "enemy":false
-            },{
-                "cell":0,
-                "portal":false,
-                "obstacle":false,
-                "enemy":false
-            },{
-                "cell":0,
-                "portal":false,
-                "obstacle":false,
-                "enemy":false
-            },{
-                "cell":0,
-                "portal":false,
-                "obstacle":false,
-                "enemy":false
-            },{
-                "cell":0,
-                "portal":false,
-                "obstacle":false,
-                "enemy":false
+                "obstacle":true,
+                "enemy": false
             },{
                 "cell":95,
                 "portal":false,
                 "obstacle":true,
-                "enemy":false
+                "enemy": false
             },{
-                "cell":0,
+                "cell":95,
                 "portal":false,
-                "obstacle":false,
-                "enemy":true,
-                "enemy-data":{
-                    "id":0
-                }
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
             }
         ],[
             {
-                "cell":0,
+                "cell":95,
                 "portal":false,
-                "obstacle":false,
-                "enemy":false
-            },{
-                "cell":0,
-                "portal":false,
-                "obstacle":false,
-                "enemy":false
-            },{
-                "cell":0,
-                "portal":false,
-                "obstacle":false,
-                "enemy":false
-            },{
-                "cell":0,
-                "portal":false,
-                "obstacle":false,
-                "enemy":false
-            },{
-                "cell":0,
-                "portal":false,
-                "obstacle":false,
-                "enemy":false
-            },{
-                "cell":0,
-                "portal":false,
-                "obstacle":false,
-                "enemy":false
-            },{
-                "cell":0,
-                "portal":false,
-                "obstacle":false,
-                "enemy":false
-            },{
-                "cell":0,
-                "portal":false,
-                "obstacle":false,
-                "enemy":false
-            },{
-                "cell":0,
-                "portal":false,
-                "obstacle":false,
-                "enemy":false
-            },{
-                "cell":0,
-                "portal":false,
-                "obstacle":false,
-                "enemy":false
+                "obstacle":true,
+                "enemy": false
             },{
                 "cell":95,
                 "portal":false,
                 "obstacle":true,
-                "enemy":false
+                "enemy": false
             },{
-                "cell":0,
+                "cell":95,
                 "portal":false,
-                "obstacle":false,
-                "enemy":true,
-                "enemy-data":{
-                    "id":0
-                }
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
             }
         ],[
             {
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
                 "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":26,
                 "portal":false,
                 "obstacle":false,
                 "enemy":false
@@ -166,6 +275,11 @@
                 "enemy":false
             },{
                 "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":26,
                 "portal":false,
                 "obstacle":false,
                 "enemy":false
@@ -195,16 +309,53 @@
                 "obstacle":true,
                 "enemy":false
             },{
-                "cell":0,
+                "cell":95,
                 "portal":false,
-                "obstacle":false,
-                "enemy":true,
-                "enemy-data":{
-                    "id":0
-                }
+                "obstacle":true,
+                "enemy":false
             }
         ],[
             {
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":38,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
                 "cell":0,
                 "portal":false,
                 "obstacle":false,
@@ -260,22 +411,59 @@
                 "obstacle":true,
                 "enemy":false
             },{
-                "cell":0,
+                "cell":95,
                 "portal":false,
-                "obstacle":false,
-                "enemy":true,
-                "enemy-data":{
-                    "id":0
-                }
+                "obstacle":true,
+                "enemy":false
             }
         ],[
             {
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
                 "cell":0,
                 "portal":false,
                 "obstacle":false,
                 "enemy":false
             },{
                 "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":12,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":36,
                 "portal":false,
                 "obstacle":false,
                 "enemy":false
@@ -325,16 +513,53 @@
                 "obstacle":true,
                 "enemy":false
             },{
-                "cell":0,
+                "cell":95,
                 "portal":false,
-                "obstacle":false,
-                "enemy":true,
-                "enemy-data":{
-                    "id":0
-                }
+                "obstacle":true,
+                "enemy":false
             }
         ],[
             {
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
                 "cell":0,
                 "portal":false,
                 "obstacle":false,
@@ -390,16 +615,53 @@
                 "obstacle":true,
                 "enemy":false
             },{
-                "cell":0,
+                "cell":95,
                 "portal":false,
-                "obstacle":false,
-                "enemy":true,
-                "enemy-data":{
-                    "id":0
-                }
+                "obstacle":true,
+                "enemy":false
             }
         ],[
             {
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
                 "cell":0,
                 "portal":false,
                 "obstacle":false,
@@ -455,16 +717,53 @@
                 "obstacle":true,
                 "enemy":false
             },{
-                "cell":0,
+                "cell":95,
                 "portal":false,
-                "obstacle":false,
-                "enemy":true,
-                "enemy-data":{
-                    "id":0
-                }
+                "obstacle":true,
+                "enemy":false
             }
         ],[
             {
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":48,
+                "portal":false,
+                "obstacle":true,
+                "enemy":false
+            },{
+                "cell":49,
+                "portal":false,
+                "obstacle":true,
+                "enemy":false
+            },{
+                "cell":50,
+                "portal":false,
+                "obstacle":true,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
                 "cell":0,
                 "portal":false,
                 "obstacle":false,
@@ -520,13 +819,1243 @@
                 "obstacle":true,
                 "enemy":false
             },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy":false
+            }
+        ],[
+            {
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":60,
+                "portal":false,
+                "obstacle":true,
+                "enemy":false
+            },{
+                "cell":61,
+                "portal":false,
+                "obstacle":true,
+                "enemy":false
+            },{
+                "cell":62,
+                "portal":false,
+                "obstacle":true,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
                 "cell":0,
                 "portal":false,
                 "obstacle":false,
                 "enemy":true,
                 "enemy-data":{
-                    "id":0
+                    "id":1
                 }
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy":false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy":false
+            }
+        ],[
+            {
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":60,
+                "portal":false,
+                "obstacle":true,
+                "enemy":false
+            },{
+                "cell":61,
+                "portal":false,
+                "obstacle":true,
+                "enemy":false
+            },{
+                "cell":62,
+                "portal":false,
+                "obstacle":true,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":true,
+                "enemy-data":{
+                    "id":1
+                }
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy":false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy":false
+            }
+        ],[
+            {
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":60,
+                "portal":false,
+                "obstacle":true,
+                "enemy":false
+            },{
+                "cell":61,
+                "portal":false,
+                "obstacle":true,
+                "enemy":false
+            },{
+                "cell":62,
+                "portal":false,
+                "obstacle":true,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy":false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy":false
+            }
+        ],[
+            {
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":72,
+                "portal":false,
+                "obstacle":true,
+                "enemy":false
+            },{
+                "cell":73,
+                "portal":false,
+                "obstacle":true,
+                "enemy":false
+            },{
+                "cell":74,
+                "portal":false,
+                "obstacle":true,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy":false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy":false
+            }
+        ],[
+            {
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy":false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy":false
+            }
+        ],[
+            {
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy":false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy":false
+            }
+        ],[
+            {
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":true,
+                "enemy-data":{
+                    "id":1
+                }
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy":false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy":false
+            }
+        ],[
+            {
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy":false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy":false
+            }
+        ],[
+            {
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy":false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy":false
+            }
+        ],[
+            {
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":0,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy":false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy":false
+            }
+        ],[
+            {
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            }
+        ],[
+            {
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":true,
+                "enemy": false
             }
         ]
     ]
