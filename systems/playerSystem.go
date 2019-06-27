@@ -58,8 +58,8 @@ func (ps *PlayerSystem) New(w *ecs.World) {
 	playerInstance = &player
 
 	// 初期の配置
-	player.cellX = 2
-	player.cellY = 3
+	player.cellX = playerInitialPositionX
+	player.cellY = playerInitialPositionY
 	positionX := cellLength * player.cellX
 	positionY := cellLength * player.cellY
 	player.SpaceComponent = common.SpaceComponent{

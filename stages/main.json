@@ -2,7 +2,7 @@
     "meta-data":{
         "id":0,
         "player-initial-positions":{
-            "A":{"X":3,"Y":2},
+            "A":{"X":5,"Y":5},
             "B":{"X":26,"Y":32}
         },
         "spritesheet":"pics/overworld_tileset_grass.png"

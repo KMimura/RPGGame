@@ -26,6 +26,10 @@ var tileRadius float32 = 7
 // ObstaclePoints 障害物のある座標
 var ObstaclePoints map[int][]int
 
+// playerInitialPositionX,Y プレーヤーの初期位置
+var playerInitialPositionX int
+var playerInitialPositionY int
+
 // EnemyPoints 敵を出現させる座標に関する情報
 var EnemyPoints []*EnemyStruct
 
@@ -81,13 +85,16 @@ func (ss *SceneSystem) New(w *ecs.World) {
 	byteValue, _ := ioutil.ReadAll(file)
 	var sceneJSON map[string]interface{}
 	json.Unmarshal([]byte(byteValue), &sceneJSON)
+	// プレーヤーの初期位置
+	playerInitialPositionX = int(sceneJSON["meta-data"].(map[string]interface{})["player-initial-positions"].(map[string]interface{})["A"].(map[string]interface{})["X"].(float64))
+	playerInitialPositionY = int(sceneJSON["meta-data"].(map[string]interface{})["player-initial-positions"].(map[string]interface{})["A"].(map[string]interface{})["Y"].(float64))
 	i := 0
 	for _, r := range sceneJSON["cell-data"].([]interface{}) {
 		j := 0
 		for _, c := range r.([]interface{}) {
 			tileNum := c.(map[string]interface{})["cell"].(float64)
 			if c.(map[string]interface{})["obstacle"].(bool) == true {
-				// 障害物として、タイルベースで座標を記録（曖昧化のために、前後の複数点を記録）
+				// 障害物として、タイルベースで座標を記録
 				ObstaclePoints[j] = append(ObstaclePoints[j], i)
 			} // Tileエンティティの作成
 			tile := &Tile{BasicEntity: ecs.NewBasic()}
