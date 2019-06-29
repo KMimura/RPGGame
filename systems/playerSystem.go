@@ -79,14 +79,14 @@ func (ps *PlayerSystem) New(w *ecs.World) {
 	loadTxt := "pics/characters.png"
 	Spritesheet = common.NewSpritesheetWithBorderFromFile(loadTxt, 32, 32, 0, 0)
 
-	topPicTmpOne := Spritesheet.Cell(17)
-	topPicTmpTwo := Spritesheet.Cell(16)
-	rightPicTmpOne := Spritesheet.Cell(37)
-	rightPicTmpTwo := Spritesheet.Cell(36)
-	bottomPicTmpOne := Spritesheet.Cell(57)
-	bottomPicTmpTwo := Spritesheet.Cell(56)
-	leftPicTmpOne := Spritesheet.Cell(77)
-	leftPicTmpTwo := Spritesheet.Cell(76)
+	topPicTmpOne := Spritesheet.Cell(87)
+	topPicTmpTwo := Spritesheet.Cell(86)
+	rightPicTmpOne := Spritesheet.Cell(107)
+	rightPicTmpTwo := Spritesheet.Cell(106)
+	bottomPicTmpOne := Spritesheet.Cell(127)
+	bottomPicTmpTwo := Spritesheet.Cell(126)
+	leftPicTmpOne := Spritesheet.Cell(147)
+	leftPicTmpTwo := Spritesheet.Cell(146)
 	topPicOne = &topPicTmpOne
 	topPicTwo = &topPicTmpTwo
 	rightPicOne = &rightPicTmpOne
