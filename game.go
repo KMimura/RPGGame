@@ -30,10 +30,8 @@ var currentStage string
 func (*MainScene) Type() string { return "mainScene" }
 
 func (*MainScene) Preload() {
-	engo.Files.Load("pics/greenoctocat_top.png",
-		"pics/greenoctocat_left.png",
-		"pics/greenoctocat_right.png",
-		"pics/greenoctocat_bottom.png",
+	engo.Files.Load("pics/characters.png",
+		"pics/greenoctocat_top.png",
 		"pics/ghost.png",
 		"pics/overworld_tileset_grass.png",
 		"pics/explosion.png",

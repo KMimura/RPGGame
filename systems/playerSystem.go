@@ -19,6 +19,7 @@ type Player struct {
 	cellY            int     // セルのY座標
 	destinationPoint float32 // 移動の目標地点の座標
 	facingDirection  int     // どの方向を向いているか (1 => 上, 2 => 右, 3 => 下 4 => 左)
+	movingPic        bool    //移動中の画像を表示するかどうか
 }
 
 // PlayerSystem プレーヤーシステム
@@ -38,10 +39,14 @@ var maxBulletCount = 3
 var playerRadius float32 = 12.5
 
 // それぞれの向きのプレーヤーの画像
-var topPic *common.Texture
-var rightPic *common.Texture
-var bottomPic *common.Texture
-var leftPic *common.Texture
+var topPicOne *common.Texture
+var topPicTwo *common.Texture
+var rightPicOne *common.Texture
+var rightPicTwo *common.Texture
+var bottomPicOne *common.Texture
+var bottomPicTwo *common.Texture
+var leftPicOne *common.Texture
+var leftPicTwo *common.Texture
 
 // New 新規作成時に呼び出される
 func (ps *PlayerSystem) New(w *ecs.World) {
@@ -54,6 +59,7 @@ func (ps *PlayerSystem) New(w *ecs.World) {
 	// 移動はしていない
 	player.direction = 0
 	player.facingDirection = 1
+	player.movingPic = false
 
 	playerInstance = &player
 
@@ -70,18 +76,33 @@ func (ps *PlayerSystem) New(w *ecs.World) {
 	// 速度
 	player.velocity = 4
 	// 画像の読み込み
-	topPic, _ = common.LoadedSprite("pics/greenoctocat_top.png")
-	rightPic, _ = common.LoadedSprite("pics/greenoctocat_right.png")
-	bottomPic, _ = common.LoadedSprite("pics/greenoctocat_bottom.png")
-	leftPic, _ = common.LoadedSprite("pics/greenoctocat_left.png")
+	loadTxt := "pics/characters.png"
+	Spritesheet = common.NewSpritesheetWithBorderFromFile(loadTxt, 32, 32, 0, 0)
+
+	topPicTmpOne := Spritesheet.Cell(17)
+	topPicTmpTwo := Spritesheet.Cell(16)
+	rightPicTmpOne := Spritesheet.Cell(37)
+	rightPicTmpTwo := Spritesheet.Cell(36)
+	bottomPicTmpOne := Spritesheet.Cell(57)
+	bottomPicTmpTwo := Spritesheet.Cell(56)
+	leftPicTmpOne := Spritesheet.Cell(77)
+	leftPicTmpTwo := Spritesheet.Cell(76)
+	topPicOne = &topPicTmpOne
+	topPicTwo = &topPicTmpTwo
+	rightPicOne = &rightPicTmpOne
+	rightPicTwo = &rightPicTmpTwo
+	bottomPicOne = &bottomPicTmpOne
+	bottomPicTwo = &bottomPicTmpTwo
+	leftPicOne = &leftPicTmpOne
+	leftPicTwo = &leftPicTmpTwo
 
 	player.RenderComponent = common.RenderComponent{
-		Drawable: topPic,
-		Scale:    engo.Point{X: 0.1, Y: 0.1},
+		Drawable: topPicOne,
+		Scale:    engo.Point{X: 1, Y: 1},
 	}
 	player.RenderComponent.SetZIndex(1)
 	ps.playerEntity = &player
-	ps.texture = topPic
+	ps.texture = topPicOne
 	for _, system := range ps.world.Systems() {
 		switch sys := system.(type) {
 		case *common.RenderSystem:
@@ -110,6 +131,7 @@ func (ps *PlayerSystem) Update(dt float32) {
 		// 移動の処理
 		if engo.Input.Button("MoveUp").Down() {
 			playerInstance.facingDirection = 1
+			playerInstance.movingPic = !playerInstance.movingPic
 			if checkIfPassable(playerInstance.cellX, playerInstance.cellY-1) {
 				playerInstance.direction = 1
 				playerInstance.facingDirection = 1
@@ -117,6 +139,7 @@ func (ps *PlayerSystem) Update(dt float32) {
 			}
 		} else if engo.Input.Button("MoveRight").Down() {
 			playerInstance.facingDirection = 2
+			playerInstance.movingPic = !playerInstance.movingPic
 			if checkIfPassable(playerInstance.cellX+1, playerInstance.cellY) {
 				playerInstance.direction = 2
 				playerInstance.facingDirection = 2
@@ -124,6 +147,7 @@ func (ps *PlayerSystem) Update(dt float32) {
 			}
 		} else if engo.Input.Button("MoveDown").Down() {
 			playerInstance.facingDirection = 3
+			playerInstance.movingPic = !playerInstance.movingPic
 			if checkIfPassable(playerInstance.cellX, playerInstance.cellY+1) {
 				playerInstance.direction = 3
 				playerInstance.facingDirection = 3
@@ -131,6 +155,7 @@ func (ps *PlayerSystem) Update(dt float32) {
 			}
 		} else if engo.Input.Button("MoveLeft").Down() {
 			playerInstance.facingDirection = 4
+			playerInstance.movingPic = !playerInstance.movingPic
 			if checkIfPassable(playerInstance.cellX-1, playerInstance.cellY) {
 				playerInstance.direction = 4
 				playerInstance.facingDirection = 4
@@ -256,13 +281,29 @@ func (ps *PlayerSystem) Update(dt float32) {
 	}
 	switch ps.playerEntity.facingDirection {
 	case 1:
-		ps.playerEntity.RenderComponent.Drawable = topPic
+		if ps.playerEntity.movingPic {
+			ps.playerEntity.RenderComponent.Drawable = topPicTwo
+		} else {
+			ps.playerEntity.RenderComponent.Drawable = topPicOne
+		}
 	case 2:
-		ps.playerEntity.RenderComponent.Drawable = rightPic
+		if ps.playerEntity.movingPic {
+			ps.playerEntity.RenderComponent.Drawable = rightPicTwo
+		} else {
+			ps.playerEntity.RenderComponent.Drawable = rightPicOne
+		}
 	case 3:
-		ps.playerEntity.RenderComponent.Drawable = bottomPic
+		if ps.playerEntity.movingPic {
+			ps.playerEntity.RenderComponent.Drawable = bottomPicTwo
+		} else {
+			ps.playerEntity.RenderComponent.Drawable = bottomPicOne
+		}
 	case 4:
-		ps.playerEntity.RenderComponent.Drawable = leftPic
+		if ps.playerEntity.movingPic {
+			ps.playerEntity.RenderComponent.Drawable = leftPicTwo
+		} else {
+			ps.playerEntity.RenderComponent.Drawable = leftPicOne
+		}
 	}
 }
 
