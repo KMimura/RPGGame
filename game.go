@@ -54,6 +54,7 @@ func (*MainScene) Setup(u engo.Updater) {
 	world.AddSystem(&systems.PlayerSystem{})
 	world.AddSystem(&systems.EnemySystem{})
 	world.AddSystem(&systems.BulletSystem{})
+	world.AddSystem(&systems.IntermissionSystem{})
 }
 
 func (*MainScene) Exit() {

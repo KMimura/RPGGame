@@ -1,8 +1,6 @@
 package systems
 
 import (
-	"fmt"
-
 	"github.com/EngoEngine/ecs"
 	"github.com/EngoEngine/engo"
 	"github.com/EngoEngine/engo/common"
@@ -134,7 +132,14 @@ func (ps *PlayerSystem) New(w *ecs.World) {
 }
 
 // Remove 削除する
-func (*PlayerSystem) Remove(ecs.BasicEntity) {}
+func (ps *PlayerSystem) Remove(entity ecs.BasicEntity) {
+	for _, system := range ps.world.Systems() {
+		switch sys := system.(type) {
+		case *common.RenderSystem:
+			sys.Remove(entity)
+		}
+	}
+}
 
 // Update アップデートする
 func (ps *PlayerSystem) Update(dt float32) {
@@ -153,7 +158,8 @@ func (ps *PlayerSystem) Update(dt float32) {
 			} else {
 				ifPortal, portalInfo := checkIfPortal(playerInstance.cellX, playerInstance.cellY-1)
 				if ifPortal {
-					fmt.Println(portalInfo)
+					intermissionState = true
+					nextStage = portalInfo
 				}
 			}
 		} else if engo.Input.Button("MoveRight").Down() {
@@ -166,7 +172,8 @@ func (ps *PlayerSystem) Update(dt float32) {
 			} else {
 				ifPortal, portalInfo := checkIfPortal(playerInstance.cellX+1, playerInstance.cellY)
 				if ifPortal {
-					fmt.Println(portalInfo)
+					intermissionState = true
+					nextStage = portalInfo
 				}
 			}
 		} else if engo.Input.Button("MoveDown").Down() {
@@ -179,7 +186,8 @@ func (ps *PlayerSystem) Update(dt float32) {
 			} else {
 				ifPortal, portalInfo := checkIfPortal(playerInstance.cellX, playerInstance.cellY+1)
 				if ifPortal {
-					fmt.Println(portalInfo)
+					intermissionState = true
+					nextStage = portalInfo
 				}
 			}
 		} else if engo.Input.Button("MoveLeft").Down() {
@@ -192,7 +200,8 @@ func (ps *PlayerSystem) Update(dt float32) {
 			} else {
 				ifPortal, portalInfo := checkIfPortal(playerInstance.cellX-1, playerInstance.cellY)
 				if ifPortal {
-					fmt.Println(portalInfo)
+					intermissionState = true
+					nextStage = portalInfo
 				}
 			}
 		} else if engo.Input.Button("Space").JustPressed() {
@@ -312,7 +321,7 @@ func (ps *PlayerSystem) Update(dt float32) {
 	
 	switch ps.playerEntity.facingDirection {
 	case 1:
-		if playerInstance.direction == 0{
+		if playerInstance.direction == 0 {
 			ps.playerEntity.RenderComponent.Drawable = topPicThree
 		} else {
 			if ps.playerEntity.movingPic {
@@ -322,7 +331,7 @@ func (ps *PlayerSystem) Update(dt float32) {
 			}
 		}
 	case 2:
-		if playerInstance.direction == 0{
+		if playerInstance.direction == 0 {
 			ps.playerEntity.RenderComponent.Drawable = rightPicThree
 		} else {
 			if ps.playerEntity.movingPic {
@@ -332,7 +341,7 @@ func (ps *PlayerSystem) Update(dt float32) {
 			}
 		}
 	case 3:
-		if playerInstance.direction == 0{
+		if playerInstance.direction == 0 {
 			ps.playerEntity.RenderComponent.Drawable = bottomPicThree
 		} else {
 			if ps.playerEntity.movingPic {
