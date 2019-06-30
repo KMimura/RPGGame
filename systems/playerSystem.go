@@ -78,17 +78,17 @@ func (ps *PlayerSystem) New(w *ecs.World) {
 	// 速度
 	player.velocity = 4
 	// 画像の読み込み
-	loadTxt := "pics/characters.png"
+	loadTxt := "pics/hone.png"
 	Spritesheet = common.NewSpritesheetWithBorderFromFile(loadTxt, 32, 32, 0, 0)
 
-	topPicTmpOne := Spritesheet.Cell(87)
-	topPicTmpTwo := Spritesheet.Cell(86)
-	rightPicTmpOne := Spritesheet.Cell(107)
-	rightPicTmpTwo := Spritesheet.Cell(106)
-	bottomPicTmpOne := Spritesheet.Cell(127)
-	bottomPicTmpTwo := Spritesheet.Cell(126)
-	leftPicTmpOne := Spritesheet.Cell(147)
-	leftPicTmpTwo := Spritesheet.Cell(146)
+	topPicTmpOne := Spritesheet.Cell(9)
+	topPicTmpTwo := Spritesheet.Cell(11)
+	rightPicTmpOne := Spritesheet.Cell(6)
+	rightPicTmpTwo := Spritesheet.Cell(8)
+	bottomPicTmpOne := Spritesheet.Cell(0)
+	bottomPicTmpTwo := Spritesheet.Cell(2)
+	leftPicTmpOne := Spritesheet.Cell(3)
+	leftPicTmpTwo := Spritesheet.Cell(5)
 	topPicOne = &topPicTmpOne
 	topPicTwo = &topPicTmpTwo
 	rightPicOne = &rightPicTmpOne
@@ -130,7 +130,7 @@ func (ps *PlayerSystem) Update(dt float32) {
 	camY := camEntity.Y()
 	switch playerInstance.direction {
 	case 0:
-		// 移動の処理
+		// 移動の開始の処理
 		if engo.Input.Button("MoveUp").Down() {
 			playerInstance.facingDirection = 1
 			playerInstance.movingPic = !playerInstance.movingPic
