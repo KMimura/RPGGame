@@ -318,10 +318,7 @@ func (ps *PlayerSystem) Update(dt float32) {
 			})
 		}
 	}
-	// ダメージを受けない状態のカウントを減らす
-	if ps.playerEntity.immunityTime > 0 {
-		ps.playerEntity.immunityTime--
-	}
+	
 	switch ps.playerEntity.facingDirection {
 	case 1:
 		if playerInstance.direction == 0 {
@@ -362,6 +359,15 @@ func (ps *PlayerSystem) Update(dt float32) {
 			} else {
 				ps.playerEntity.RenderComponent.Drawable = leftPicOne
 			}
+		}
+	}
+	// ダメージを受けない状態のカウントを減らす
+	// さらに10フレームごとにプレイヤーキャラ画像点滅させる
+	if ps.playerEntity.immunityTime > 0 {
+		ps.playerEntity.immunityTime--
+		if((ps.playerEntity.immunityTime / 10) % 2 == 0){
+			//下の = の右辺の画像は仮のもの
+			ps.playerEntity.RenderComponent.Drawable = topPicThree
 		}
 	}
 }
