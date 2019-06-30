@@ -33,6 +33,9 @@ var playerInitialPositionY int
 // EnemyPoints 敵を出現させる座標に関する情報
 var EnemyPoints []*EnemyStruct
 
+// PortalPoints 他のステージへのポータルの情報に関する情報
+var PortalPoints map[int]map[int]*PortalStruct
+
 // cellLength セル一辺のピクセル数（必ず16の倍数にすること）
 var cellLength = 32
 
@@ -56,6 +59,13 @@ type EnemyStruct struct {
 	id int // 敵のid
 }
 
+// PortalStruct 他のステージへの入り口の情報を持つ構造体
+type PortalStruct struct {
+	X        int    // X座標
+	Y        int    // Y座標
+	position string // 初期位置
+}
+
 // タイルシステムのエンティティのインスタンス
 var tileEntities []*Tile
 
@@ -76,6 +86,7 @@ func (ss *SceneSystem) New(w *ecs.World) {
 	Spritesheet = common.NewSpritesheetWithBorderFromFile(loadTxt, 16, 16, 0, 0)
 	Tiles := make([]*Tile, 0)
 	ObstaclePoints = map[int][]int{}
+	PortalPoints = make(map[int]map[int]*PortalStruct)
 	file, err := os.Open("./stages/main.json")
 	if err != nil {
 		fmt.Println(err)
@@ -96,7 +107,8 @@ func (ss *SceneSystem) New(w *ecs.World) {
 			if c.(map[string]interface{})["obstacle"].(bool) == true {
 				// 障害物として、タイルベースで座標を記録
 				ObstaclePoints[j] = append(ObstaclePoints[j], i)
-			} // Tileエンティティの作成
+			}
+			// Tileエンティティの作成
 			tile := &Tile{BasicEntity: ecs.NewBasic()}
 			// 描画位置の指定
 			tile.SpaceComponent.Position = engo.Point{
@@ -114,6 +126,14 @@ func (ss *SceneSystem) New(w *ecs.World) {
 			if c.(map[string]interface{})["enemy"].(bool) == true {
 				enemyStruct := EnemyStruct{X: j, Y: i, id: int(c.(map[string]interface{})["enemy-data"].(map[string]interface{})["id"].(float64))}
 				EnemyPoints = append(EnemyPoints, &enemyStruct)
+			}
+			// 他のステージへの通り道であった場合、記憶しておく
+			if c.(map[string]interface{})["portal"].(bool) == true {
+				portalStruct := PortalStruct{X: j, Y: i, position: c.(map[string]interface{})["portal-data"].(map[string]interface{})["position"].(string)}
+				if PortalPoints[j] == nil {
+					PortalPoints[j] = make(map[int]*PortalStruct)
+				}
+				PortalPoints[j][i] = &portalStruct
 			}
 			j++
 		}

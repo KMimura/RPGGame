@@ -1844,7 +1844,11 @@
                 "enemy":false
             },{
                 "cell":95,
-                "portal":false,
+                "portal":true,
+                "portal-data":{
+                    "id":1,
+                    "position":"A"
+                },
                 "obstacle":true,
                 "enemy":false
             },{

@@ -1,6 +1,8 @@
 package systems
 
 import (
+	"fmt"
+
 	"github.com/EngoEngine/ecs"
 	"github.com/EngoEngine/engo"
 	"github.com/EngoEngine/engo/common"
@@ -136,6 +138,11 @@ func (ps *PlayerSystem) Update(dt float32) {
 				playerInstance.direction = 1
 				playerInstance.facingDirection = 1
 				playerInstance.destinationPoint = playerInstance.SpaceComponent.Position.Y - float32(cellLength)
+			} else {
+				ifPortal, portalInfo := checkIfPortal(playerInstance.cellX, playerInstance.cellY-1)
+				if ifPortal {
+					fmt.Println(portalInfo)
+				}
 			}
 		} else if engo.Input.Button("MoveRight").Down() {
 			playerInstance.facingDirection = 2
@@ -144,6 +151,11 @@ func (ps *PlayerSystem) Update(dt float32) {
 				playerInstance.direction = 2
 				playerInstance.facingDirection = 2
 				playerInstance.destinationPoint = playerInstance.SpaceComponent.Position.X + float32(cellLength)
+			} else {
+				ifPortal, portalInfo := checkIfPortal(playerInstance.cellX+1, playerInstance.cellY)
+				if ifPortal {
+					fmt.Println(portalInfo)
+				}
 			}
 		} else if engo.Input.Button("MoveDown").Down() {
 			playerInstance.facingDirection = 3
@@ -152,6 +164,11 @@ func (ps *PlayerSystem) Update(dt float32) {
 				playerInstance.direction = 3
 				playerInstance.facingDirection = 3
 				playerInstance.destinationPoint = playerInstance.SpaceComponent.Position.Y + float32(cellLength)
+			} else {
+				ifPortal, portalInfo := checkIfPortal(playerInstance.cellX, playerInstance.cellY+1)
+				if ifPortal {
+					fmt.Println(portalInfo)
+				}
 			}
 		} else if engo.Input.Button("MoveLeft").Down() {
 			playerInstance.facingDirection = 4
@@ -160,6 +177,11 @@ func (ps *PlayerSystem) Update(dt float32) {
 				playerInstance.direction = 4
 				playerInstance.facingDirection = 4
 				playerInstance.destinationPoint = playerInstance.SpaceComponent.Position.X - float32(cellLength)
+			} else {
+				ifPortal, portalInfo := checkIfPortal(playerInstance.cellX-1, playerInstance.cellY)
+				if ifPortal {
+					fmt.Println(portalInfo)
+				}
 			}
 		} else if engo.Input.Button("Space").JustPressed() {
 			if len(bulletEntities) < maxBulletCount {
