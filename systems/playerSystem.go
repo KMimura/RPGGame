@@ -132,7 +132,14 @@ func (ps *PlayerSystem) New(w *ecs.World) {
 }
 
 // Remove 削除する
-func (*PlayerSystem) Remove(ecs.BasicEntity) {}
+func (ps *PlayerSystem) Remove(entity ecs.BasicEntity) {
+	for _, system := range ps.world.Systems() {
+		switch sys := system.(type) {
+		case *common.RenderSystem:
+			sys.Remove(entity)
+		}
+	}
+}
 
 // Update アップデートする
 func (ps *PlayerSystem) Update(dt float32) {
