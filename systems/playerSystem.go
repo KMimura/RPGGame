@@ -1,10 +1,11 @@
 package systems
 
 import (
+	"fmt"
+
 	"github.com/EngoEngine/ecs"
 	"github.com/EngoEngine/engo"
 	"github.com/EngoEngine/engo/common"
-	"github.com/KMimura/RPGGame/utils"
 )
 
 // Player プレーヤーを表す構造体
@@ -12,14 +13,15 @@ type Player struct {
 	ecs.BasicEntity
 	common.RenderComponent
 	common.SpaceComponent
-	// 向き (0 => 上, 1 => 右, 2 => 下, 3 => 左)
-	direction int
-	// ライフ
-	remainingHearts int
-	// ダメージを受けない状態の残り時間
-	immunityTime int
-	// 移動の速度
-	velocity float32
+	direction        int     // 向き (0 => 移動中でない, 1 => 上, 2 => 右, 3 => 下 4 => 左)
+	remainingHearts  int     // ライフ
+	immunityTime     int     // ダメージを受けない状態の残り時間
+	velocity         float32 // 移動の速度
+	cellX            int     // セルのX座標
+	cellY            int     // セルのY座標
+	destinationPoint float32 // 移動の目標地点の座標
+	facingDirection  int     // どの方向を向いているか (1 => 上, 2 => 右, 3 => 下 4 => 左)
+	movingPic        bool    //移動中の画像を表示するかどうか
 }
 
 // PlayerSystem プレーヤーシステム
@@ -29,8 +31,8 @@ type PlayerSystem struct {
 	texture      *common.Texture
 }
 
+// playerInstance プレーヤーのエンティティのインスタンス
 var playerInstance *Player
-var playerSystemInstance *PlayerSystem
 
 // 最大の弾の数
 var maxBulletCount = 3
@@ -39,45 +41,82 @@ var maxBulletCount = 3
 var playerRadius float32 = 12.5
 
 // それぞれの向きのプレーヤーの画像
-var topPic *common.Texture
-var rightPic *common.Texture
-var bottomPic *common.Texture
-var leftPic *common.Texture
+var topPicOne *common.Texture
+var topPicTwo *common.Texture
+var topPicThree *common.Texture
+var rightPicOne *common.Texture
+var rightPicTwo *common.Texture
+var rightPicThree *common.Texture
+var bottomPicOne *common.Texture
+var bottomPicTwo *common.Texture
+var bottomPicThree *common.Texture
+var leftPicOne *common.Texture
+var leftPicTwo *common.Texture
+var leftPicThree *common.Texture
 
+// New 新規作成時に呼び出される
 func (ps *PlayerSystem) New(w *ecs.World) {
-	playerSystemInstance = ps
 	ps.world = w
 	// プレーヤーの作成
 	player := Player{BasicEntity: ecs.NewBasic()}
 
 	// ライフを与える
 	player.remainingHearts = 5
+	// 移動はしていない
+	player.direction = 0
+	player.facingDirection = 1
+	player.movingPic = false
 
 	playerInstance = &player
 
 	// 初期の配置
-	positionX := int(engo.WindowWidth() / 2)
-	positionY := int(engo.WindowHeight() - 88)
+	player.cellX = playerInitialPositionX
+	player.cellY = playerInitialPositionY
+	positionX := cellLength * player.cellX
+	positionY := cellLength * player.cellY
 	player.SpaceComponent = common.SpaceComponent{
 		Position: engo.Point{X: float32(positionX), Y: float32(positionY)},
 		Width:    30,
 		Height:   30,
 	}
 	// 速度
-	player.velocity = 5
+	player.velocity = 4
 	// 画像の読み込み
-	topPic, _ = common.LoadedSprite("pics/greenoctocat_top.png")
-	rightPic, _ = common.LoadedSprite("pics/greenoctocat_right.png")
-	bottomPic, _ = common.LoadedSprite("pics/greenoctocat_bottom.png")
-	leftPic, _ = common.LoadedSprite("pics/greenoctocat_left.png")
+	loadTxt := "pics/hone.png"
+	Spritesheet = common.NewSpritesheetWithBorderFromFile(loadTxt, 32, 32, 0, 0)
+
+	topPicTmpOne := Spritesheet.Cell(9)
+	topPicTmpTwo := Spritesheet.Cell(11)
+	topPicTmpThree := Spritesheet.Cell(10)
+	rightPicTmpOne := Spritesheet.Cell(6)
+	rightPicTmpTwo := Spritesheet.Cell(8)
+	rightPicTmpThree := Spritesheet.Cell(7)
+	bottomPicTmpOne := Spritesheet.Cell(0)
+	bottomPicTmpTwo := Spritesheet.Cell(2)
+	bottomPicTmpThree := Spritesheet.Cell(1)
+	leftPicTmpOne := Spritesheet.Cell(3)
+	leftPicTmpTwo := Spritesheet.Cell(5)
+	leftPicTmpThree := Spritesheet.Cell(4)
+	topPicOne = &topPicTmpOne
+	topPicTwo = &topPicTmpTwo
+	topPicThree = &topPicTmpThree
+	rightPicOne = &rightPicTmpOne
+	rightPicTwo = &rightPicTmpTwo
+	rightPicThree = &rightPicTmpThree
+	bottomPicOne = &bottomPicTmpOne
+	bottomPicTwo = &bottomPicTmpTwo
+	bottomPicThree = &bottomPicTmpThree
+	leftPicOne = &leftPicTmpOne
+	leftPicTwo = &leftPicTmpTwo
+	leftPicThree = &leftPicTmpThree
 
 	player.RenderComponent = common.RenderComponent{
-		Drawable: topPic,
-		Scale:    engo.Point{X: 0.1, Y: 0.1},
+		Drawable: topPicOne,
+		Scale:    engo.Point{X: 1, Y: 1},
 	}
 	player.RenderComponent.SetZIndex(1)
 	ps.playerEntity = &player
-	ps.texture = topPic
+	ps.texture = topPicOne
 	for _, system := range ps.world.Systems() {
 		switch sys := system.(type) {
 		case *common.RenderSystem:
@@ -101,117 +140,233 @@ func (*PlayerSystem) Remove(ecs.BasicEntity) {}
 func (ps *PlayerSystem) Update(dt float32) {
 	camX := camEntity.X()
 	camY := camEntity.Y()
-	// ダメージを受けてすぐであったら、新たにダメージは受けないようにする
+	switch playerInstance.direction {
+	case 0:
+		// 移動の開始の処理
+		if engo.Input.Button("MoveUp").Down() {
+			playerInstance.facingDirection = 1
+			playerInstance.movingPic = !playerInstance.movingPic
+			if checkIfPassable(playerInstance.cellX, playerInstance.cellY-1) {
+				playerInstance.direction = 1
+				playerInstance.facingDirection = 1
+				playerInstance.destinationPoint = playerInstance.SpaceComponent.Position.Y - float32(cellLength)
+			} else {
+				ifPortal, portalInfo := checkIfPortal(playerInstance.cellX, playerInstance.cellY-1)
+				if ifPortal {
+					fmt.Println(portalInfo)
+				}
+			}
+		} else if engo.Input.Button("MoveRight").Down() {
+			playerInstance.facingDirection = 2
+			playerInstance.movingPic = !playerInstance.movingPic
+			if checkIfPassable(playerInstance.cellX+1, playerInstance.cellY) {
+				playerInstance.direction = 2
+				playerInstance.facingDirection = 2
+				playerInstance.destinationPoint = playerInstance.SpaceComponent.Position.X + float32(cellLength)
+			} else {
+				ifPortal, portalInfo := checkIfPortal(playerInstance.cellX+1, playerInstance.cellY)
+				if ifPortal {
+					fmt.Println(portalInfo)
+				}
+			}
+		} else if engo.Input.Button("MoveDown").Down() {
+			playerInstance.facingDirection = 3
+			playerInstance.movingPic = !playerInstance.movingPic
+			if checkIfPassable(playerInstance.cellX, playerInstance.cellY+1) {
+				playerInstance.direction = 3
+				playerInstance.facingDirection = 3
+				playerInstance.destinationPoint = playerInstance.SpaceComponent.Position.Y + float32(cellLength)
+			} else {
+				ifPortal, portalInfo := checkIfPortal(playerInstance.cellX, playerInstance.cellY+1)
+				if ifPortal {
+					fmt.Println(portalInfo)
+				}
+			}
+		} else if engo.Input.Button("MoveLeft").Down() {
+			playerInstance.facingDirection = 4
+			playerInstance.movingPic = !playerInstance.movingPic
+			if checkIfPassable(playerInstance.cellX-1, playerInstance.cellY) {
+				playerInstance.direction = 4
+				playerInstance.facingDirection = 4
+				playerInstance.destinationPoint = playerInstance.SpaceComponent.Position.X - float32(cellLength)
+			} else {
+				ifPortal, portalInfo := checkIfPortal(playerInstance.cellX-1, playerInstance.cellY)
+				if ifPortal {
+					fmt.Println(portalInfo)
+				}
+			}
+		} else if engo.Input.Button("Space").JustPressed() {
+			if len(bulletEntities) < maxBulletCount {
+				bulletSystemInstance.addBullet(ps.playerEntity.SpaceComponent.Position.X, ps.playerEntity.SpaceComponent.Position.Y, ps.playerEntity.facingDirection)
+			}
+		}
+	case 1:
+		// 上への移動処理
+		// カメラを動かす距離
+		camMoveLen := playerInstance.velocity * -1
+		if playerInstance.SpaceComponent.Position.Y-playerInstance.velocity > playerInstance.destinationPoint {
+			// まるまるワンフレーム動き続けることができる場合
+			playerInstance.SpaceComponent.Position.Y -= playerInstance.velocity
+		} else if playerInstance.SpaceComponent.Position.Y-playerInstance.velocity == playerInstance.destinationPoint {
+			// まるまる移動して移動が終わるとき
+			playerInstance.SpaceComponent.Position.Y -= playerInstance.velocity
+			playerInstance.direction = 0
+			playerInstance.cellY--
+		} else {
+			// ワンフレームまるまるは動けない場合
+			camMoveLen = playerInstance.destinationPoint - playerInstance.SpaceComponent.Position.Y
+			playerInstance.SpaceComponent.Position.Y = playerInstance.destinationPoint
+			playerInstance.direction = 0
+			playerInstance.cellY--
+		}
+		// カメラの移動
+		if camY-ps.playerEntity.SpaceComponent.Position.Y > 100 {
+			engo.Mailbox.Dispatch(common.CameraMessage{
+				Axis:        common.YAxis,
+				Value:       camMoveLen,
+				Incremental: true,
+			})
+		}
+	case 2:
+		// 右への移動処理
+		// カメラを動かす距離
+		camMoveLen := playerInstance.velocity
+		if playerInstance.SpaceComponent.Position.X+playerInstance.velocity < playerInstance.destinationPoint {
+			// まるまるワンフレーム動き続けることができる場合
+			playerInstance.SpaceComponent.Position.X += playerInstance.velocity
+		} else if playerInstance.SpaceComponent.Position.X+playerInstance.velocity == playerInstance.destinationPoint {
+			// まるまる移動して移動が終わるとき
+			playerInstance.SpaceComponent.Position.X += playerInstance.velocity
+			playerInstance.direction = 0
+			playerInstance.cellX++
+		} else {
+			// ワンフレームまるまるは動けない場合
+			camMoveLen = playerInstance.destinationPoint - playerInstance.SpaceComponent.Position.X
+			playerInstance.SpaceComponent.Position.X = playerInstance.destinationPoint
+			playerInstance.direction = 0
+			playerInstance.cellX++
+		}
+		// カメラの移動
+		if camX-ps.playerEntity.SpaceComponent.Position.X < 100 {
+			engo.Mailbox.Dispatch(common.CameraMessage{
+				Axis:        common.XAxis,
+				Value:       camMoveLen,
+				Incremental: true,
+			})
+		}
+	case 3:
+		// 下への移動処理
+		// カメラを動かす距離
+		camMoveLen := playerInstance.velocity
+		if playerInstance.SpaceComponent.Position.Y+playerInstance.velocity < playerInstance.destinationPoint {
+			// まるまるワンフレーム動き続けることができる場合
+			playerInstance.SpaceComponent.Position.Y += playerInstance.velocity
+		} else if playerInstance.SpaceComponent.Position.Y+playerInstance.velocity == playerInstance.destinationPoint {
+			// まるまる移動して移動が終わるとき
+			playerInstance.SpaceComponent.Position.Y += playerInstance.velocity
+			playerInstance.direction = 0
+			playerInstance.cellY++
+		} else {
+			// ワンフレームまるまるは動けない場合
+			camMoveLen = playerInstance.destinationPoint - playerInstance.SpaceComponent.Position.Y
+			playerInstance.SpaceComponent.Position.Y = playerInstance.destinationPoint
+			playerInstance.direction = 0
+			playerInstance.cellY++
+		}
+		// カメラの移動
+		if camY-ps.playerEntity.SpaceComponent.Position.Y < 100 {
+			engo.Mailbox.Dispatch(common.CameraMessage{
+				Axis:        common.YAxis,
+				Value:       camMoveLen,
+				Incremental: true,
+			})
+		}
+	case 4:
+		// 左への移動処理
+		// カメラを動かす距離
+		camMoveLen := playerInstance.velocity * -1
+		if playerInstance.SpaceComponent.Position.X-playerInstance.velocity > playerInstance.destinationPoint {
+			// まるまるワンフレーム動き続けることができる場合
+			playerInstance.SpaceComponent.Position.X -= playerInstance.velocity
+		} else if playerInstance.SpaceComponent.Position.X-playerInstance.velocity == playerInstance.destinationPoint {
+			// まるまる移動して移動が終わるとき
+			playerInstance.SpaceComponent.Position.X -= playerInstance.velocity
+			playerInstance.direction = 0
+			playerInstance.cellX--
+		} else {
+			// ワンフレームまるまるは動けない場合
+			camMoveLen = playerInstance.destinationPoint - playerInstance.SpaceComponent.Position.X
+			playerInstance.SpaceComponent.Position.X = playerInstance.destinationPoint
+			playerInstance.direction = 0
+			playerInstance.cellX--
+		}
+		// カメラの移動
+		if ps.playerEntity.SpaceComponent.Position.X-camX < 100 {
+			engo.Mailbox.Dispatch(common.CameraMessage{
+				Axis:        common.XAxis,
+				Value:       camMoveLen,
+				Incremental: true,
+			})
+		}
+	}
+	// ダメージを受けない状態のカウントを減らす
 	if ps.playerEntity.immunityTime > 0 {
 		ps.playerEntity.immunityTime--
 	}
-	if engo.Input.Button("MoveRight").Down() {
-		if ps.playerEntity.direction != 1 {
-			ps.playerEntity.direction = 1
-		} else {
-			// 移動先のブロックに障害物がないか確認(プレーヤーのいるタイルの判別は、画像の中心部)
-			if utils.CheckIfPassable(int(ps.playerEntity.SpaceComponent.Position.X+playerRadius+ps.playerEntity.velocity)/(16*tileMultiply), int(ps.playerEntity.SpaceComponent.Position.Y+playerRadius)/(16*tileMultiply)) {
-				if camX < 4000 {
-					ps.playerEntity.SpaceComponent.Position.X += 5
-					if ps.playerEntity.SpaceComponent.Position.X-camX > 100 {
-						engo.Mailbox.Dispatch(common.CameraMessage{
-							Axis:        common.XAxis,
-							Value:       5,
-							Incremental: true,
-						})
-					}
-				}
-			}
-		}
-	} else if engo.Input.Button("MoveLeft").Down() {
-		if ps.playerEntity.direction != 3 {
-			ps.playerEntity.direction = 3
-		} else {
-			// 移動先のブロックに障害物がないか確認
-			if utils.CheckIfPassable(int(ps.playerEntity.SpaceComponent.Position.X+playerRadius-ps.playerEntity.velocity)/(16*tileMultiply), int(ps.playerEntity.SpaceComponent.Position.Y+playerRadius)/(16*tileMultiply)) {
-				if camX > 200 {
-					ps.playerEntity.SpaceComponent.Position.X -= 5
-					if camX-ps.playerEntity.SpaceComponent.Position.X > 100 {
-						engo.Mailbox.Dispatch(common.CameraMessage{
-							Axis:        common.XAxis,
-							Value:       -5,
-							Incremental: true,
-						})
-					}
-				} else if ps.playerEntity.SpaceComponent.Position.X > 5 {
-					ps.playerEntity.SpaceComponent.Position.X -= 5
-				}
-			}
-		}
-	} else if engo.Input.Button("MoveUp").Down() {
-		if ps.playerEntity.direction != 0 {
-			ps.playerEntity.direction = 0
-		} else {
-			// 移動先のブロックに障害物がないか確認
-			if utils.CheckIfPassable(int(ps.playerEntity.SpaceComponent.Position.X+playerRadius)/(16*tileMultiply), int(ps.playerEntity.SpaceComponent.Position.Y+playerRadius-ps.playerEntity.velocity)/(16*tileMultiply)) {
-				if camY > 200 {
-					ps.playerEntity.SpaceComponent.Position.Y -= 5
-					if camY-ps.playerEntity.SpaceComponent.Position.Y > 100 {
-						engo.Mailbox.Dispatch(common.CameraMessage{
-							Axis:        common.YAxis,
-							Value:       -5,
-							Incremental: true,
-						})
-					}
-				} else if ps.playerEntity.SpaceComponent.Position.Y > 5 {
-					ps.playerEntity.SpaceComponent.Position.Y -= 5
-				}
-			}
-		}
-	} else if engo.Input.Button("MoveDown").Down() {
-		if ps.playerEntity.direction != 2 {
-			ps.playerEntity.direction = 2
-		} else {
-			// 移動先のブロックに障害物がないか確認
-			if utils.CheckIfPassable(int(ps.playerEntity.SpaceComponent.Position.X+playerRadius)/(16*tileMultiply), int(ps.playerEntity.SpaceComponent.Position.Y+playerRadius+ps.playerEntity.velocity)/(16*tileMultiply)) {
-				if camY < 4000 {
-					ps.playerEntity.SpaceComponent.Position.Y += 5
-					if ps.playerEntity.SpaceComponent.Position.Y-camY > 100 {
-						engo.Mailbox.Dispatch(common.CameraMessage{
-							Axis:        common.YAxis,
-							Value:       5,
-							Incremental: true,
-						})
-					}
-				}
-			}
-			// 実験的に、下に行きすぎたらシーンの切り替えを行う
-			if ps.playerEntity.SpaceComponent.Position.Y > 1000 {
-				ps.world.AddSystem(&IntermissonSystem{})
-			}
-		}
-	} else if engo.Input.Button("Space").JustPressed() {
-		if len(bulletEntities) < maxBulletCount {
-			bulletSystemInstance.addBullet(ps.playerEntity.SpaceComponent.Position.X, ps.playerEntity.SpaceComponent.Position.Y, ps.playerEntity.direction)
-		}
-	}
-	switch ps.playerEntity.direction {
-	case 0:
-		ps.playerEntity.RenderComponent.Drawable = topPic
+	switch ps.playerEntity.facingDirection {
 	case 1:
-		ps.playerEntity.RenderComponent.Drawable = rightPic
+		if playerInstance.direction == 0{
+			ps.playerEntity.RenderComponent.Drawable = topPicThree
+		} else {
+			if ps.playerEntity.movingPic {
+				ps.playerEntity.RenderComponent.Drawable = topPicTwo
+			} else {
+				ps.playerEntity.RenderComponent.Drawable = topPicOne
+			}
+		}
 	case 2:
-		ps.playerEntity.RenderComponent.Drawable = bottomPic
+		if playerInstance.direction == 0{
+			ps.playerEntity.RenderComponent.Drawable = rightPicThree
+		} else {
+			if ps.playerEntity.movingPic {
+				ps.playerEntity.RenderComponent.Drawable = rightPicTwo
+			} else {
+				ps.playerEntity.RenderComponent.Drawable = rightPicOne
+			}
+		}
 	case 3:
-		ps.playerEntity.RenderComponent.Drawable = leftPic
+		if playerInstance.direction == 0{
+			ps.playerEntity.RenderComponent.Drawable = bottomPicThree
+		} else {
+			if ps.playerEntity.movingPic {
+				ps.playerEntity.RenderComponent.Drawable = bottomPicTwo
+			} else {
+				ps.playerEntity.RenderComponent.Drawable = bottomPicOne
+			}
+		}
+	case 4:
+		if playerInstance.direction == 0 {
+			ps.playerEntity.RenderComponent.Drawable = leftPicThree
+		} else {
+			if ps.playerEntity.movingPic {
+				ps.playerEntity.RenderComponent.Drawable = leftPicTwo
+			} else {
+				ps.playerEntity.RenderComponent.Drawable = leftPicOne
+			}
+		}
 	}
 }
 
-// Damage ライフを減らす
-func (ps *PlayerSystem) Damage() {
-	if ps.playerEntity.immunityTime != 0 {
+// afflictDamage ライフを減らす
+func afflictDamage(w *ecs.World) {
+	if playerInstance.immunityTime != 0 {
 		return
 	}
-	ps.playerEntity.remainingHearts--
-	if ps.playerEntity.remainingHearts < 0 {
+	playerInstance.remainingHearts--
+	if playerInstance.remainingHearts < 0 {
 	} else {
-		RemoveHeart(ps.world)
-		ps.playerEntity.immunityTime = 100
+		RemoveHeart(w)
+		playerInstance.immunityTime = 100
 	}
 
 }
