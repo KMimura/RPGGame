@@ -27,6 +27,9 @@ var intermissionState bool
 // 次のステージの情報
 var nextStage *PortalStruct
 
+// シェード画像の配列
+var shadesArray [][]*Shade
+
 // IntermissionSystem intermisson
 type IntermissionSystem struct {
 	world        *ecs.World
@@ -44,7 +47,14 @@ func (is *IntermissionSystem) New(w *ecs.World) {
 }
 
 // Remove 削除する
-func (is *IntermissionSystem) Remove(entity ecs.BasicEntity) {}
+func (is *IntermissionSystem) Remove(entity ecs.BasicEntity) {
+	for _, system := range is.world.Systems() {
+		switch sys := system.(type) {
+		case *common.RenderSystem:
+			sys.Remove(entity)
+		}
+	}
+}
 
 // Update アップデートする
 func (is *IntermissionSystem) Update(dt float32) {
@@ -79,6 +89,7 @@ func (is *IntermissionSystem) Update(dt float32) {
 				}
 			}
 		}
+		shadesArray = append(shadesArray, Shades)
 		time.Sleep(20 * time.Millisecond)
 		shadingProgress++
 	} else if shadingProgress == 25 {
@@ -101,8 +112,24 @@ func (is *IntermissionSystem) Update(dt float32) {
 				sys.Init(is.world)
 			}
 		}
+		engo.Mailbox.Dispatch(common.CameraMessage{
+			Axis:        common.XAxis,
+			Value:       0,
+			Incremental: false,
+		})
+		engo.Mailbox.Dispatch(common.CameraMessage{
+			Axis:        common.YAxis,
+			Value:       0,
+			Incremental: false,
+		})
 		shadingProgress++
 	} else {
-
+		// シェードの削除
+		for _, shades := range shadesArray {
+			for _, shade := range shades {
+				is.Remove(shade.BasicEntity)
+			}
+			time.Sleep(20 * time.Millisecond)
+		}
 	}
 }
