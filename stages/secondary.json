@@ -224,27 +224,57 @@
                 "obstacle":true,
                 "enemy": false
             },{
-                "cell":0,
+                "cell":95,
                 "portal":false,
                 "obstacle":false,
                 "enemy":false
             },{
-                "cell":0,
+                "cell":95,
                 "portal":false,
                 "obstacle":false,
                 "enemy":false
             },{
-                "cell":0,
+                "cell":95,
                 "portal":false,
                 "obstacle":false,
                 "enemy":false
             },{
-                "cell":0,
+                "cell":95,
                 "portal":false,
                 "obstacle":false,
                 "enemy":false
             },{
-                "cell":0,
+                "cell":95,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":95,
+                "portal":false,
+                "obstacle":false,
+                "enemy":false
+            },{
+                "cell":95,
                 "portal":false,
                 "obstacle":false,
                 "enemy":false
@@ -254,52 +284,22 @@
                 "obstacle":false,
                 "enemy":false
             },{
-                "cell":0,
+                "cell":95,
                 "portal":false,
                 "obstacle":false,
                 "enemy":false
             },{
-                "cell":0,
+                "cell":95,
                 "portal":false,
                 "obstacle":false,
                 "enemy":false
             },{
-                "cell":0,
+                "cell":95,
                 "portal":false,
                 "obstacle":false,
                 "enemy":false
             },{
-                "cell":0,
-                "portal":false,
-                "obstacle":false,
-                "enemy":false
-            },{
-                "cell":0,
-                "portal":false,
-                "obstacle":false,
-                "enemy":false
-            },{
-                "cell":26,
-                "portal":false,
-                "obstacle":false,
-                "enemy":false
-            },{
-                "cell":0,
-                "portal":false,
-                "obstacle":false,
-                "enemy":false
-            },{
-                "cell":0,
-                "portal":false,
-                "obstacle":false,
-                "enemy":false
-            },{
-                "cell":0,
-                "portal":false,
-                "obstacle":false,
-                "enemy":false
-            },{
-                "cell":0,
+                "cell":95,
                 "portal":false,
                 "obstacle":false,
                 "enemy":false
@@ -1847,7 +1847,8 @@
                 "portal":true,
                 "portal-data":{
                     "id":2,
-                    "position":"A"
+                    "position":"A",
+                    "file":"secondary"
                 },
                 "obstacle":true,
                 "enemy":false

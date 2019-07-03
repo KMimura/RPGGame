@@ -81,7 +81,9 @@ func (is *IntermissionSystem) Update(dt float32) {
 		}
 		time.Sleep(20 * time.Millisecond)
 		shadingProgress++
-	} else {
+	} else if shadingProgress == 25 {
+		// 各種システムの切り替え処理
+		stageFileToRead = "./stages/" + nextStage.file + ".json"
 		for _, system := range is.world.Systems() {
 			switch sys := system.(type) {
 			case *SceneSystem:
@@ -99,5 +101,8 @@ func (is *IntermissionSystem) Update(dt float32) {
 				sys.Init(is.world)
 			}
 		}
+		shadingProgress++
+	} else {
+
 	}
 }

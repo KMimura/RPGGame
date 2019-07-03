@@ -1847,7 +1847,8 @@
                 "portal":true,
                 "portal-data":{
                     "id":1,
-                    "position":"A"
+                    "position":"A",
+                    "file":"secondary"
                 },
                 "obstacle":true,
                 "enemy":false

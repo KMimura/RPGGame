@@ -64,13 +64,24 @@ type PortalStruct struct {
 	X        int    // X座標
 	Y        int    // Y座標
 	position string // 初期位置
+	file     string // 移動後のファイル
 }
 
 // タイルシステムのエンティティのインスタンス
 var tileEntities []*Tile
 
+// 読み込むべきステージファイル
+var stageFileToRead string
+
 // Remove 削除する
-func (*SceneSystem) Remove(ecs.BasicEntity) {}
+func (ss *SceneSystem) Remove(entity ecs.BasicEntity) {
+	for _, system := range ss.world.Systems() {
+		switch sys := system.(type) {
+		case *common.RenderSystem:
+			sys.Remove(entity)
+		}
+	}
+}
 
 // Update アップデートする
 func (ss *SceneSystem) Update(dt float32) {
@@ -78,6 +89,7 @@ func (ss *SceneSystem) Update(dt float32) {
 
 // New 作成時に呼び出される
 func (ss *SceneSystem) New(w *ecs.World) {
+	stageFileToRead = "./stages/main.json"
 	ss.Init(w)
 }
 
@@ -92,7 +104,7 @@ func (ss *SceneSystem) Init(w *ecs.World) {
 	Tiles := make([]*Tile, 0)
 	ObstaclePoints = map[int][]int{}
 	PortalPoints = make(map[int]map[int]*PortalStruct)
-	file, err := os.Open("./stages/main.json")
+	file, err := os.Open(stageFileToRead)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -134,7 +146,7 @@ func (ss *SceneSystem) Init(w *ecs.World) {
 			}
 			// 他のステージへの通り道であった場合、記憶しておく
 			if c.(map[string]interface{})["portal"].(bool) == true {
-				portalStruct := PortalStruct{X: j, Y: i, position: c.(map[string]interface{})["portal-data"].(map[string]interface{})["position"].(string)}
+				portalStruct := PortalStruct{X: j, Y: i, position: c.(map[string]interface{})["portal-data"].(map[string]interface{})["position"].(string), file: c.(map[string]interface{})["portal-data"].(map[string]interface{})["file"].(string)}
 				if PortalPoints[j] == nil {
 					PortalPoints[j] = make(map[int]*PortalStruct)
 				}
