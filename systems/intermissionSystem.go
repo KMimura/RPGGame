@@ -82,6 +82,22 @@ func (is *IntermissionSystem) Update(dt float32) {
 		time.Sleep(20 * time.Millisecond)
 		shadingProgress++
 	} else {
-
+		for _, system := range is.world.Systems() {
+			switch sys := system.(type) {
+			case *SceneSystem:
+				for _, tile := range tileEntities {
+					sys.Remove(tile.BasicEntity)
+				}
+				sys.Init(is.world)
+			case *PlayerSystem:
+				sys.Remove(sys.playerEntity.BasicEntity)
+				sys.Init(is.world)
+			case *EnemySystem:
+				for _, enemy := range enemyEntities {
+					sys.Remove(enemy.BasicEntity)
+				}
+				sys.Init(is.world)
+			}
+		}
 	}
 }

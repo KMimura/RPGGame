@@ -147,6 +147,11 @@ func (es *EnemySystem) Update(dt float32) {
 
 // New 新規作成時に呼び出される
 func (es *EnemySystem) New(w *ecs.World) {
+	es.Init(w)
+}
+
+// Init 初期化
+func (es *EnemySystem) Init(w *ecs.World) {
 	rand.Seed(time.Now().UnixNano())
 	es.world = w
 	Enemies := make([]*Enemy, 0)

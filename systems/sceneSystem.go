@@ -78,6 +78,11 @@ func (ss *SceneSystem) Update(dt float32) {
 
 // New 作成時に呼び出される
 func (ss *SceneSystem) New(w *ecs.World) {
+	ss.Init(w)
+}
+
+// Init 初期化
+func (ss *SceneSystem) Init(w *ecs.World) {
 	rand.Seed(time.Now().UnixNano())
 
 	ss.world = w

@@ -54,81 +54,7 @@ var leftPicThree *common.Texture
 
 // New 新規作成時に呼び出される
 func (ps *PlayerSystem) New(w *ecs.World) {
-	ps.world = w
-	// プレーヤーの作成
-	player := Player{BasicEntity: ecs.NewBasic()}
-
-	// ライフを与える
-	player.remainingHearts = 5
-	// 移動はしていない
-	player.direction = 0
-	player.facingDirection = 1
-	player.movingPic = false
-
-	playerInstance = &player
-
-	// 初期の配置
-	player.cellX = playerInitialPositionX
-	player.cellY = playerInitialPositionY
-	positionX := cellLength * player.cellX
-	positionY := cellLength * player.cellY
-	player.SpaceComponent = common.SpaceComponent{
-		Position: engo.Point{X: float32(positionX), Y: float32(positionY)},
-		Width:    30,
-		Height:   30,
-	}
-	// 速度
-	player.velocity = 4
-	// 画像の読み込み
-	loadTxt := "pics/hone.png"
-	Spritesheet = common.NewSpritesheetWithBorderFromFile(loadTxt, 32, 32, 0, 0)
-
-	topPicTmpOne := Spritesheet.Cell(9)
-	topPicTmpTwo := Spritesheet.Cell(11)
-	topPicTmpThree := Spritesheet.Cell(10)
-	rightPicTmpOne := Spritesheet.Cell(6)
-	rightPicTmpTwo := Spritesheet.Cell(8)
-	rightPicTmpThree := Spritesheet.Cell(7)
-	bottomPicTmpOne := Spritesheet.Cell(0)
-	bottomPicTmpTwo := Spritesheet.Cell(2)
-	bottomPicTmpThree := Spritesheet.Cell(1)
-	leftPicTmpOne := Spritesheet.Cell(3)
-	leftPicTmpTwo := Spritesheet.Cell(5)
-	leftPicTmpThree := Spritesheet.Cell(4)
-	topPicOne = &topPicTmpOne
-	topPicTwo = &topPicTmpTwo
-	topPicThree = &topPicTmpThree
-	rightPicOne = &rightPicTmpOne
-	rightPicTwo = &rightPicTmpTwo
-	rightPicThree = &rightPicTmpThree
-	bottomPicOne = &bottomPicTmpOne
-	bottomPicTwo = &bottomPicTmpTwo
-	bottomPicThree = &bottomPicTmpThree
-	leftPicOne = &leftPicTmpOne
-	leftPicTwo = &leftPicTmpTwo
-	leftPicThree = &leftPicTmpThree
-
-	player.RenderComponent = common.RenderComponent{
-		Drawable: topPicOne,
-		Scale:    engo.Point{X: 1, Y: 1},
-	}
-	player.RenderComponent.SetZIndex(1)
-	ps.playerEntity = &player
-	ps.texture = topPicOne
-	for _, system := range ps.world.Systems() {
-		switch sys := system.(type) {
-		case *common.RenderSystem:
-			sys.Add(&player.BasicEntity, &player.RenderComponent, &player.SpaceComponent)
-		}
-	}
-	common.CameraBounds = engo.AABB{
-		Min: engo.Point{X: 0, Y: 0},
-		Max: engo.Point{X: 1200, Y: 1200},
-	}
-
-	for i := 0; i < 5; i++ {
-		AddHeart(w)
-	}
+	ps.Init(w)
 }
 
 // Remove 削除する
@@ -318,7 +244,7 @@ func (ps *PlayerSystem) Update(dt float32) {
 			})
 		}
 	}
-	
+
 	switch ps.playerEntity.facingDirection {
 	case 1:
 		if playerInstance.direction == 0 {
@@ -365,10 +291,89 @@ func (ps *PlayerSystem) Update(dt float32) {
 	// さらに10フレームごとにプレイヤーキャラ画像点滅させる
 	if ps.playerEntity.immunityTime > 0 {
 		ps.playerEntity.immunityTime--
-		if((ps.playerEntity.immunityTime / 10) % 2 == 0){
+		if (ps.playerEntity.immunityTime/10)%2 == 0 {
 			//下の = の右辺の画像は仮のもの
 			ps.playerEntity.RenderComponent.Drawable = topPicThree
 		}
+	}
+}
+
+// Init 初期化
+func (ps *PlayerSystem) Init(w *ecs.World) {
+	ps.world = w
+	// プレーヤーの作成
+	player := Player{BasicEntity: ecs.NewBasic()}
+
+	// ライフを与える
+	player.remainingHearts = 5
+	// 移動はしていない
+	player.direction = 0
+	player.facingDirection = 1
+	player.movingPic = false
+
+	playerInstance = &player
+
+	// 初期の配置
+	player.cellX = playerInitialPositionX
+	player.cellY = playerInitialPositionY
+	positionX := cellLength * player.cellX
+	positionY := cellLength * player.cellY
+	player.SpaceComponent = common.SpaceComponent{
+		Position: engo.Point{X: float32(positionX), Y: float32(positionY)},
+		Width:    30,
+		Height:   30,
+	}
+	// 速度
+	player.velocity = 4
+	// 画像の読み込み
+	loadTxt := "pics/hone.png"
+	Spritesheet = common.NewSpritesheetWithBorderFromFile(loadTxt, 32, 32, 0, 0)
+
+	topPicTmpOne := Spritesheet.Cell(9)
+	topPicTmpTwo := Spritesheet.Cell(11)
+	topPicTmpThree := Spritesheet.Cell(10)
+	rightPicTmpOne := Spritesheet.Cell(6)
+	rightPicTmpTwo := Spritesheet.Cell(8)
+	rightPicTmpThree := Spritesheet.Cell(7)
+	bottomPicTmpOne := Spritesheet.Cell(0)
+	bottomPicTmpTwo := Spritesheet.Cell(2)
+	bottomPicTmpThree := Spritesheet.Cell(1)
+	leftPicTmpOne := Spritesheet.Cell(3)
+	leftPicTmpTwo := Spritesheet.Cell(5)
+	leftPicTmpThree := Spritesheet.Cell(4)
+	topPicOne = &topPicTmpOne
+	topPicTwo = &topPicTmpTwo
+	topPicThree = &topPicTmpThree
+	rightPicOne = &rightPicTmpOne
+	rightPicTwo = &rightPicTmpTwo
+	rightPicThree = &rightPicTmpThree
+	bottomPicOne = &bottomPicTmpOne
+	bottomPicTwo = &bottomPicTmpTwo
+	bottomPicThree = &bottomPicTmpThree
+	leftPicOne = &leftPicTmpOne
+	leftPicTwo = &leftPicTmpTwo
+	leftPicThree = &leftPicTmpThree
+
+	player.RenderComponent = common.RenderComponent{
+		Drawable: topPicOne,
+		Scale:    engo.Point{X: 1, Y: 1},
+	}
+	player.RenderComponent.SetZIndex(1)
+	ps.playerEntity = &player
+	ps.texture = topPicOne
+	for _, system := range ps.world.Systems() {
+		switch sys := system.(type) {
+		case *common.RenderSystem:
+			sys.Add(&player.BasicEntity, &player.RenderComponent, &player.SpaceComponent)
+		}
+	}
+	common.CameraBounds = engo.AABB{
+		Min: engo.Point{X: 0, Y: 0},
+		Max: engo.Point{X: 1200, Y: 1200},
+	}
+
+	for i := 0; i < 5; i++ {
+		AddHeart(w)
 	}
 }
 

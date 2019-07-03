@@ -37,6 +37,11 @@ var bulletPics []*common.Texture
 
 // New 新しく作成する
 func (bs *BulletSystem) New(w *ecs.World) {
+	bs.Init(w)
+}
+
+// Init 初期化
+func (bs *BulletSystem) Init(w *ecs.World) {
 	bs.world = w
 	bulletSystemInstance = bs
 	loadTxt := "pics/fire.png"
