@@ -93,7 +93,7 @@ func (is *IntermissionSystem) Update(dt float32) {
 		time.Sleep(20 * time.Millisecond)
 		shadingProgress++
 	} else if shadingProgress == 25 {
-		// 各種システムの切り替え処理
+		// 各種システムのデータ削除・初期化処理
 		stageFileToRead = "./stages/" + nextStage.file + ".json"
 		for _, system := range is.world.Systems() {
 			switch sys := system.(type) {

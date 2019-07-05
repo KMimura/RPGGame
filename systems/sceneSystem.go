@@ -122,7 +122,7 @@ func (ss *SceneSystem) Init(w *ecs.World) {
 		for _, c := range r.([]interface{}) {
 			tileNum := c.(map[string]interface{})["cell"].(float64)
 			if c.(map[string]interface{})["obstacle"].(bool) == true {
-				// 障害物として、タイルベースで座標を記録
+				// 障害物としてセル座標を記録
 				ObstaclePoints[j] = append(ObstaclePoints[j], i)
 			}
 			// Tileエンティティの作成
