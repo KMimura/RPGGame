@@ -46,6 +46,7 @@ func (bs *BulletSystem) Init(w *ecs.World) {
 	bulletSystemInstance = bs
 	loadTxt := "pics/fire.png"
 	Spritesheet = common.NewSpritesheetWithBorderFromFile(loadTxt, 128, 128, 0, 0)
+	// 画像配列を読み込み、配列に追加
 	for i := 0; i < 8; i++ {
 		tmp := Spritesheet.Cell(i)
 		bulletPics = append(bulletPics, &tmp)

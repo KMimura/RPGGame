@@ -54,6 +54,10 @@ var leftPicThree *common.Texture
 
 // New 新規作成時に呼び出される
 func (ps *PlayerSystem) New(w *ecs.World) {
+	// ライフの追加
+	for i := 0; i < 5; i++ {
+		AddHeart(w)
+	}
 	ps.Init(w)
 }
 
@@ -371,10 +375,6 @@ func (ps *PlayerSystem) Init(w *ecs.World) {
 		Min: engo.Point{X: 0, Y: 0},
 		Max: engo.Point{X: 1200, Y: 1200},
 	}
-
-	for i := 0; i < 5; i++ {
-		AddHeart(w)
-	}
 }
 
 // afflictDamage ライフを減らす
@@ -384,6 +384,7 @@ func afflictDamage(w *ecs.World) {
 	}
 	playerInstance.remainingHearts--
 	if playerInstance.remainingHearts < 0 {
+		// ゲームオーバー処理
 	} else {
 		RemoveHeart(w)
 		playerInstance.immunityTime = 100
