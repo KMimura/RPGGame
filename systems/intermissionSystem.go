@@ -15,6 +15,11 @@ type Shade struct {
 	common.SpaceComponent
 }
 
+// shadeXCells X軸方向にいくつシェードの画像を描画するかを規定
+const shadeXCells = 38
+// shadeYCells Y軸方向にいくつシェードの画像を描画するかを規定
+const shadeYCells = 25
+
 // shadingProgressY Y座標方向に、どれだけシェードの描画が進んだか
 var shadingProgress int
 
@@ -61,11 +66,11 @@ func (is *IntermissionSystem) Update(dt float32) {
 	if !intermissionState {
 		return
 	}
-	if shadingProgress < 25 {
+	if shadingProgress < shadeYCells {
 		camX := camEntity.X()
 		camY := camEntity.Y()
 		Shades := make([]*Shade, 0)
-		for j := 0; j < 38; j++ {
+		for j := 0; j < shadeXCells; j++ {
 			shade := &Shade{BasicEntity: ecs.NewBasic()}
 			// 描画位置の指定
 			shade.SpaceComponent.Position = engo.Point{
@@ -92,7 +97,7 @@ func (is *IntermissionSystem) Update(dt float32) {
 		shadesArray = append(shadesArray, Shades)
 		time.Sleep(20 * time.Millisecond)
 		shadingProgress++
-	} else if shadingProgress == 25 {
+	} else if shadingProgress == shadeYCells {
 		// 各種システムのデータ削除・初期化処理
 		stageFileToRead = "./stages/" + nextStage.file + ".json"
 		for _, system := range is.world.Systems() {
@@ -129,7 +134,7 @@ func (is *IntermissionSystem) Update(dt float32) {
 			for _, shade := range shades {
 				is.Remove(shade.BasicEntity)
 			}
-			time.Sleep(20 * time.Millisecond)
+			time.Sleep(200 * time.Millisecond)
 		}
 	}
 }
