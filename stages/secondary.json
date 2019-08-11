@@ -5,6 +5,10 @@
             "A":{"X":3,"Y":3},
             "B":{"X":26,"Y":32}
         },
+        "camera-initial-positions":{
+            "A":{"X":300,"Y":200},
+            "B":{"X":700,"Y":900}
+        },
         "spritesheet":"pics/overworld_tileset_grass.png"
     },
     "cell-data":[

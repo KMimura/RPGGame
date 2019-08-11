@@ -30,6 +30,10 @@ var ObstaclePoints map[int][]int
 var playerInitialPositionX int
 var playerInitialPositionY int
 
+// cameraInitialPositionX,Y カメラの初期位置
+var cameraInitialPositionX int
+var cameraInitialPositionY int
+
 // EnemyPoints 敵を出現させる座標に関する情報
 var EnemyPoints []*EnemyStruct
 
@@ -116,6 +120,8 @@ func (ss *SceneSystem) Init(w *ecs.World) {
 	// プレーヤーの初期位置
 	playerInitialPositionX = int(sceneJSON["meta-data"].(map[string]interface{})["player-initial-positions"].(map[string]interface{})["A"].(map[string]interface{})["X"].(float64))
 	playerInitialPositionY = int(sceneJSON["meta-data"].(map[string]interface{})["player-initial-positions"].(map[string]interface{})["A"].(map[string]interface{})["Y"].(float64))
+	cameraInitialPositionX = int(sceneJSON["meta-data"].(map[string]interface{})["camera-initial-positions"].(map[string]interface{})["A"].(map[string]interface{})["X"].(float64))
+	cameraInitialPositionY = int(sceneJSON["meta-data"].(map[string]interface{})["camera-initial-positions"].(map[string]interface{})["A"].(map[string]interface{})["Y"].(float64))
 	i := 0
 	for _, r := range sceneJSON["cell-data"].([]interface{}) {
 		j := 0

@@ -1,6 +1,7 @@
 package systems
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/EngoEngine/ecs"
@@ -17,6 +18,7 @@ type Shade struct {
 
 // shadeXCells X軸方向にいくつシェードの画像を描画するかを規定
 const shadeXCells = 38
+
 // shadeYCells Y軸方向にいくつシェードの画像を描画するかを規定
 const shadeYCells = 25
 
@@ -117,14 +119,16 @@ func (is *IntermissionSystem) Update(dt float32) {
 				sys.Init(is.world)
 			}
 		}
+		fmt.Println(float32(cameraInitialPositionX))
+		fmt.Println(float32(cameraInitialPositionY))
 		engo.Mailbox.Dispatch(common.CameraMessage{
 			Axis:        common.XAxis,
-			Value:       0,
+			Value:       float32(cameraInitialPositionX),
 			Incremental: false,
 		})
 		engo.Mailbox.Dispatch(common.CameraMessage{
 			Axis:        common.YAxis,
-			Value:       0,
+			Value:       float32(cameraInitialPositionY),
 			Incremental: false,
 		})
 		shadingProgress++
@@ -134,7 +138,8 @@ func (is *IntermissionSystem) Update(dt float32) {
 			for _, shade := range shades {
 				is.Remove(shade.BasicEntity)
 			}
-			time.Sleep(200 * time.Millisecond)
+			time.Sleep(20 * time.Millisecond)
 		}
+		intermissionState = false
 	}
 }
