@@ -127,7 +127,8 @@ func (es *EnemySystem) Update(dt float32) {
 									//プレイヤーが敵より上にいるとき
 								} else {
 									//右方向の座標差のほうが大きいとき
-									if playerInstance.cellX-o.cellX >= playerInstance.cellY-o.cellY {
+									if(playerInstance.cellX - o.cellX >= -(playerInstance.cellY - o.cellY)){
+
 										if checkIfPassable(o.cellX+1, o.cellY) {
 											o.movingState = 2
 											o.destinationPoint = o.SpaceComponent.Position.X + float32(cellLength)
