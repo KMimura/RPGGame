@@ -27,6 +27,7 @@ type Enemy struct {
 	cellY             int     // セルのY座標
 	destinationPoint  float32 // 移動の目標地点の座標
 	velocity          float32 // 移動の速度
+	life              int     //敵のHP
 }
 
 // EnemySystem 敵のシステム
@@ -168,6 +169,7 @@ func (es *EnemySystem) Init(w *ecs.World) {
 	for _, ep := range EnemyPoints {
 		// 敵の作成
 		enemy := Enemy{BasicEntity: ecs.NewBasic(), cellX: ep.X, cellY: ep.Y}
+		enemy.life = 30 //HPを30に設定
 		enemy.velocity = 3
 		enemy.SpaceComponent = common.SpaceComponent{
 			Position: engo.Point{X: float32(ep.X * cellLength), Y: float32(ep.Y * cellLength)},
