@@ -1,7 +1,6 @@
 package systems
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/EngoEngine/ecs"
@@ -119,8 +118,6 @@ func (is *IntermissionSystem) Update(dt float32) {
 				sys.Init(is.world)
 			}
 		}
-		fmt.Println(float32(cameraInitialPositionX))
-		fmt.Println(float32(cameraInitialPositionY))
 		engo.Mailbox.Dispatch(common.CameraMessage{
 			Axis:        common.XAxis,
 			Value:       float32(cameraInitialPositionX),
@@ -131,6 +128,9 @@ func (is *IntermissionSystem) Update(dt float32) {
 			Value:       float32(cameraInitialPositionY),
 			Incremental: false,
 		})
+		if ifBossFight {
+			is.world.AddSystem(&BossSystem{})
+		}
 		shadingProgress++
 	} else {
 		// シェードの削除

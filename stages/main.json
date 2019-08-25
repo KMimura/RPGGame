@@ -9,6 +9,7 @@
             "A":{"X":300,"Y":200},
             "B":{"X":700,"Y":900}
         },
+        "boss-fight":0,
         "spritesheet":"pics/overworld_tileset_grass.png"
     },
     "cell-data":[
