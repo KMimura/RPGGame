@@ -33,6 +33,7 @@ func (*MainScene) Preload() {
 	engo.Files.Load("pics/hone.png",
 		"pics/fire.png",
 		"pics/ghost.png",
+		"pics/ghost_red.png",
 		"pics/overworld_tileset_grass.png",
 		"pics/explosion.png",
 		"pics/heart.png",

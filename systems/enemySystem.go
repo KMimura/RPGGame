@@ -17,6 +17,9 @@ var explosionTime = 30
 // 敵の画像の大きさ
 var enemyRadius float32 = 7
 
+// 敵が追跡を始める距離
+var enragedDistance float64 = 7
+
 // Enemy 敵
 type Enemy struct {
 	ecs.BasicEntity
@@ -29,6 +32,7 @@ type Enemy struct {
 	destinationPoint  float32 // 移動の目標地点の座標
 	velocity          float32 // 移動の速度
 	life              int     //敵のHP
+	mode              int     // 1 => プレイヤーを追跡中, 0 => そうでない
 }
 
 // EnemySystem 敵のシステム
@@ -40,8 +44,14 @@ type EnemySystem struct {
 // 敵のエンティティの配列
 var enemyEntities []*Enemy
 
+// 通常時の画像
+var normalPic *common.Texture
+
 // 被弾した時の画像
 var explosion *common.Texture
+
+// プレーヤーを追跡中の時の画像
+var enraged *common.Texture
 
 // Remove 削除する
 func (es *EnemySystem) Remove(entity ecs.BasicEntity) {
@@ -79,10 +89,17 @@ func (es *EnemySystem) Update(dt float32) {
 				}
 				// 移動をしていない場合
 				if o.movingState == 0 {
-					tmpNum := rand.Intn(200) - 195
+					var tmpNum int
+					// 敵が追跡中であれば、移動頻度を上げる
+					if o.mode == 0 {
+						tmpNum = rand.Intn(200) - 195
+					} else {
+						tmpNum = rand.Intn(100) - 95
+					}
 					if tmpNum > 0 {
-						//プレイヤーとのマンハッタン距離が11より大きいとき（距離の境界値は奇数を推奨）
-						if math.Abs(float64(playerInstance.cellX-o.cellX))+math.Abs(float64(playerInstance.cellY-o.cellY)) > 11 {
+						//プレイヤーとのマンハッタン距離が7より大きいとき
+						if math.Abs(float64(playerInstance.cellX-o.cellX))+math.Abs(float64(playerInstance.cellY-o.cellY)) > enragedDistance {
+							o.mode = 0
 							switch tmpNum {
 							case 1:
 								if checkIfPassable(o.cellX, o.cellY-1) {
@@ -107,6 +124,7 @@ func (es *EnemySystem) Update(dt float32) {
 							}
 							//プレイヤーとのマンハッタン距離が11以内のとき
 						} else {
+							o.mode = 1
 							//プレイヤーが敵より右にいるとき
 							if playerInstance.cellX-o.cellX > 0 {
 								//プレイヤーが敵より下にいるとき
@@ -127,7 +145,7 @@ func (es *EnemySystem) Update(dt float32) {
 									//プレイヤーが敵より上にいるとき
 								} else {
 									//右方向の座標差のほうが大きいとき
-									if(playerInstance.cellX - o.cellX >= -(playerInstance.cellY - o.cellY)){
+									if playerInstance.cellX-o.cellX >= -(playerInstance.cellY - o.cellY) {
 
 										if checkIfPassable(o.cellX+1, o.cellY) {
 											o.movingState = 2
@@ -215,6 +233,12 @@ func (es *EnemySystem) Update(dt float32) {
 						o.cellX--
 					}
 				}
+				// 画像の表示切替
+				if o.mode == 0 {
+					o.RenderComponent.Drawable = normalPic
+				} else {
+					o.RenderComponent.Drawable = enraged
+				}
 			}
 		}
 	}
@@ -231,13 +255,19 @@ func (es *EnemySystem) Init(w *ecs.World) {
 	es.world = w
 	Enemies := make([]*Enemy, 0)
 
-	// 画像の読み込み
-	texture, err := common.LoadedSprite("pics/ghost.png")
-	if err != nil {
-		fmt.Println("Unable to load texture: " + err.Error())
-	}
+	// 通常時の画像
+	normalPic, _ = common.LoadedSprite("pics/ghost.png")
+
 	// 被弾した時の画像
 	explosion, _ = common.LoadedSprite("pics/explosion.png")
+
+	var err error
+
+	// プレーヤーを追跡中の画像
+	enraged, err = common.LoadedSprite("pics/ghost_red.png")
+	if err != nil {
+		fmt.Println(err)
+	}
 
 	// ランダムで配置
 	for _, ep := range EnemyPoints {
@@ -251,11 +281,10 @@ func (es *EnemySystem) Init(w *ecs.World) {
 			Height:   30,
 		}
 		enemy.RenderComponent = common.RenderComponent{
-			Drawable: texture,
+			Drawable: normalPic,
 			Scale:    engo.Point{X: 1, Y: 1},
 		}
 		enemy.RenderComponent.SetZIndex(1)
-		es.texture = texture
 		for _, system := range es.world.Systems() {
 			switch sys := system.(type) {
 			case *common.RenderSystem:
