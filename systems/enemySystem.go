@@ -2,8 +2,8 @@ package systems
 
 import (
 	"fmt"
-	"math/rand"
 	"math"
+	"math/rand"
 	"time"
 
 	"github.com/EngoEngine/ecs"
@@ -82,7 +82,7 @@ func (es *EnemySystem) Update(dt float32) {
 					tmpNum := rand.Intn(200) - 195
 					if tmpNum > 0 {
 						//プレイヤーとのマンハッタン距離が11より大きいとき（距離の境界値は奇数を推奨）
-						if(math.Abs(float64(playerInstance.cellX - o.cellX)) + math.Abs(float64(playerInstance.cellY - o.cellY)) > 11){
+						if math.Abs(float64(playerInstance.cellX-o.cellX))+math.Abs(float64(playerInstance.cellY-o.cellY)) > 11 {
 							switch tmpNum {
 							case 1:
 								if checkIfPassable(o.cellX, o.cellY-1) {
@@ -105,68 +105,68 @@ func (es *EnemySystem) Update(dt float32) {
 									o.destinationPoint = o.SpaceComponent.Position.X - float32(cellLength)
 								}
 							}
-						//プレイヤーとのマンハッタン距離が11以内のとき
-						}else{
+							//プレイヤーとのマンハッタン距離が11以内のとき
+						} else {
 							//プレイヤーが敵より右にいるとき
-							if(playerInstance.cellX - o.cellX >= 0){
+							if playerInstance.cellX-o.cellX > 0 {
 								//プレイヤーが敵より下にいるとき
-								if(playerInstance.cellY - o.cellY >= 0){
+								if playerInstance.cellY-o.cellY >= 0 {
 									//右方向の座標差のほうが大きいとき
-									if(playerInstance.cellX - o.cellX >= playerInstance.cellY - o.cellY){
+									if playerInstance.cellX-o.cellX >= playerInstance.cellY-o.cellY {
 										if checkIfPassable(o.cellX+1, o.cellY) {
 											o.movingState = 2
 											o.destinationPoint = o.SpaceComponent.Position.X + float32(cellLength)
 										}
-									//下方向の座標差のほうが大きいとき
-									}else{
+										//下方向の座標差のほうが大きいとき
+									} else {
 										if checkIfPassable(o.cellX, o.cellY+1) {
 											o.movingState = 3
 											o.destinationPoint = o.SpaceComponent.Position.Y + float32(cellLength)
 										}
 									}
-								//プレイヤーが敵より上にいるとき
-								}else{
+									//プレイヤーが敵より上にいるとき
+								} else {
 									//右方向の座標差のほうが大きいとき
-									if(playerInstance.cellX - o.cellX >= playerInstance.cellY - o.cellY){
+									if playerInstance.cellX-o.cellX >= playerInstance.cellY-o.cellY {
 										if checkIfPassable(o.cellX+1, o.cellY) {
 											o.movingState = 2
 											o.destinationPoint = o.SpaceComponent.Position.X + float32(cellLength)
 										}
-									//上方向の座標差のほうが大きいとき
-									}else{
+										//上方向の座標差のほうが大きいとき
+									} else {
 										if checkIfPassable(o.cellX, o.cellY-1) {
 											o.movingState = 1
 											o.destinationPoint = o.SpaceComponent.Position.Y - float32(cellLength)
 										}
 									}
 								}
-							//プレイヤーが敵より左にいるとき
-							}else{
+								//プレイヤーが敵より左にいるとき
+							} else {
 								//プレイヤーが敵より下にいるとき
-								if(playerInstance.cellY - o.cellY >= 0){
+								if playerInstance.cellY-o.cellY >= 0 {
 									//左方向の座標差のほうが大きいとき
-									if(-(playerInstance.cellX - o.cellX) >= playerInstance.cellY - o.cellY){
+									if -(playerInstance.cellX - o.cellX) >= playerInstance.cellY-o.cellY {
 										if checkIfPassable(o.cellX-1, o.cellY) {
 											o.movingState = 4
 											o.destinationPoint = o.SpaceComponent.Position.X - float32(cellLength)
 										}
-									//下方向の座標差のほうが大きいとき
-									}else{
+										//下方向の座標差のほうが大きいとき
+									} else {
 										if checkIfPassable(o.cellX, o.cellY+1) {
 											o.movingState = 3
 											o.destinationPoint = o.SpaceComponent.Position.Y + float32(cellLength)
 										}
 									}
-								//プレイヤーが敵より上にいるとき
-								}else{
+									//プレイヤーが敵より上にいるとき
+								} else {
 									//左方向の座標差のほうが大きいとき
-									if(-(playerInstance.cellX - o.cellX) >= -(playerInstance.cellY - o.cellY)){
+									if -(playerInstance.cellX - o.cellX) >= -(playerInstance.cellY - o.cellY) {
 										if checkIfPassable(o.cellX-1, o.cellY) {
 											o.movingState = 4
 											o.destinationPoint = o.SpaceComponent.Position.X - float32(cellLength)
 										}
-									//上方向の座標差のほうが大きいとき
-									}else{
+										//上方向の座標差のほうが大きいとき
+									} else {
 										if checkIfPassable(o.cellX, o.cellY-1) {
 											o.movingState = 1
 											o.destinationPoint = o.SpaceComponent.Position.Y - float32(cellLength)
