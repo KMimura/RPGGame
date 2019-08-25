@@ -4,6 +4,7 @@ import (
 	"github.com/EngoEngine/ecs"
 	"github.com/EngoEngine/engo"
 	"github.com/EngoEngine/engo/common"
+	"fmt"
 )
 
 // Bullet 弾を表す構造体
@@ -112,10 +113,15 @@ func (bs *BulletSystem) Update(dt float32) {
 			if e.cellX == bulletX && e.cellY == bulletY {
 				// 爆発中でないかチェック
 				if e.explosionDuration == 0 {
-					e.explosionDuration = 1
-					// 敵に命中した弾はワールドから削除
-					bs.Remove(bullet.BasicEntity)
-					bulletEntities = removeBullet(bulletEntities, bullet)
+						// 敵に命中した弾はワールドから削除
+						bs.Remove(bullet.BasicEntity)
+						bulletEntities = removeBullet(bulletEntities, bullet)
+						//HPを10減らす
+						e.life -= 10
+						fmt.Println(e.life)
+						if(e.life <= 0){
+							e.explosionDuration = 1
+						}
 				}
 			}
 		}
