@@ -2,7 +2,7 @@ package systems
 
 import (
 	"fmt"
-	"image/color"
+	"strconv"
 
 	"github.com/EngoEngine/ecs"
 	"github.com/EngoEngine/engo"
@@ -34,6 +34,9 @@ type BossSystem struct {
 	texture      *common.Texture
 }
 
+// ライフバーの画像の配列
+var bars []*common.Texture
+
 // Init 初期化
 func (bs *BossSystem) New(w *ecs.World) {
 	bs.world = w
@@ -44,6 +47,15 @@ func (bs *BossSystem) New(w *ecs.World) {
 	}
 	// 被弾した時の画像
 	explosion, _ = common.LoadedSprite("pics/explosion.png")
+
+	// ライフバーの画像を配列に入れる
+	for i := 0; i <= 49; i++ {
+		picFile, e := common.LoadedSprite("pics/bars/" + strconv.Itoa(i) + ".png")
+		if e != nil {
+			fmt.Println(e)
+		}
+		bars = append(bars, picFile)
+	}
 
 	boss := Boss{BasicEntity: ecs.NewBasic()}
 	boss.SpaceComponent = common.SpaceComponent{
@@ -59,9 +71,9 @@ func (bs *BossSystem) New(w *ecs.World) {
 	bs.texture = texture
 
 	bossBar := BossBar{BasicEntity: ecs.NewBasic()}
-	bossBar.SpaceComponent = common.SpaceComponent{Position: engo.Point{X: 100, Y: 300}, Width: 400, Height: 50}
-	boss.RenderComponent = common.RenderComponent{Drawable: common.Rectangle{}, Color: color.RGBA{0, 255, 0, 255}}
-	boss.RenderComponent.SetZIndex(1)
+	bossBar.SpaceComponent = common.SpaceComponent{Position: engo.Point{X: 100, Y: 300}, Width: 400, Height: 80}
+	bossBar.RenderComponent = common.RenderComponent{Drawable: bars[0], Scale: engo.Point{X: 8, Y: 8}}
+	bossBar.RenderComponent.SetZIndex(1)
 
 	for _, system := range bs.world.Systems() {
 		switch sys := system.(type) {
