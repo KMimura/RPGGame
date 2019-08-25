@@ -107,18 +107,17 @@ func (es *EnemySystem) Update(dt float32) {
 							}
 						//プレイヤーとのマンハッタン距離が11以内のとき
 						}else{
-							fmt.Println("3以内")
 							//プレイヤーが敵より右にいるとき
 							if(playerInstance.cellX - o.cellX >= 0){
 								//プレイヤーが敵より下にいるとき
 								if(playerInstance.cellY - o.cellY >= 0){
-									//右方向の座標差のほうが小さいとき
-									if(playerInstance.cellX - o.cellX <= playerInstance.cellY - o.cellY){
+									//右方向の座標差のほうが大きいとき
+									if(playerInstance.cellX - o.cellX >= playerInstance.cellY - o.cellY){
 										if checkIfPassable(o.cellX+1, o.cellY) {
 											o.movingState = 2
 											o.destinationPoint = o.SpaceComponent.Position.X + float32(cellLength)
 										}
-									//下方向の座標差のほうが小さいとき
+									//下方向の座標差のほうが大きいとき
 									}else{
 										if checkIfPassable(o.cellX, o.cellY+1) {
 											o.movingState = 3
@@ -127,13 +126,13 @@ func (es *EnemySystem) Update(dt float32) {
 									}
 								//プレイヤーが敵より上にいるとき
 								}else{
-									//右方向の座標差のほうが小さいとき
-									if(playerInstance.cellX - o.cellX <= playerInstance.cellY - o.cellY){
+									//右方向の座標差のほうが大きいとき
+									if(playerInstance.cellX - o.cellX >= playerInstance.cellY - o.cellY){
 										if checkIfPassable(o.cellX+1, o.cellY) {
 											o.movingState = 2
 											o.destinationPoint = o.SpaceComponent.Position.X + float32(cellLength)
 										}
-									//上方向の座標差のほうが小さいとき
+									//上方向の座標差のほうが大きいとき
 									}else{
 										if checkIfPassable(o.cellX, o.cellY-1) {
 											o.movingState = 1
@@ -145,13 +144,13 @@ func (es *EnemySystem) Update(dt float32) {
 							}else{
 								//プレイヤーが敵より下にいるとき
 								if(playerInstance.cellY - o.cellY >= 0){
-									//左方向の座標差のほうが小さいとき
-									if(-(playerInstance.cellX - o.cellX) <= playerInstance.cellY - o.cellY){
+									//左方向の座標差のほうが大きいとき
+									if(-(playerInstance.cellX - o.cellX) >= playerInstance.cellY - o.cellY){
 										if checkIfPassable(o.cellX-1, o.cellY) {
 											o.movingState = 4
 											o.destinationPoint = o.SpaceComponent.Position.X - float32(cellLength)
 										}
-									//下方向の座標差のほうが小さいとき
+									//下方向の座標差のほうが大きいとき
 									}else{
 										if checkIfPassable(o.cellX, o.cellY+1) {
 											o.movingState = 3
@@ -160,13 +159,13 @@ func (es *EnemySystem) Update(dt float32) {
 									}
 								//プレイヤーが敵より上にいるとき
 								}else{
-									//左方向の座標差のほうが小さいとき
-									if(-(playerInstance.cellX - o.cellX) <= -(playerInstance.cellY - o.cellY)){
+									//左方向の座標差のほうが大きいとき
+									if(-(playerInstance.cellX - o.cellX) >= -(playerInstance.cellY - o.cellY)){
 										if checkIfPassable(o.cellX-1, o.cellY) {
 											o.movingState = 4
 											o.destinationPoint = o.SpaceComponent.Position.X - float32(cellLength)
 										}
-									//上方向の座標差のほうが小さいとき
+									//上方向の座標差のほうが大きいとき
 									}else{
 										if checkIfPassable(o.cellX, o.cellY-1) {
 											o.movingState = 1
