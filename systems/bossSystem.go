@@ -49,7 +49,7 @@ func (bs *BossSystem) New(w *ecs.World) {
 	explosion, _ = common.LoadedSprite("pics/explosion.png")
 
 	// ライフバーの画像を配列に入れる
-	for i := 0; i <= 49; i++ {
+	for i := 0; i <= 30; i++ {
 		picFile, e := common.LoadedSprite("pics/bars/" + strconv.Itoa(i) + ".png")
 		if e != nil {
 			fmt.Println(e)
@@ -71,8 +71,8 @@ func (bs *BossSystem) New(w *ecs.World) {
 	bs.texture = texture
 
 	bossBar := BossBar{BasicEntity: ecs.NewBasic()}
-	bossBar.SpaceComponent = common.SpaceComponent{Position: engo.Point{X: 100, Y: 300}, Width: 400, Height: 80}
-	bossBar.RenderComponent = common.RenderComponent{Drawable: bars[0], Scale: engo.Point{X: 8, Y: 8}}
+	bossBar.SpaceComponent = common.SpaceComponent{Position: engo.Point{X: 100, Y: 300}, Width: 302, Height: 16}
+	bossBar.RenderComponent = common.RenderComponent{Drawable: bars[0], Scale: engo.Point{X: 1, Y: 1}}
 	bossBar.RenderComponent.SetZIndex(1)
 
 	for _, system := range bs.world.Systems() {
