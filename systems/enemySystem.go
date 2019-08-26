@@ -18,7 +18,7 @@ var explosionTime = 30
 var enemyRadius float32 = 7
 
 // 敵が追跡を始める距離
-var enragedDistance float64 = 7
+var enragedDistance float64 = 4
 
 // Enemy 敵
 type Enemy struct {
@@ -31,7 +31,7 @@ type Enemy struct {
 	cellY             int     // セルのY座標
 	destinationPoint  float32 // 移動の目標地点の座標
 	velocity          float32 // 移動の速度
-	life              int     //敵のHP
+	life              int     // 敵のHP
 	mode              int     // 1 => プレイヤーを追跡中, 0 => そうでない
 }
 
@@ -92,14 +92,22 @@ func (es *EnemySystem) Update(dt float32) {
 					var tmpNum int
 					// 敵が追跡中であれば、移動頻度を上げる
 					if o.mode == 0 {
-						tmpNum = rand.Intn(200) - 195
+						tmpNum = rand.Intn(250) - 245
 					} else {
-						tmpNum = rand.Intn(100) - 95
+						tmpNum = rand.Intn(150) - 145
+					}
+					//　敵とプレーヤーのチェビシェフ距離
+					distance := math.Abs(float64(playerInstance.cellX - o.cellX))
+					if distance < math.Abs(float64(playerInstance.cellY-o.cellY)) {
+						distance = math.Abs(float64(playerInstance.cellY - o.cellY))
+					}
+					if distance < enragedDistance {
+						o.mode = 1
+					} else {
+						o.mode = 0
 					}
 					if tmpNum > 0 {
-						//プレイヤーとのマンハッタン距離が7より大きいとき
-						if math.Abs(float64(playerInstance.cellX-o.cellX))+math.Abs(float64(playerInstance.cellY-o.cellY)) > enragedDistance {
-							o.mode = 0
+						if o.mode == 0 {
 							switch tmpNum {
 							case 1:
 								if checkIfPassable(o.cellX, o.cellY-1) {
@@ -122,9 +130,7 @@ func (es *EnemySystem) Update(dt float32) {
 									o.destinationPoint = o.SpaceComponent.Position.X - float32(cellLength)
 								}
 							}
-							//プレイヤーとのマンハッタン距離が11以内のとき
 						} else {
-							o.mode = 1
 							//プレイヤーが敵より右にいるとき
 							if playerInstance.cellX-o.cellX > 0 {
 								//プレイヤーが敵より下にいるとき
