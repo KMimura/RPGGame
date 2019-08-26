@@ -71,8 +71,9 @@ func (bs *BossSystem) New(w *ecs.World) {
 	bs.texture = texture
 
 	bossBar := BossBar{BasicEntity: ecs.NewBasic()}
-	bossBar.SpaceComponent = common.SpaceComponent{Position: engo.Point{X: 100, Y: 300}, Width: 302, Height: 16}
-	bossBar.RenderComponent = common.RenderComponent{Drawable: bars[0], Scale: engo.Point{X: 1, Y: 1}}
+	bossBar.SpaceComponent = common.SpaceComponent{Position: engo.Point{X: 100, Y: 350}, Width: 453, Height: 24}
+	bossBar.RenderComponent = common.RenderComponent{Drawable: bars[0], Scale: engo.Point{X: 1.5, Y: 1.5}}
+	bossBar.RenderComponent.SetShader(common.HUDShader)
 	bossBar.RenderComponent.SetZIndex(1)
 
 	for _, system := range bs.world.Systems() {
