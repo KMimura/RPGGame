@@ -38,6 +38,8 @@ var maxBulletCount = 3
 // 画像の半径
 var playerRadius float32 = 12.5
 
+var transparentPic *common.Texture
+
 // それぞれの向きのプレーヤーの画像
 var topPicOne *common.Texture
 var topPicTwo *common.Texture
@@ -295,7 +297,7 @@ func (ps *PlayerSystem) Update(dt float32) {
 	if ps.playerEntity.immunityTime > 0 {
 		ps.playerEntity.immunityTime--
 		if (ps.playerEntity.immunityTime/10)%2 == 0 {
-			ps.playerEntity.RenderComponent.Drawable = topPicThree
+			ps.playerEntity.RenderComponent.Drawable = transparentPic
 		}
 	}
 }
@@ -343,6 +345,7 @@ func (ps *PlayerSystem) Init(w *ecs.World) {
 	leftPicTmpOne := Spritesheet.Cell(3)
 	leftPicTmpTwo := Spritesheet.Cell(5)
 	leftPicTmpThree := Spritesheet.Cell(4)
+	transparentPic, _ = common.LoadedSprite("pics/transparent.png")
 	topPicOne = &topPicTmpOne
 	topPicTwo = &topPicTmpTwo
 	topPicThree = &topPicTmpThree
@@ -358,7 +361,7 @@ func (ps *PlayerSystem) Init(w *ecs.World) {
 
 	player.RenderComponent = common.RenderComponent{
 		Drawable: topPicOne,
-		Scale:    engo.Point{X: 1, Y: 1},
+		Scale:    engo.Point{X: 1.5, Y: 1.5},
 	}
 	player.RenderComponent.SetZIndex(1)
 	ps.playerEntity = &player

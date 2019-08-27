@@ -149,7 +149,7 @@ func (bs *BulletSystem) addBullet(x, y float32, dir int) {
 	}
 	bullet.RenderComponent = common.RenderComponent{
 		Drawable: bulletPics[0],
-		Scale:    engo.Point{X: 0.3, Y: 0.3},
+		Scale:    engo.Point{X: 0.4, Y: 0.4},
 	}
 	bullet.RenderComponent.SetZIndex(1)
 	bullet.direction = dir

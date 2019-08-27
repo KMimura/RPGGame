@@ -44,7 +44,7 @@ var EnemyPoints []*EnemyStruct
 var PortalPoints map[int]map[int]*PortalStruct
 
 // cellLength セル一辺のピクセル数（必ず16の倍数にすること）
-var cellLength = 32
+var cellLength = 48
 
 // Tile タイル一つ一つを表す構造体
 type Tile struct {

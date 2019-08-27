@@ -16,8 +16,8 @@ type MainScene struct{}
 func run() {
 	opts := engo.RunOptions{
 		Title:          "RPGGame",
-		Width:          600,
-		Height:         400,
+		Width:          900,
+		Height:         600,
 		StandardInputs: true,
 		NotResizable:   true,
 	}
@@ -38,6 +38,7 @@ func (*MainScene) Preload() {
 		"pics/explosion.png",
 		"pics/heart.png",
 		"pics/black_bk.png",
+		"pics/transparent.png",
 		"pics/bars/0.png",
 		"pics/bars/1.png",
 		"pics/bars/2.png",

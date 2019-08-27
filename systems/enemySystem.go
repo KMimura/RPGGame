@@ -93,7 +93,7 @@ func (es *EnemySystem) Update(dt float32) {
 					if o.mode == 0 {
 						tmpNum = rand.Intn(250) - 245
 					} else {
-						tmpNum = rand.Intn(150) - 145
+						tmpNum = rand.Intn(100) - 95
 					}
 					//　敵とプレーヤーのチェビシェフ距離
 					distance := math.Abs(float64(playerInstance.cellX - o.cellX))
@@ -282,7 +282,7 @@ func (es *EnemySystem) Init(w *ecs.World) {
 		}
 		enemy.RenderComponent = common.RenderComponent{
 			Drawable: normalPic,
-			Scale:    engo.Point{X: 1, Y: 1},
+			Scale:    engo.Point{X: 1.5, Y: 1.5},
 		}
 		enemy.RenderComponent.SetZIndex(1)
 		for _, system := range es.world.Systems() {
