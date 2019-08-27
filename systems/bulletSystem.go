@@ -123,6 +123,14 @@ func (bs *BulletSystem) Update(dt float32) {
 				}
 			}
 		}
+		// ボス戦中であれば、ボスへの当たり判定を行う
+		if ifBossFight && bossInstance != nil {
+			if bulletX >= bossInstance.cellX[0] && bulletX <= bossInstance.cellX[1] && bulletY >= bossInstance.cellY[0] && bulletY <= bossInstance.cellY[1] {
+				bossInstance.life -= 10
+				bs.Remove(bullet.BasicEntity)
+				bulletEntities = removeBullet(bulletEntities, bullet)
+			}
+		}
 	}
 }
 

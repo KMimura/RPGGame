@@ -1,7 +1,6 @@
 package systems
 
 import (
-	"fmt"
 	"math"
 	"math/rand"
 	"time"
@@ -267,13 +266,8 @@ func (es *EnemySystem) Init(w *ecs.World) {
 	// 被弾した時の画像
 	explosion, _ = common.LoadedSprite("pics/explosion.png")
 
-	var err error
-
 	// プレーヤーを追跡中の画像
-	enraged, err = common.LoadedSprite("pics/ghost_red.png")
-	if err != nil {
-		fmt.Println(err)
-	}
+	enraged, _ = common.LoadedSprite("pics/ghost_red.png")
 
 	// ランダムで配置
 	for _, ep := range EnemyPoints {
