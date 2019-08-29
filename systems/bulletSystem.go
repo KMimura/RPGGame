@@ -70,7 +70,7 @@ func (bs *BulletSystem) Update(dt float32) {
 		bulletPicIndex := bullet.bulletPicChangeCounter / 5
 		if bulletPicIndex > 7 {
 			bs.Remove(bullet.BasicEntity)
-			bulletEntities = removeBullet(bulletEntities, bullet)
+			bulletEntities = removePlayerBullet(bulletEntities, bullet)
 			continue
 		}
 		bullet.RenderComponent.Drawable = bulletPics[bulletPicIndex]
@@ -80,28 +80,28 @@ func (bs *BulletSystem) Update(dt float32) {
 				bullet.SpaceComponent.Position.Y -= 10
 			} else {
 				bs.Remove(bullet.BasicEntity)
-				bulletEntities = removeBullet(bulletEntities, bullet)
+				bulletEntities = removePlayerBullet(bulletEntities, bullet)
 			}
 		case 2:
 			if checkIfPassable((int(bullet.SpaceComponent.Position.X)+10)/cellLength, int(bullet.SpaceComponent.Position.Y)/cellLength) && bullet.SpaceComponent.Position.X <= camEntity.X()+250 {
 				bullet.SpaceComponent.Position.X += 10
 			} else {
 				bs.Remove(bullet.BasicEntity)
-				bulletEntities = removeBullet(bulletEntities, bullet)
+				bulletEntities = removePlayerBullet(bulletEntities, bullet)
 			}
 		case 3:
 			if checkIfPassable(int(bullet.SpaceComponent.Position.X)/cellLength, (int(bullet.SpaceComponent.Position.Y)+10)/cellLength) && bullet.SpaceComponent.Position.Y <= camEntity.Y()+250 {
 				bullet.SpaceComponent.Position.Y += 10
 			} else {
 				bs.Remove(bullet.BasicEntity)
-				bulletEntities = removeBullet(bulletEntities, bullet)
+				bulletEntities = removePlayerBullet(bulletEntities, bullet)
 			}
 		case 4:
 			if checkIfPassable((int(bullet.SpaceComponent.Position.X)-10)/cellLength, int(bullet.SpaceComponent.Position.Y)/cellLength) && bullet.SpaceComponent.Position.X >= camEntity.X()-250 {
 				bullet.SpaceComponent.Position.X -= 10
 			} else {
 				bs.Remove(bullet.BasicEntity)
-				bulletEntities = removeBullet(bulletEntities, bullet)
+				bulletEntities = removePlayerBullet(bulletEntities, bullet)
 			}
 		}
 		// 弾のセル座標(自身の画像の大きさを加味)
@@ -114,7 +114,7 @@ func (bs *BulletSystem) Update(dt float32) {
 				if e.explosionDuration == 0 {
 					// 敵に命中した弾はワールドから削除
 					bs.Remove(bullet.BasicEntity)
-					bulletEntities = removeBullet(bulletEntities, bullet)
+					bulletEntities = removePlayerBullet(bulletEntities, bullet)
 					//HPを10減らす
 					e.life -= 10
 					if e.life <= 0 {
@@ -128,15 +128,15 @@ func (bs *BulletSystem) Update(dt float32) {
 			if bulletX >= bossInstance.cellX[0] && bulletX <= bossInstance.cellX[1] && bulletY >= bossInstance.cellY[0] && bulletY <= bossInstance.cellY[1] {
 				bossInstance.life -= 10
 				bs.Remove(bullet.BasicEntity)
-				bulletEntities = removeBullet(bulletEntities, bullet)
+				bulletEntities = removePlayerBullet(bulletEntities, bullet)
 			}
 		}
 	}
 }
 
-// addBullet 弾を作成する
-func (bs *BulletSystem) addBullet(x, y float32, dir int) {
-	// プレーヤーの作成
+// addPlayerBullet 弾を作成する
+func (bs *BulletSystem) addPlayerBullet(dir int) {
+	// 弾の作成
 	bullet := Bullet{BasicEntity: ecs.NewBasic()}
 	bullet.nowDisplaying = 0
 	bullet.bulletPicChangeCounter = 0
@@ -163,8 +163,8 @@ func (bs *BulletSystem) addBullet(x, y float32, dir int) {
 	}
 }
 
-// removeBullet 弾を削除する
-func removeBullet(bullets []*Bullet, search *Bullet) []*Bullet {
+// removePlayerBullet 弾を削除する
+func removePlayerBullet(bullets []*Bullet, search *Bullet) []*Bullet {
 	result := []*Bullet{}
 	for _, v := range bullets {
 		if v != search {

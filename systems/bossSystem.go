@@ -2,7 +2,9 @@ package systems
 
 import (
 	"fmt"
+	"math/rand"
 	"strconv"
+	"time"
 
 	"github.com/EngoEngine/ecs"
 	"github.com/EngoEngine/engo"
@@ -29,6 +31,16 @@ type BossBar struct {
 	common.SpaceComponent
 }
 
+// BossBullet ボスの出す弾
+type BossBullet struct {
+	ecs.BasicEntity
+	common.RenderComponent
+	common.SpaceComponent
+	direction              int // 弾の進む方向（0から7まで、時計回り）
+	bulletPicChangeCounter int // 画像変更のカウンター
+	nowDisplaying          int // 何番目の画像を表示しているか
+}
+
 // BossSystem ボスシステム
 type BossSystem struct {
 	world        *ecs.World
@@ -38,12 +50,14 @@ type BossSystem struct {
 
 var bossInstance *Boss
 var bossBarInstance *BossBar
+var bossBulletEntities []*BossBullet // ボスの弾の配列
 
 // ライフバーの画像の配列
 var bars []*common.Texture
 
 // Init 初期化
 func (bs *BossSystem) New(w *ecs.World) {
+	rand.Seed(time.Now().UnixNano())
 	bs.world = w
 	// 画像の読み込み
 	texture, err := common.LoadedSprite("pics/ghost.png")
@@ -118,5 +132,133 @@ func (bs *BossSystem) Update(dt float32) {
 			bs.Remove(bossBarInstance.BasicEntity)
 			bossBarInstance = nil
 		}
+		// たまに弾を出す
+		tmpNum := rand.Intn(100)
+		if tmpNum == 50 {
+			for i := 0; i < 8; i++ {
+				bs.addBossBullet(i)
+			}
+		}
 	}
+	// 弾の移動
+	for _, bullet := range bossBulletEntities {
+		bullet.bulletPicChangeCounter++
+		bulletPicIndex := bullet.bulletPicChangeCounter / 5
+		if bulletPicIndex > 7 {
+			bs.Remove(bullet.BasicEntity)
+			bossBulletEntities = removeBossBullet(bossBulletEntities, bullet)
+			continue
+		}
+		bullet.RenderComponent.Drawable = bulletPics[bulletPicIndex]
+		switch bullet.direction {
+		case 0:
+			if checkIfPassable(int(bullet.SpaceComponent.Position.X)/cellLength, (int(bullet.SpaceComponent.Position.Y)-5)/cellLength) && bullet.SpaceComponent.Position.Y >= camEntity.Y()-250 {
+				bullet.SpaceComponent.Position.Y -= 5
+			} else {
+				bs.Remove(bullet.BasicEntity)
+				bossBulletEntities = removeBossBullet(bossBulletEntities, bullet)
+			}
+		case 1:
+			if checkIfPassable((int(bullet.SpaceComponent.Position.X)+5)/cellLength, (int(bullet.SpaceComponent.Position.Y)-5)/cellLength) && bullet.SpaceComponent.Position.X <= camEntity.X()+250 {
+				bullet.SpaceComponent.Position.X += 5
+				bullet.SpaceComponent.Position.Y -= 5
+			} else {
+				bs.Remove(bullet.BasicEntity)
+				bossBulletEntities = removeBossBullet(bossBulletEntities, bullet)
+			}
+		case 2:
+			if checkIfPassable((int(bullet.SpaceComponent.Position.X)+5)/cellLength, int(bullet.SpaceComponent.Position.Y)/cellLength) && bullet.SpaceComponent.Position.Y <= camEntity.Y()+250 {
+				bullet.SpaceComponent.Position.X += 5
+			} else {
+				bs.Remove(bullet.BasicEntity)
+				bossBulletEntities = removeBossBullet(bossBulletEntities, bullet)
+			}
+		case 3:
+			if checkIfPassable((int(bullet.SpaceComponent.Position.X)+5)/cellLength, (int(bullet.SpaceComponent.Position.Y)+5)/cellLength) && bullet.SpaceComponent.Position.X >= camEntity.X()-250 {
+				bullet.SpaceComponent.Position.X += 5
+				bullet.SpaceComponent.Position.Y += 5
+			} else {
+				bs.Remove(bullet.BasicEntity)
+				bossBulletEntities = removeBossBullet(bossBulletEntities, bullet)
+			}
+		case 4:
+			if checkIfPassable(int(bullet.SpaceComponent.Position.X)/cellLength, (int(bullet.SpaceComponent.Position.Y)+5)/cellLength) && bullet.SpaceComponent.Position.Y >= camEntity.Y()-250 {
+				bullet.SpaceComponent.Position.Y += 5
+			} else {
+				bs.Remove(bullet.BasicEntity)
+				bossBulletEntities = removeBossBullet(bossBulletEntities, bullet)
+			}
+		case 5:
+			if checkIfPassable((int(bullet.SpaceComponent.Position.X)-5)/cellLength, (int(bullet.SpaceComponent.Position.Y)+5)/cellLength) && bullet.SpaceComponent.Position.X <= camEntity.X()+250 {
+				bullet.SpaceComponent.Position.X -= 5
+				bullet.SpaceComponent.Position.Y += 5
+			} else {
+				bs.Remove(bullet.BasicEntity)
+				bossBulletEntities = removeBossBullet(bossBulletEntities, bullet)
+			}
+		case 6:
+			if checkIfPassable((int(bullet.SpaceComponent.Position.X)-5)/cellLength, int(bullet.SpaceComponent.Position.Y)/cellLength) && bullet.SpaceComponent.Position.Y <= camEntity.Y()+250 {
+				bullet.SpaceComponent.Position.X -= 5
+			} else {
+				bs.Remove(bullet.BasicEntity)
+				bossBulletEntities = removeBossBullet(bossBulletEntities, bullet)
+			}
+		case 7:
+			if checkIfPassable((int(bullet.SpaceComponent.Position.X)-5)/cellLength, (int(bullet.SpaceComponent.Position.Y)-5)/cellLength) && bullet.SpaceComponent.Position.X >= camEntity.X()-250 {
+				bullet.SpaceComponent.Position.X -= 5
+				bullet.SpaceComponent.Position.Y -= 5
+			} else {
+				bs.Remove(bullet.BasicEntity)
+				bossBulletEntities = removeBossBullet(bossBulletEntities, bullet)
+			}
+		}
+		// 弾のセル座標(自身の画像の大きさを加味)
+		bulletX := int(bullet.SpaceComponent.Position.X) / cellLength
+		bulletY := int(bullet.SpaceComponent.Position.Y) / cellLength
+		// 当たり判定
+		if bulletX == playerInstance.cellX && bulletY == playerInstance.cellY {
+			afflictDamage(bs.world)
+		}
+	}
+
+}
+
+// addBullet 弾を作成する
+func (bs *BossSystem) addBossBullet(dir int) {
+	// 弾の作成
+	bullet := BossBullet{BasicEntity: ecs.NewBasic()}
+	bullet.nowDisplaying = 0
+	bullet.bulletPicChangeCounter = 0
+
+	// 初期の配置
+	bullet.SpaceComponent = common.SpaceComponent{
+		Position: engo.Point{X: float32(bossInstance.cellX[1] * cellLength), Y: float32(bossInstance.cellY[1] * cellLength)},
+		Width:    30,
+		Height:   30,
+	}
+	bullet.RenderComponent = common.RenderComponent{
+		Drawable: bulletPics[0],
+		Scale:    engo.Point{X: 0.4, Y: 0.4},
+	}
+	bullet.RenderComponent.SetZIndex(1)
+	bullet.direction = dir
+	bossBulletEntities = append(bossBulletEntities, &bullet)
+	// bs.texture = texture
+	for _, system := range bs.world.Systems() {
+		switch sys := system.(type) {
+		case *common.RenderSystem:
+			sys.Add(&bullet.BasicEntity, &bullet.RenderComponent, &bullet.SpaceComponent)
+		}
+	}
+}
+
+// removeBullet 弾を削除する
+func removeBossBullet(bullets []*BossBullet, search *BossBullet) []*BossBullet {
+	result := []*BossBullet{}
+	for _, v := range bullets {
+		if v != search {
+			result = append(result, v)
+		}
+	}
+	return result
 }

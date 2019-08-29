@@ -138,7 +138,7 @@ func (ps *PlayerSystem) Update(dt float32) {
 			}
 		} else if engo.Input.Button("Space").JustPressed() {
 			if len(bulletEntities) < maxBulletCount {
-				bulletSystemInstance.addBullet(ps.playerEntity.SpaceComponent.Position.X, ps.playerEntity.SpaceComponent.Position.Y, ps.playerEntity.facingDirection)
+				bulletSystemInstance.addPlayerBullet(ps.playerEntity.facingDirection)
 			}
 		}
 	case 1:
