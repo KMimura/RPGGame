@@ -114,6 +114,7 @@ func (is *IntermissionSystem) Update(dt float32) {
 			case *EnemySystem:
 				for _, enemy := range enemyEntities {
 					sys.Remove(enemy.BasicEntity)
+					enemyEntities = []*Enemy{}
 				}
 				sys.Init(is.world)
 			}

@@ -131,6 +131,7 @@ func (ss *SceneSystem) Init(w *ecs.World) {
 		ifBossFight = false
 	}
 	i := 0
+	EnemyPoints = []*EnemyStruct{}
 	for _, r := range sceneJSON["cell-data"].([]interface{}) {
 		j := 0
 		for _, c := range r.([]interface{}) {

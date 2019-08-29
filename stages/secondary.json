@@ -231,57 +231,57 @@
             },{
                 "cell":95,
                 "portal":false,
-                "obstacle":false,
+                "obstacle":true,
                 "enemy":false
             },{
                 "cell":95,
                 "portal":false,
-                "obstacle":false,
+                "obstacle":true,
                 "enemy":false
             },{
                 "cell":95,
                 "portal":false,
-                "obstacle":false,
+                "obstacle":true,
                 "enemy":false
             },{
                 "cell":95,
                 "portal":false,
-                "obstacle":false,
+                "obstacle":true,
                 "enemy":false
             },{
                 "cell":95,
                 "portal":false,
-                "obstacle":false,
+                "obstacle":true,
                 "enemy":false
             },{
                 "cell":95,
                 "portal":false,
-                "obstacle":false,
+                "obstacle":true,
                 "enemy":false
             },{
                 "cell":95,
                 "portal":false,
-                "obstacle":false,
+                "obstacle":true,
                 "enemy":false
             },{
                 "cell":95,
                 "portal":false,
-                "obstacle":false,
+                "obstacle":true,
                 "enemy":false
             },{
                 "cell":95,
                 "portal":false,
-                "obstacle":false,
+                "obstacle":true,
                 "enemy":false
             },{
                 "cell":95,
                 "portal":false,
-                "obstacle":false,
+                "obstacle":true,
                 "enemy":false
             },{
                 "cell":95,
                 "portal":false,
-                "obstacle":false,
+                "obstacle":true,
                 "enemy":false
             },{
                 "cell":26,
@@ -291,22 +291,22 @@
             },{
                 "cell":95,
                 "portal":false,
-                "obstacle":false,
+                "obstacle":true,
                 "enemy":false
             },{
                 "cell":95,
                 "portal":false,
-                "obstacle":false,
+                "obstacle":true,
                 "enemy":false
             },{
                 "cell":95,
                 "portal":false,
-                "obstacle":false,
+                "obstacle":true,
                 "enemy":false
             },{
                 "cell":95,
                 "portal":false,
-                "obstacle":false,
+                "obstacle":true,
                 "enemy":false
             },{
                 "cell":95,
@@ -889,10 +889,7 @@
                 "cell":0,
                 "portal":false,
                 "obstacle":false,
-                "enemy":true,
-                "enemy-data":{
-                    "id":1
-                }
+                "enemy":false
             },{
                 "cell":0,
                 "portal":false,
@@ -1014,10 +1011,7 @@
                 "cell":0,
                 "portal":false,
                 "obstacle":false,
-                "enemy":true,
-                "enemy-data":{
-                    "id":1
-                }
+                "enemy":false
             },{
                 "cell":0,
                 "portal":false,
@@ -1532,10 +1526,7 @@
                 "cell":0,
                 "portal":false,
                 "obstacle":false,
-                "enemy":true,
-                "enemy-data":{
-                    "id":1
-                }
+                "enemy":false
             },{
                 "cell":0,
                 "portal":false,
