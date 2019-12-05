@@ -16,12 +16,15 @@ type Boss struct {
 	ecs.BasicEntity
 	common.RenderComponent
 	common.SpaceComponent
-	direction              int    // 移動の方向
-	bulletPicChangeCounter int    // 画像変更のカウンター
-	nowDisplaying          int    // 何番目の画像を表示しているか
-	life                   int    // ライフ
-	cellX                  [2]int // X座標
-	cellY                  [2]int // Y座標
+	movingState            int     // 移動の状態(0 => 着地中, 1 => 上に移動中, 2 => 右に移動中, 3 => 下に移動中, 4 => 左に移動中)
+	direction              int     // 移動の方向
+	bulletPicChangeCounter int     // 画像変更のカウンター
+	nowDisplaying          int     // 何番目の画像を表示しているか
+	life                   int     // ライフ
+	cellX                  [2]int  // X座標
+	cellY                  [2]int  // Y座標
+	destinationPoint       float32 // 移動の目標地点の座標
+	velocity               float32 // 移動の速度
 }
 
 // BossBar ボスのライフバー
@@ -55,7 +58,7 @@ var bossBulletEntities []*BossBullet // ボスの弾の配列
 // ライフバーの画像の配列
 var bars []*common.Texture
 
-// Init 初期化
+// New 初期化
 func (bs *BossSystem) New(w *ecs.World) {
 	rand.Seed(time.Now().UnixNano())
 	bs.world = w
@@ -80,6 +83,7 @@ func (bs *BossSystem) New(w *ecs.World) {
 	boss.life = 300
 	boss.cellX = [2]int{10, 11}
 	boss.cellY = [2]int{10, 11}
+	boss.velocity = 6
 	boss.SpaceComponent = common.SpaceComponent{
 		Position: engo.Point{X: float32(boss.cellX[0] * cellLength), Y: float32(boss.cellY[0] * cellLength)},
 		Width:    64,
@@ -133,10 +137,82 @@ func (bs *BossSystem) Update(dt float32) {
 			bossBarInstance = nil
 		}
 		// たまに弾を出す
-		tmpNum := rand.Intn(100)
+		tmpNum := rand.Intn(150)
 		if tmpNum == 50 {
 			for i := 0; i < 8; i++ {
 				bs.addBossBullet(i)
+			}
+		}
+
+		// 移動
+		if bossInstance.movingState == 0 {
+			// 現在移動中でない場合
+			tmpNum -= 145
+			if tmpNum > 0 {
+				switch tmpNum {
+				case 1:
+					if checkIfPassable(bossInstance.cellX[0], bossInstance.cellY[0]-2) {
+						bossInstance.movingState = tmpNum
+						bossInstance.destinationPoint = bossInstance.SpaceComponent.Position.Y - float32(cellLength)*2
+					}
+				case 2:
+					if checkIfPassable(bossInstance.cellX[0]+2, bossInstance.cellY[0]) {
+						bossInstance.movingState = tmpNum
+						bossInstance.destinationPoint = bossInstance.SpaceComponent.Position.X + float32(cellLength)*2
+					}
+				case 3:
+					if checkIfPassable(bossInstance.cellX[0], bossInstance.cellY[0]+2) {
+						bossInstance.movingState = tmpNum
+						bossInstance.destinationPoint = bossInstance.SpaceComponent.Position.Y + float32(cellLength)*2
+					}
+				case 4:
+					if checkIfPassable(bossInstance.cellX[0]-2, bossInstance.cellY[0]) {
+						bossInstance.movingState = tmpNum
+						bossInstance.destinationPoint = bossInstance.SpaceComponent.Position.X - float32(cellLength)*2
+					}
+				}
+			}
+		} else {
+			if bossInstance.movingState == 1 {
+				// 上への移動処理
+				if bossInstance.SpaceComponent.Position.Y-bossInstance.velocity > bossInstance.destinationPoint {
+					bossInstance.SpaceComponent.Position.Y -= bossInstance.velocity
+				} else {
+					bossInstance.SpaceComponent.Position.Y = bossInstance.destinationPoint
+					bossInstance.movingState = 0
+					bossInstance.cellY[0] = bossInstance.cellY[0] - 2
+					bossInstance.cellY[1] = bossInstance.cellY[1] - 2
+				}
+			} else if bossInstance.movingState == 2 {
+				//右への移動
+				if bossInstance.SpaceComponent.Position.X+bossInstance.velocity < bossInstance.destinationPoint {
+					bossInstance.SpaceComponent.Position.X += bossInstance.velocity
+				} else {
+					bossInstance.SpaceComponent.Position.X = bossInstance.destinationPoint
+					bossInstance.movingState = 0
+					bossInstance.cellX[0] = bossInstance.cellX[0] + 2
+					bossInstance.cellX[1] = bossInstance.cellX[1] + 2
+				}
+			} else if bossInstance.movingState == 3 {
+				//下への移動
+				if bossInstance.SpaceComponent.Position.Y+bossInstance.velocity < bossInstance.destinationPoint {
+					bossInstance.SpaceComponent.Position.Y += bossInstance.velocity
+				} else {
+					bossInstance.SpaceComponent.Position.Y = bossInstance.destinationPoint
+					bossInstance.movingState = 0
+					bossInstance.cellY[0] = bossInstance.cellY[0] + 2
+					bossInstance.cellY[1] = bossInstance.cellY[1] + 2
+				}
+			} else if bossInstance.movingState == 4 {
+				//左への移動
+				if bossInstance.SpaceComponent.Position.X-bossInstance.velocity > bossInstance.destinationPoint {
+					bossInstance.SpaceComponent.Position.X -= bossInstance.velocity
+				} else {
+					bossInstance.SpaceComponent.Position.X = bossInstance.destinationPoint
+					bossInstance.movingState = 0
+					bossInstance.cellX[0] = bossInstance.cellX[0] - 2
+					bossInstance.cellX[1] = bossInstance.cellX[1] - 2
+				}
 			}
 		}
 	}
