@@ -7,11 +7,11 @@ const app = new Vue({
         picPath : "",
         imgList : [],
         contents:[],
+        picSelected:"",
     },
     methods : {
         clicked : function(){
             $("#previewArea").empty();
-            console.log(this.contents)
             for (let i = 0; i < this.contents.length; i++) {
                 let tr = $("<tr></tr>");
                 for (let j= 0; j < this.contents[i].length; j++) {
@@ -27,28 +27,28 @@ const app = new Vue({
             }
         },
         print : function(){
-            let printStr = "[\n";
+            let printObj = [];
             for (let i = 0; i < this.contents.length; i++){
-                printStr += "{"
+                let tmpRow = [];
                 for (let j = 0; j < this.contents[i].length; j++){
                     if(this.contents[i][j] == undefined){
-                        printStr += ""
+                        continue
                     } else {
-                        printStr += this.contents[i][j]
-                    }
-                    if (j < this.contents[i].length - 1){
-                        printStr += ","
-                    }
+                        tmp = {}
+                        tmp.cell = Number(this.contents[i][j]);
+                        tmp.portal = false;
+                        tmp.obstacle = false;
+                        tmp.enemy = false;
+                        tmpRow[tmpRow.length] = tmp
+                    };
                 }
-                printStr += "}"
-                if (i < this.contents.length - 1) {
-                    printStr += ",\n"
+                if (tmpRow.length != 0) {
+                    printObj[printObj.length] = tmpRow;
                 }
             }
-            printStr += "\n]";
+            printObj = {"cell-data":printObj}
             $("#resultArea").removeClass("display-none");
-            $("#resultArea").text(printStr);
-            console.log(printStr)
+            $("#resultArea").text(JSON.stringify(printObj));
         },
         divideImage : function(imgSrc) {
             //画像の取得からロード後処理まで
@@ -74,16 +74,15 @@ const app = new Vue({
                 ctx.drawImage(img, divideWidth * (num % wLength), divideHeight* Math.floor(num / wLength), divideWidth, divideHeight, 0, 0, divideWidth, divideHeight);
                 this.imgList.push(canvas.toDataURL());
             }
-            console.log(this.imgList)
             for (let y = 0; y < this.imgList.length / 15; y++){
                 // 番号を表示
                 numTr = $("<tr></tr>");
-                for (let x = y*15; x < y*15+14; x++){
+                for (let x = y*15; x < y*15+15; x++){
                     numTr.append($("<td class='indexTd'>" + x + "</td>"))
                 }
                 $("#sampleArea").append(numTr);                
                 let tr = $("<tr></tr>");
-                for (let x = y*15; x < y*15+14; x++){
+                for (let x = y*15; x < y*15+15; x++){
                     if (x >= this.imgList.length){
                         break;
                     }
@@ -103,6 +102,21 @@ const app = new Vue({
             }
             this.contents.push(tmp)
         }
-        this.divideImage("overworld_tileset_grass.png")
+        this.divideImage("overworld_tileset_grass.png");
+    },
+    watch: {
+        picSelected: function (val) {
+            this.imgList = [];
+            this.contents = [];
+            for (let i = 0; i < 50; i++){
+                tmp = [];
+                for (let j = 0; j < 50; j++){
+                    tmp.push(undefined);
+                }
+                this.contents.push(tmp);
+            }
+            $("#sampleArea").empty();  
+            this.divideImage(val);
+        }
     }
 })
