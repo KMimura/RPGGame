@@ -6,7 +6,7 @@ require (
 	github.com/EngoEngine/ecs v1.0.5
 	github.com/EngoEngine/engo v1.0.6
 	github.com/KMimura/RPGGame v0.0.0-20191208073853-142788d1bfb9
-	golang.org/x/image v0.0.0-20211028202545-6944b10bf410
+	golang.org/x/image v0.5.0
 )
 
 require (
@@ -29,7 +29,7 @@ require (
 	github.com/vulkan-go/vulkan v0.0.0-20210402152248-956e3850d8f9 // indirect
 	golang.org/x/exp v0.0.0-20210618142145-ffcf9a09ea36 // indirect
 	golang.org/x/mobile v0.0.0-20210614202936-7c8f154d1008 // indirect
-	golang.org/x/net v0.0.0-20210614182718-04defd469f4e // indirect
-	golang.org/x/sys v0.0.0-20210616094352-59db8d763f22 // indirect
-	golang.org/x/text v0.3.6 // indirect
+	golang.org/x/net v0.0.0-20220722155237-a158d28d115b // indirect
+	golang.org/x/sys v0.0.0-20220722155257-8c9f86f7a55f // indirect
+	golang.org/x/text v0.7.0 // indirect
 )
